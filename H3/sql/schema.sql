@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS products (
 CREATE TABLE IF NOT EXISTS product_external_urls ( --เก็บลิงก์ไปยังร้านค้าภายนอก
   id INT AUTO_INCREMENT PRIMARY KEY,
   product_id INT NOT NULL,
-  url VARCHAR(500) NOT NULL,
+  url VARCHAR(1000) NOT NULL,
   source_name VARCHAR(100),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
