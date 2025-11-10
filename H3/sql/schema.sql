@@ -1,16 +1,15 @@
--- Create database and user (optional). Run these in XAMPP's phpMyAdmin or MySQL CLI.
--- Adjust password and permissions as needed.
-
 CREATE DATABASE IF NOT EXISTS gift_finder CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE gift_finder;
 
--- Core tables (English names only)
+-- Core tables
 
 CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   email VARCHAR(190) UNIQUE,
   name VARCHAR(190),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  password VARCHAR(255) NOT NULL, --เพิ่มมาสำหรับ login
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS products (
@@ -22,6 +21,15 @@ CREATE TABLE IF NOT EXISTS products (
   image_url VARCHAR(500),
   external_url VARCHAR(500),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS product_external_urls ( --เก็บลิงก์ไปยังร้านค้าภายนอก
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  product_id INT NOT NULL,
+  url VARCHAR(500) NOT NULL,
+  source_name VARCHAR(100),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS categories (
@@ -60,31 +68,6 @@ CREATE TABLE IF NOT EXISTS reviews (
   FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS orders (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT,
-  full_name VARCHAR(190),
-  address_line1 VARCHAR(190),
-  address_line2 VARCHAR(190),
-  city VARCHAR(120),
-  postal_code VARCHAR(30),
-  phone VARCHAR(60),
-  total_amount DECIMAL(10,2) NOT NULL,
-  status VARCHAR(60) DEFAULT 'pending',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(id)
-);
-
-CREATE TABLE IF NOT EXISTS order_items (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  order_id INT NOT NULL,
-  product_id INT NOT NULL,
-  quantity INT NOT NULL DEFAULT 1,
-  unit_price DECIMAL(10,2) NOT NULL,
-  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
-  FOREIGN KEY (product_id) REFERENCES products(id)
-);
-
 CREATE TABLE IF NOT EXISTS blog_posts (
   id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(190) NOT NULL,
@@ -92,9 +75,4 @@ CREATE TABLE IF NOT EXISTS blog_posts (
   content MEDIUMTEXT,
   published_at TIMESTAMP NULL DEFAULT NULL
 );
-
--- Seed example lookup data (optional)
-INSERT IGNORE INTO categories (name) VALUES ('Tech'), ('Fitness'), ('Books'), ('Food');
-INSERT IGNORE INTO interests (name) VALUES ('Nature'), ('Music'), ('Minimalist'), ('Pets'), ('Cooking');
-
 
