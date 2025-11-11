@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS products (
   currency VARCHAR(10) DEFAULT 'THB',
   description TEXT,
   image_url VARCHAR(500),
-  external_url VARCHAR(500),
+  -- external_url VARCHAR(500), ---- DO NOT USE THIS BECAUSE WE WILL CREATE A NEW TABLE FOR EXTERNAL URLS
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
