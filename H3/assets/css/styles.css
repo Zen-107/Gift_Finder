@@ -32,3 +32,15 @@ form .col-12{grid-column:span 12}
 .total{display:flex;justify-content:flex-end;gap:20px;align-items:center;margin-top:10px}
 .empty{padding:40px;text-align:center;color:var(--muted)}
 
+.empty{padding:40px;text-align:center;color:var(--muted)}
+
+/* ✅ แสดงคำอธิบายสินค้าแบบมีย่อหน้า */
+.product-description {
+    line-height: 1.6;
+    margin: 1rem 0;
+    color: #333;
+}
+
+.product-description p {
+    margin: 0 0 1em 0;
+}

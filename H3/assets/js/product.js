@@ -3,6 +3,20 @@ function getQueryParam(name) {
   return urlParams.get(name);
 }
 
+// ✅ ฟังก์ชันแปลงคำอธิบายให้มีย่อหน้า
+function formatDescription(text) {
+  if (!text) return '';
+  // แยกย่อหน้าโดยใช้ \n\n (2 บรรทัดว่าง) → สร้าง <p>
+  return text
+    .split('\n\n')
+    .map(para => {
+      // ลบช่องว่างที่หัว-ท้าย และแปลง \n เดี่ยว → <br>
+      const trimmed = para.trim();
+      return trimmed ? `<p>${trimmed.replace(/\n/g, '<br>')}</p>` : '';
+    })
+    .join('');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const id = Number(getQueryParam('id'));
   
@@ -51,6 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
+      // ✅ ใช้ formatDescription แทนการแสดงตรง ๆ
+      const formattedDescription = formatDescription(p.description);
+
       root.innerHTML = `
         <div class="grid" style="grid-template-columns: 1fr 1fr; gap:24px">
           <div>
@@ -60,7 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="badge">${p.categories && p.categories[0] ? p.categories[0] : 'Gift'}</div>
             <h1>${p.name}</h1>
             <div class="price" style="font-size:20px">${priceText}</div>
-            <p>${p.description || ''}</p>
+            <div class="product-description">
+              ${formattedDescription}
+            </div>
             <div class="stack">
               ${buyButtons}
             </div>

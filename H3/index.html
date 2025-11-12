@@ -51,7 +51,7 @@
     const container = document.getElementById('popular');
     
     try {
-      const response = await fetch('api/get_all_product.php'); // เปลี่ยนชื่อที่นี่!
+      const response = await fetch('api/get_all_product.php');
       if (!response.ok) throw new Error('Failed to load products');
       
       const allProducts = await response.json();

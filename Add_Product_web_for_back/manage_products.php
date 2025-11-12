@@ -95,8 +95,9 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </table>
         </div>
     <?php endif; ?>
-
+    <!--
     <a href="index.html" class="btn btn-outline-secondary mt-3">กลับหน้าหลัก</a>
+    -->
 </div>
 </body>
 </html>
