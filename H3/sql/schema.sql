@@ -1,6 +1,7 @@
 CREATE DATABASE IF NOT EXISTS gift_finder CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE gift_finder;
 
+-- ควยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยยย
 -- Core tables
 
 CREATE TABLE IF NOT EXISTS users (
