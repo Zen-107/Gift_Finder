@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   try {
     // 🌐 ดึงข้อมูลจาก API
-    const response = await fetch('/api/products.php?limit=4');
+    const response = await fetch('/api/get_all_products.php');
     
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -128,9 +128,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const items = data.data.slice(0, 8);
     container.innerHTML = items.map(p => `
       <div class="card">
-        <img src="${p.image_url || 'https://via.placeholder.com/300x160?text=No+Image'}" 
-             alt="${p.name}" 
-             onerror="this.src='https://via.placeholder.com/300x160?text=Error'">
+        <img src="${p.image_url || 'https://via.placeholder.com/300x160?text=No+Image'}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300x160?text=Error'">
         <div class="card-body">
           <div class="badge">${p.categories[0] || 'Gift'}</div>
           <strong>${p.name}</strong>
