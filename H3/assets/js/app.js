@@ -82,9 +82,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ปุ่ม Next
+if (nextBtn) {
   nextBtn.addEventListener('click', () => {
     showSlide(currentIndex + 1);
-  });
+  });}else {console.warn("No next button found");} 
+
 
   // ปุ่ม Prev
   prevBtn.addEventListener('click', () => {

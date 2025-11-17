@@ -44,3 +44,17 @@ form .col-12{grid-column:span 12}
 .product-description p {
     margin: 0 0 1em 0;
 }
+
+.bookmark-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+.bookmark-btn.bookmarked {
+  background-color: #ffc107;
+  color: #000;
+}
+.bookmark-btn.bookmarked:hover {
+  background-color: #e0a800;
+}
