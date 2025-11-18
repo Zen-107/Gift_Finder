@@ -2,7 +2,7 @@
 header("Content-Type: application/json; charset=utf-8");
 
 // ปิดการแสดง error
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 $mysqli = new mysqli("localhost", "root", "", "gift_finder");
@@ -14,7 +14,7 @@ if ($mysqli->connect_error) {
     exit;
 }
 
-// ✅ ลบ LIMIT ออก → แสดงทั้งหมด
+
 $result = $mysqli->query("
     SELECT id, name, description, image_url, created_at
     FROM products
