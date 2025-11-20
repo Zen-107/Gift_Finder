@@ -6,11 +6,18 @@
     padding: 0;
 }
 
-body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-    background: #1e1f22;
-    min-height: 100vh;
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 10% 20%, #0a4da3 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, #0a4da3 0%, transparent 30%);
+  z-index: -1;
+  pointer-events: none;
 }
 
 .overlay {
@@ -35,6 +42,7 @@ body {
     font-size: 24px;
     margin-bottom: 6px;
     font-weight: 700;
+    color: #333; /* แทน default black */
 }
 
 .subtitle {
@@ -52,6 +60,26 @@ body {
     margin-bottom: 18px;
 }
 
+.btn.google {
+    background: white;
+    color: #333;
+    border: 1px solid #e8eaf0; /* เปลี่ยนจาก #d1d5db → ใช้ border ของธีม */
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 500;
+}
+
+.btn.google:hover {
+    background: #f8f9ff;
+    border-color: #c7d2fe;
+}
+
 /* ตัวคั่น */
 .divider {
     text-align: center;
@@ -60,6 +88,25 @@ body {
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.08em;
+    position: relative;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background: #e8eaf0; /* เปลี่ยนจาก default */
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
 }
 
 /* ฟอร์ม */
@@ -79,23 +126,24 @@ body {
 .field-label {
     font-size: 13px;
     font-weight: 600;
-    color: #374151;
+    color: #333; /* แทน #374151 */
 }
 
 input[type="email"],
 input[type="password"] {
     padding: 10px 12px;
     border-radius: 8px;
-    border: 1px solid #d1d5db;
+    border: 1px solid #e8eaf0; /* เปลี่ยนจาก #d1d5db */
     font-size: 14px;
     outline: none;
 }
 
 input:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.25);
+    border-color: #0a4da3; /* ✅ เปลี่ยนเป็นสีหลัก */
+    box-shadow: 0 0 0 2px rgba(10, 77, 163, 0.15); /* ✅ สีน้ำเงินอ่อน */
 }
 
+/* ปุ่มหลัก */
 .btn {
     padding: 10px 14px;
     border: none;
@@ -105,23 +153,26 @@ input:focus {
 }
 
 .btn.primary {
-    background: #5865f2;
+    background: #0a4da3; /* ✅ เปลี่ยนเป็นสีน้ำเงินเข้ม */
     color: white;
     width: 100%;
     margin-top: 4px;
+    font-weight: 600;
 }
 
 .btn.primary:hover {
-    background: #4752c4;
+    background: #083a7d; /* ✅ สีน้ำเงินเข้มขึ้น */
 }
 
+/* ข้อความผิดพลาด */
 .error-msg {
     margin-top: 8px;
-    color: #dc2626;
+    color: #ff4757; /* ✅ ใช้ --danger ของธีม */
     font-size: 13px;
     text-align: center;
 }
 
+/* ลิงก์สมัครสมาชิก */
 .signup-text {
     margin-top: 14px;
     text-align: center;
@@ -130,7 +181,7 @@ input:focus {
 }
 
 .signup-link {
-    color: #3b82f6;
+    color: #0a4da3; /* ✅ สีน้ำเงินหลัก */
     text-decoration: none;
     font-weight: 500;
 }
