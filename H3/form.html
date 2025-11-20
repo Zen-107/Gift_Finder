@@ -1,105 +1,150 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gift Finder – Form</title>
-  <link rel="stylesheet" href="assets/css/form.css"/>
+  <link rel="stylesheet" href="assets/css/form.css" />
 </head>
+
 <body>
   <!-- Navbar แบบ static -->
   <header class="navbar">
-    <div class="container">
-      <div class="nav">
-        <a class="brand" href="index.html">🎁 Gift Finder</a>
+    <div class="container nav-content">
+      <a class="logo" href="index.html">🎁 Gift Finder</a>
         <nav class="nav-links">
-          <a href="form.html">Find Gifts</a>
-          <a href="blog.html">Blog</a>
-          <a href="results.html">Product</a>
-          <a href="login.html">Login</a>
+        <a href="form.html">Find Gifts</a>
+        <a href="blog.html">Blog</a>
+        <a href="results.html">Product</a>
+        <a href="login.html">Login</a>
         </nav>
-      </div>
     </div>
   </header>
 
   <!-- เนื้อหาหลัก -->
-  <main class="container section">
-    <h1>Gift Finder</h1>
-    <p>Tell us about the recipient so we can recommend gifts.</p>
+  <main class="section">
+    <div class="container">
+      <h1>Gift Finder</h1>
+      <p>Tell us about the recipient so we can recommend gifts.</p>
 
-    <form id="gift-form">
-      <div class="row">
-        <div class="col-12">
-          <label>Budget</label>
-          <select name="budget" required>
-            <option value="">Select budget</option>
-            <option value="0-500">0–500 THB</option>
-            <option value="500-1000">500–1000 THB</option>
-            <option value="1000-2000">1000–2000 THB</option>
-            <option value="2000+">2000+ THB</option>
-          </select>
-        </div>
+      <form id="gift-form">
+        <div class="row">
+          <div class="col-12">
+            <label>Budget</label>
+            <select name="budget" required>
+              <option value="">Select budget</option>
+              <option value="0-500">0–500 THB</option>
+              <option value="500-1000">500–1000 THB</option>
+              <option value="1000-2000">1000–2000 THB</option>
+              <option value="2000+">2000+ THB</option>
+            </select>
+          </div>
 
-        <div class="col-6">
-          <label>Recipient Name (optional)</label>
-          <input name="name" placeholder="e.g., Alex"/>
-        </div>
-        <div class="col-6">
-          <label>Gender</label>
-          <select name="gender">
-            <option value="">Any</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        </div>
+          <div class="col-6">
+            <label>Recipient Name (optional)</label>
+            <input name="name" placeholder="e.g., Alex" />
+          </div>
+          <div class="col-6">
+            <label>Gender</label>
+            <select name="gender">
+              <option value="">Any</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
 
-        <div class="col-6">
-          <label>Age Range</label>
-          <select name="age">
-            <option value="">Any</option>
-            <option value="18-25">18–25</option>
-            <option value="26-35">26–35</option>
-            <option value="36-50">36–50</option>
-            <option value="50+">50+</option>
-          </select>
-        </div>
-        <div class="col-6">
-          <label>Relationship</label>
-          <select name="relationship">
-            <option value="">Select</option>
-            <option>Friend</option>
-            <option>Partner</option>
-            <option>Parent</option>
-            <option>Child</option>
-            <option>Sibling</option>
-          </select>
-        </div>
+          <div class="col-6">
+            <label>Age Range</label>
+            <select name="age">
+              <option value="">Any</option>
+              <option value="18-25">18–25</option>
+              <option value="26-35">26–35</option>
+              <option value="36-50">36–50</option>
+              <option value="50+">50+</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <label>Relationship</label>
+            <select name="relationship">
+              <option value="">Select</option>
+              <option>Friend</option>
+              <option>Partner</option>
+              <option>Parent</option>
+              <option>Child</option>
+              <option>Sibling</option>
+            </select>
+          </div>
 
-        <div class="col-12">
-          <label>Hobbies / Interests</label>
-          <div class="stack" id="interests"></div>
-        </div>
+          <div class="col-12">
+            <label>Hobbies / Interests</label>
+            <div class="stack" id="interests"></div>
+          </div>
 
-        <div class="col-12">
-          <label>Personality</label>
-          <div class="stack" id="personality">
-            <label class="pill"><input type="checkbox" value="modern">Modern</label>
-            <label class="pill"><input type="checkbox" value="innovative">Innovative</label>
-            <label class="pill"><input type="checkbox" value="calm">Calm</label>
-            <label class="pill"><input type="checkbox" value="health-conscious">Health-conscious</label>
-            <label class="pill"><input type="checkbox" value="simple">Simple</label>
-            <label class="pill"><input type="checkbox" value="aesthetic">Aesthetic</label>
-            <label class="pill"><input type="checkbox" value="animal-lover">Animal lover</label>
-            <label class="pill"><input type="checkbox" value="thoughtful">Thoughtful</label>
-            <label class="pill"><input type="checkbox" value="quiet">Quiet</label>
+          <div class="col-12">
+            <label>Personality</label>
+            <div class="stack" id="personality">
+              <label class="pill"><input type="checkbox" value="modern">Modern</label>
+              <label class="pill"><input type="checkbox" value="innovative">Innovative</label>
+              <label class="pill"><input type="checkbox" value="calm">Calm</label>
+              <label class="pill"><input type="checkbox" value="health-conscious">Health-conscious</label>
+              <label class="pill"><input type="checkbox" value="simple">Simple</label>
+              <label class="pill"><input type="checkbox" value="aesthetic">Aesthetic</label>
+              <label class="pill"><input type="checkbox" value="animal-lover">Animal lover</label>
+              <label class="pill"><input type="checkbox" value="thoughtful">Thoughtful</label>
+              <label class="pill"><input type="checkbox" value="quiet">Quiet</label>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <button class="btn" type="submit">See recommendations</button>
           </div>
         </div>
+      </form>
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="footer-container">
 
-        <div class="col-12">
-          <button class="btn" type="submit">See recommendations</button>
+      <div class="footer-columns">
+        <div class="footer-col">
+          <h4>ข้อมูล</h4>
+          <a href="#">เกี่ยวกับเรา</a>
+          <a href="#">การเข้าร่วม</a>
+          <a href="#">นโยบายความเป็นส่วนตัว</a>
+          <a href="#">เงื่อนไขการใช้งาน</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>ช่วยเหลือ</h4>
+          <a href="#">การจัดส่ง</a>
+          <a href="#">การคืนสินค้า</a>
+          <a href="#">คำถามที่พบบ่อย</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>ฝ่ายบริการ</h4>
+          <a href="#">ติดต่อเรา</a>
+          <a href="#">ศูนย์ช่วยเหลือ</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>ติดตามเรา</h4>
+          <div class="social-icons">
+            <i>📘</i>
+            <i>📷</i>
+            <i>▶️</i>
+            <i>🐦</i>
+          </div>
         </div>
       </div>
-    </form>
-  </main>
+
+      <div class="footer-copy">
+        © 2025 Gift Finder
+      </div>
+
+    </div>
+  </footer>
 </body>
+
 </html>

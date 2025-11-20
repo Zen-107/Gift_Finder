@@ -24,7 +24,7 @@ body {
 }
 
 main {
-  padding-top: 80px;
+  padding-top: 40px;
 }
 
 /* ========== 3. NAVBAR (STICKY) ========== */
@@ -58,7 +58,7 @@ main {
 }
 
 .logo {
-  font-weight: bold;
+  font-weight: bold !important;
   font-size: 1.4rem;
 }
 

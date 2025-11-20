@@ -34,6 +34,7 @@
   box-sizing: border-box;
 }
 
+/* ========== 2. LAYOUT ========== */
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
@@ -41,75 +42,177 @@ body {
   background: #fff;
   line-height: 1.5;
 }
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
 
 /* ========== NAVBAR ========== */
 .navbar {
   position: sticky;
   top: 0;
+  left: 0;
   width: 100%;
   background: var(--primary);
-  padding: 12px 0;
+  color: white;
+  padding: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.nav {
+.nav-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 16px;
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 700;
-  font-size: 20px;
+.navbar a {
   color: white;
-  text-decoration: none;
-}
-
-.brand:hover {
-  color: var(--accent);
-}
-
-.nav-links {
-  display: flex;
-  gap: 24px;
-  align-items: center;
-}
-
-.nav-links a {
-  color: white;
+  margin: 0 1rem;
   text-decoration: none;
   font-weight: 500;
-  font-size: 16px;
-  padding: 6px 8px;
+}
+
+.navbar a:hover {
+  color: var(--accent);
+}
+
+.logo {
+  font-weight: bold !important;
+  font-size: 1.4rem;
+}
+
+/* ========== FRIEND DROPDOWN TAB BAR ========== */
+.nav-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-link-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-weight: 500;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  padding: 0 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-link-btn:hover,
+.nav-link-btn:focus {
+  color: var(--accent);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  width: 280px;
+  z-index: 1001;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: 0.2s cubic-bezier(0.2, 0, 0.1, 1);
+  border: 1px solid #eee;
+  /* ✅ เพิ่ม max-height + overflow-y */
+  max-height: 320px; /* ~5 รายการ + ปุ่ม */
+  overflow: hidden;
+}
+
+.nav-dropdown:hover .dropdown-menu,
+.nav-dropdown:focus-within .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0.75rem 0.75rem 0.5rem; /* ปรับ padding ล่างให้น้อยลง */
+  /* ✅ ทำให้รายการ scroll ได้ */
+  max-height: 260px; /* ปรับตามความเหมาะสม */
+  overflow-y: auto;
+}
+
+.friend-tab {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  padding: 0.6rem 0.8rem;
+  transition: 0.2s;
   border-radius: 6px;
-  transition: color 0.2s;
+  gap: 12px;
 }
 
-.nav-links a:hover {
-  color: var(--accent);
+.friend-tab:hover {
+  background: #f8f9ff;
+  color: var(--primary);
 }
 
-.nav-links a.active {
-  color: var(--accent);
-  font-weight: 600;
+.friend-tab img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+  transition: 0.2s;
 }
 
-/* ========== LAYOUT ========== */
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 16px;
+.friend-tab:hover img {
+  transform: scale(1.06);
+  border-color: var(--accent);
 }
 
-.section {
-  padding: 60px 16px 40px;
+.friend-tab span {
+  font-size: 0.95rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #333;
+}
+
+/* ✅ Dropdown Footer — ปุ่ม "+ Add Friend" */
+.dropdown-footer {
+  padding: 0 0.75rem 0.75rem;
+  border-top: 1px solid #f0f0f0;
+  margin-top: auto; /* ดันให้ล่างสุดเสมอ */
+}
+
+.add-friend-btn {
+  width: 100%;
+  background: #f0f7ff;
+  color: var(--primary);
+  border: 1px dashed var(--primary);
+  border-radius: 6px;
+  padding: 0.6rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.2s;
+  text-align: center;
+}
+
+.add-friend-btn:hover {
+  background: #e6f0ff;
+  color: #083a7d;
+}
+
+/* ========== MAIN ========== */
+main {
+  padding-top: 40px; 
 }
 
 /* ========== TYPOGRAPHY ========== */
@@ -239,4 +342,57 @@ form select:focus {
 
 .btn:active {
   transform: translateY(0);
+}
+/* ========== FOOTER ========== */
+.footer {
+  background: #0d0d0d;
+  color: #fff;
+  padding: 3rem 0 2rem;
+  margin-top: 3rem;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 1.5rem;
+}
+
+.footer-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+.footer-col h4 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.footer-col a {
+  display: block;
+  color: #d9d9d9;
+  font-size: 0.95rem;
+  margin: 0.4rem 0;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.footer-col a:hover {
+  color: #fff;
+}
+
+.social-icons {
+  display: flex;
+  gap: 0.8rem;
+  font-size: 1.4rem;
+}
+
+.footer-copy {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #333;
+  color: #ccc;
+  font-size: 0.95rem;
 }
