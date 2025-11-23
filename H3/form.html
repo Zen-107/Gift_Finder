@@ -17,8 +17,30 @@
         <a href="form.html">Find Gifts</a>
         <a href="blog.html">Blog</a>
         <a href="results.html">Product</a>
-        <a href="login.html">Login</a>
+
+        <!-- ปุ่ม Login (ใช้ตอนยังไม่ล็อกอิน) -->
+        <a id="login-entry" href="login.html">Login</a>
+
+        <!-- 🔽 Friends / Important people (โชว์เฉพาะตอนล็อกอิน) -->
+        <div class="nav-dropdown" id="friendsDropdown" style="display:none;">
+          <button class="nav-link-btn" type="button">
+            Friends
+            <span>▼</span>
+          </button>
+          <div class="dropdown-menu">
+            <div class="dropdown-content" id="recipient-list">
+              <!-- JS จะเติมรายชื่อบุคคลสำคัญมาตรงนี้ -->
+            </div>
+            <div class="dropdown-footer">
+              <button type="button" class="add-friend-btn" id="add-friend-btn">
+                + Add person
+              </button>
+            </div>
+          </div>
+        </div>
       </nav>
+
+
     </div>
   </header>
 
@@ -89,7 +111,7 @@
             <div class="stack" id="interests"></div>
           </div>
 
-          <div class="col-12">
+          <!-- <div class="col-12">
             <label>Personality</label>
             <div class="stack" id="personality">
               <label class="pill"><input type="checkbox" value="modern">Modern</label>
@@ -102,7 +124,7 @@
               <label class="pill"><input type="checkbox" value="thoughtful">Thoughtful</label>
               <label class="pill"><input type="checkbox" value="quiet">Quiet</label>
             </div>
-          </div>
+          </div> -->
           <div class="col-12">
             <div class="checkbox-wrapper">
               <input id="terms-checkbox-37" name="save_profile" type="checkbox">
@@ -171,6 +193,39 @@
 
     </div>
   </footer>
+  <script src="assets/js/form.js"></script>
+  <script>
+    (async () => {
+      const loginLink = document.getElementById("login-entry");
+      const friendsDropdown = document.getElementById("friendsDropdown");
+
+      if (!loginLink || !friendsDropdown) return;
+
+      try {
+        const res = await fetch("api/check_session.php");
+        if (!res.ok) throw new Error("HTTP " + res.status);
+
+        const data = await res.json(); // { loggedIn: true/false, ... }
+
+        if (data.loggedIn) {
+          // ล็อกอินแล้ว → ซ่อน Login, โชว์ Friends
+          loginLink.style.display = "none";
+          friendsDropdown.style.display = "inline-block";
+        } else {
+          // ยังไม่ล็อกอิน → โชว์ Login, ซ่อน Friends
+          loginLink.style.display = "inline-block";
+          friendsDropdown.style.display = "none";
+        }
+      } catch (err) {
+        console.error("check_session error:", err);
+        // ถ้าเช็ค session ไม่ได้ ให้โชว์ Login ไว้ก่อน
+        loginLink.style.display = "inline-block";
+        friendsDropdown.style.display = "none";
+      }
+    })();
+  </script>
+
+
 </body>
 
 </html>
