@@ -1,5 +1,5 @@
 <?php
-include  '../../Add_Product_web_for_back/db.php';
+include  'config.php';
 
 header('Content-Type: application/json');
 
