@@ -194,3 +194,19 @@ CREATE TABLE IF NOT EXISTS product_budgets (
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
     FOREIGN KEY (budget_id) REFERENCES budget_options(id) ON DELETE CASCADE
 );
+
+
+-- table to link products with target audiences (relationship, gender, age range)
+CREATE TABLE IF NOT EXISTS product_target_audiences (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL,
+    relationship_id INT NULL, -- อาจเป็น NULL ถ้าไม่ระบุ
+    gender_id INT NULL,
+    age_range_id INT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    FOREIGN KEY (relationship_id) REFERENCES relationships(id) ON DELETE CASCADE,
+    FOREIGN KEY (gender_id) REFERENCES genders(id) ON DELETE CASCADE,
+    FOREIGN KEY (age_range_id) REFERENCES age_ranges(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_product_audience (product_id, relationship_id, gender_id, age_range_id) -- ป้องกันการเชื่อมซ้ำ
+);
