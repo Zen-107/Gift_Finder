@@ -118,69 +118,76 @@
     </div>
   </footer>
 
-  <!-- <script src="assets/js/app.js"></script>
+  <!-- สคริปต์สไลด์โชว์ -->
 
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const container = document.getElementById('popular');
 
-      try {
-        // 🌐 ดึงข้อมูลจาก API
-        const response = await fetch('/api/get_all_products.php');
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    const container = document.getElementById('popular');
 
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
+    try {
+      // 🌐 ดึงข้อมูลจาก API - เปลี่ยน URL นี้
+      const response = await fetch('api/get_all_product.php');
 
-        const data = await response.json();
-
-        if (!data.success) {
-          throw new Error(data.error || 'ไม่สามารถโหลดข้อมูลได้');
-        }
-
-        // ✅ แสดงสินค้า (4 ชิ้นแรก)
-        const items = data.data.slice(0, 8);
-        container.innerHTML = items.map(p => `
-      <div class="card">
-        <img src="${p.image_url || 'https://via.placeholder.com/300x160?text=No+Image'}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300x160?text=Error'">
-        <div class="card-body">
-          <div class="badge">${p.categories[0] || 'Gift'}</div>
-          <strong>${p.name}</strong>
-          <div class="price">
-            ${p.min_price !== null ?
-            (p.min_price === p.max_price ?
-              `${p.min_price.toLocaleString()} ${p.currency}` :
-              `${p.min_price.toLocaleString()}–${p.max_price.toLocaleString()} ${p.currency}`
-            ) :
-            'ราคาติดต่อ'}
-          </div>
-          <div>${p.description?.substring(0, 80) || 'ไม่มีคำอธิบาย'}...</div>
-          <div class="stack">
-            <a class="btn" href="product.html?id=${p.id}">View</a>
-            ${p.external_urls && p.external_urls.length > 0
-            ? `<a class="btn secondary" href="${p.external_urls[0].url}" target="_blank">Buy</a>`
-            : `<a class="btn secondary" href="#" onclick="alert('Coming soon!'); return false;">Buy</a>`
-          }
-          </div>
-        </div>
-      </div>
-    `).join('');
-
-      } catch (error) {
-        console.error('โหลดสินค้าล้มเหลว:', error);
-
-        // ❗ แสดงข้อผิดพลาดแทน
-        container.innerHTML = `
-      <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
-        <div>⚠️ ไม่สามารถโหลดสินค้าได้</div>
-        <div style="font-size: 0.9rem; color: #777; margin-top: 0.5rem;">
-          ${error.message || 'กรุณาลองใหม่อีกครั้ง'}
-        </div>
-      </div>
-    `;
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
-    });
-  </script> -->
+
+      const data = await response.json();
+
+      // ✅ ตรวจสอบว่า data เป็น array จริงๆ (เพราะ PHP ส่ง array มาตรงๆ)
+      if (!Array.isArray(data)) {
+        throw new Error('ข้อมูลที่ได้รับไม่ถูกต้อง');
+      }
+
+      // ✅ สุ่มสินค้า 5 ชิ้น
+      const shuffled = [...data].sort(() => 0.5 - Math.random());
+      const items = shuffled.slice(0, 4);
+
+      container.innerHTML = items.map(p => `
+        <div class="card">
+          <img src="${p.image_url || 'https://via.placeholder.com/300x160?text=No+Image'}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300x160?text=Error'">
+          <div class="card-body">
+            <div class="badge">${p.categories[0] || 'Gift'}</div>
+            <strong>${p.name}</strong>
+            <div class="price">
+              ${p.min_price !== null ?
+                (p.min_price === p.max_price ?
+                  `${p.min_price.toLocaleString()} ${p.currency}` :
+                  `${p.min_price.toLocaleString()}–${p.max_price.toLocaleString()} ${p.currency}`
+                ) :
+                'ราคาติดต่อ'}
+            </div>
+            <div>${p.description?.substring(0, 80) || 'ไม่มีคำอธิบาย'}...</div>
+            <div class="stack">
+              <a class="btn" href="product.html?id=${p.id}">View</a>
+              ${p.external_urls && p.external_urls.length > 0
+                ? `<a class="btn secondary" href="${p.external_urls[0].url}" target="_blank">Buy</a>`
+                : `<a class="btn secondary" href="#" onclick="alert('Coming soon!'); return false;">Buy</a>`
+              }
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+    } catch (error) {
+      console.error('โหลดสินค้าล้มเหลว:', error);
+
+      container.innerHTML = `
+        <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+          <div>⚠️ ไม่สามารถโหลดสินค้าได้</div>
+          <div style="font-size: 0.9rem; color: #777; margin-top: 0.5rem;">
+            ${error.message || 'กรุณาลองใหม่อีกครั้ง'}
+          </div>
+        </div>
+      `;
+    }
+  });
+</script>
+
+
+<!-- สคริปต์จัดการเมนูโปรไฟล์และการล็อกอิน -->
+
   <script>
     (async () => {
       const loginLink = document.getElementById("login-entry");

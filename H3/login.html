@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <title>Login – Gift Finder</title>
@@ -11,7 +10,6 @@
     <!-- Google Sign-In script -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-
 <body>
 
     <div class="overlay">
@@ -21,8 +19,10 @@
 
             <!-- Google Sign-In -->
             <div id="g_id_onload"
-                data-client_id="762450496006-qjmhbik4abtmo6d7mh7530ub7fivi776.apps.googleusercontent.com"
-                data-context="signin" data-ux_mode="redirect" data-login_uri="http://localhost/H3/api/googlelogin.php"
+                data-client_id="606004835290-q0s9uhm0jgicbh2l2d4tfrnasp6q5fn5.apps.googleusercontent.com"
+                data-context="signin"
+                data-ux_mode="popup"
+                data-callback="handleCredentialResponse"
                 data-auto_prompt="false">
             </div>
 
@@ -53,21 +53,35 @@
                 <a href="register.html">สร้างบัญชีใหม่</a>
             </div>
 
-
             <!-- กล่องแสดง error ด้วย JS -->
             <div class="error-msg" id="errorBox"></div>
         </div>
     </div>
 
-    <!-- JS แสดง error จาก URL -->
+    <!-- JS แสดง error จาก URL + ฟังก์ชันจัดการ Google Sign-In -->
     <script>
         const params = new URLSearchParams(location.search);
         if (params.get("error")) {
-            document.getElementById("errorBox").textContent =
-                "Login failed. Please try again.";
+            document.getElementById("errorBox").textContent = "Login failed. Please try again.";
+        }
+
+        // ฟังก์ชันที่ Google จะเรียกเมื่อผู้ใช้ล็อกอินสำเร็จ
+        function handleCredentialResponse(response) {
+            // สร้าง form เพื่อส่ง token ไปยัง googlelogin.php
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/H3/api/googlelogin.php';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'credential';
+            input.value = response.credential;
+
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
         }
     </script>
 
 </body>
-
 </html>

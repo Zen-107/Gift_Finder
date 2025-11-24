@@ -23,7 +23,7 @@ if (!$response) {
 $data = json_decode($response, true);
 
 // ตรวจว่า aud (Audience) ตรงกับ client id ของเราไหม
-$clientId = "762450496006-qjmhbik4abtmo6d7mh7530ub7fivi776.apps.googleusercontent.com";
+$clientId = "606004835290-q0s9uhm0jgicbh2l2d4tfrnasp6q5fn5.apps.googleusercontent.com";
 if (($data["aud"] ?? "") !== $clientId) {
     header("Location: /H3/login.html?error=google");
     exit;
