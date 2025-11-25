@@ -5,12 +5,28 @@ $message = '';
 
 // ดึงข้อมูลที่มีอยู่
 $categories_list = $interests_list = [];
+$relationships_list = $genders_list = $age_ranges_list = $budgets_list = [];
+
 try {
     $cat_stmt = $pdo->query("SELECT id, name FROM categories ORDER BY name");
     $categories_list = $cat_stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $int_stmt = $pdo->query("SELECT id, name FROM interests ORDER BY name");
     $interests_list = $int_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // เพิ่มส่วนนี้
+    $rel_stmt = $pdo->query("SELECT id, display_name FROM relationships ORDER BY display_name");
+    $relationships_list = $rel_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $gen_stmt = $pdo->query("SELECT id, display_name FROM genders ORDER BY display_name");
+    $genders_list = $gen_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $age_stmt = $pdo->query("SELECT id, display_name FROM age_ranges ORDER BY display_name");
+    $age_ranges_list = $age_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $bud_stmt = $pdo->query("SELECT id, name FROM budget_options ORDER BY display_order");
+    $budgets_list = $bud_stmt->fetchAll(PDO::FETCH_ASSOC);
+
 } catch (Exception $e) {
     // ignore
 }
@@ -60,6 +76,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->execute([$product_id, $url, $source_name, $min_price, $max_price, $currency]);
             }
         }
+
+        // --- เพิ่มส่วนนี้ ---
+        // หาช่วงราคาที่กว้างที่สุดจากที่ป้อนมา
+        $min_overall = PHP_FLOAT_MAX;
+        $max_overall = PHP_FLOAT_MIN;
+        $has_price = false;
+
+        if (!empty($_POST['external_urls']) && is_array($_POST['external_urls'])) {
+            foreach ($_POST['external_urls'] as $idx => $url) {
+                $url = trim($url);
+                if (empty($url)) continue;
+
+                $min_price = !empty($_POST['min_prices'][$idx]) ? (float)$_POST['min_prices'][$idx] : null;
+                $max_price = !empty($_POST['max_prices'][$idx]) ? (float)$_POST['max_prices'][$idx] : null;
+
+                if ($min_price !== null && $max_price !== null) {
+                    $has_price = true;
+                    $min_overall = min($min_overall, $min_price);
+                    $max_overall = max($max_overall, $max_price);
+                }
+            }
+        }
+
+        // หากมีการป้อนราคา ให้หา budget ที่ตรงกับช่วงนี้ (เลือกตาม min_price)
+        if ($has_price) {
+            $stmt = $pdo->prepare("
+                SELECT id FROM budget_options
+                WHERE ? BETWEEN min_price AND max_price
+                ORDER BY display_order
+                LIMIT 1
+            ");
+            $stmt->execute([$min_overall]);
+            $budget_match = $stmt->fetch();
+
+            if ($budget_match) {
+                $budget_id = $budget_match['id'];
+                // บันทึกความเชื่อมโยง
+                $stmt = $pdo->prepare("INSERT IGNORE INTO product_budgets (product_id, budget_id) VALUES (?, ?)");
+                $stmt->execute([$product_id, $budget_id]);
+            }
+        }
+        // --- จบส่วนที่เพิ่ม ---
 
         // 3. จัดการหมวดหมู่
         $selected_category_ids = $_POST['category_ids'] ?? [];
@@ -114,6 +172,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare("INSERT IGNORE INTO product_interests (product_id, interest_id) VALUES (?, ?)");
             $stmt->execute([$product_id, (int)$int_id]);
         }
+
+        // --- เพิ่มส่วนนี้: จัดการ product_target_audiences ---
+        $selected_relationship_ids = $_POST['target_relationship_ids'] ?? [];
+        $selected_gender_ids = $_POST['target_gender_ids'] ?? [];
+        $selected_age_range_ids = $_POST['target_age_range_ids'] ?? [];
+
+        // สร้าง Cartesian product ของทั้งสามค่า (เช่น ถ้าเลือก 2 ความสัมพันธ์, 2 เพศ, 2 อายุ จะได้ 2x2x2 = 8 แถว)
+        foreach ($selected_relationship_ids as $rel_id) {
+            foreach ($selected_gender_ids as $gen_id) {
+                foreach ($selected_age_range_ids as $age_id) {
+                    $stmt = $pdo->prepare("INSERT IGNORE INTO product_target_audiences (product_id, relationship_id, gender_id, age_range_id) VALUES (?, ?, ?, ?)");
+                    $stmt->execute([$product_id, (int)$rel_id, (int)$gen_id, (int)$age_id]);
+                }
+            }
+        }
+        // --- จบส่วนที่เพิ่ม ---
 
         $pdo->commit();
         $message = "<div class='alert alert-success'>เพิ่มสินค้าเรียบร้อย!</div>";
@@ -238,6 +312,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button type="button" class="btn btn-outline-secondary btn-sm mt-1" onclick="addNewInterest()">+ เพิ่มอีก</button>
             </div>
         </div>
+
+        <!-- === เพิ่มส่วนนี้: กลุ่มเป้าหมาย (Target Audiences) === -->
+        <div class="mb-4">
+            <label class="form-label d-block">กลุ่มเป้าหมาย</label>
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="form-label">ความสัมพันธ์</label>
+                    <?php if (!empty($relationships_list)): ?>
+                        <?php foreach ($relationships_list as $rel): ?>
+                            <div class="checkbox-group">
+                                <input class="form-check-input" type="checkbox" name="target_relationship_ids[]" value="<?= htmlspecialchars($rel['id']) ?>" id="rel_<?= $rel['id'] ?>">
+                                <label class="form-check-label" for="rel_<?= $rel['id'] ?>"><?= htmlspecialchars($rel['display_name']) ?></label>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <em>ยังไม่มีข้อมูล</em>
+                    <?php endif; ?>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">เพศ</label>
+                    <?php if (!empty($genders_list)): ?>
+                        <?php foreach ($genders_list as $gen): ?>
+                            <div class="checkbox-group">
+                                <input class="form-check-input" type="checkbox" name="target_gender_ids[]" value="<?= htmlspecialchars($gen['id']) ?>" id="gen_<?= $gen['id'] ?>">
+                                <label class="form-check-label" for="gen_<?= $gen['id'] ?>"><?= htmlspecialchars($gen['display_name']) ?></label>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <em>ยังไม่มีข้อมูล</em>
+                    <?php endif; ?>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">ช่วงอายุ</label>
+                    <?php if (!empty($age_ranges_list)): ?>
+                        <?php foreach ($age_ranges_list as $age): ?>
+                            <div class="checkbox-group">
+                                <input class="form-check-input" type="checkbox" name="target_age_range_ids[]" value="<?= htmlspecialchars($age['id']) ?>" id="age_<?= $age['id'] ?>">
+                                <label class="form-check-label" for="age_<?= $age['id'] ?>"><?= htmlspecialchars($age['display_name']) ?></label>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <em>ยังไม่มีข้อมูล</em>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+        <!-- === จบส่วนที่เพิ่ม === -->
 
         <button type="submit" class="btn btn-primary">เพิ่มสินค้า</button>
         <a href="add_product.php" class="btn btn-secondary ms-2">รีเซ็ตฟอร์ม</a>
