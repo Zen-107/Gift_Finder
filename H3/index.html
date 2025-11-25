@@ -160,7 +160,7 @@
             </div>
             <div>${p.description?.substring(0, 80) || 'ไม่มีคำอธิบาย'}...</div>
             <div class="stack">
-              <a class="btn" href="product.html?id=${p.id}">View</a>
+              <a class="btn" href="product.php?id=${p.id}">View</a>
               ${p.external_urls && p.external_urls.length > 0
                 ? `<a class="btn secondary" href="${p.external_urls[0].url}" target="_blank">Buy</a>`
                 : `<a class="btn secondary" href="#" onclick="alert('Coming soon!'); return false;">Buy</a>`
