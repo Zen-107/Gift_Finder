@@ -20,20 +20,38 @@
         <!-- ปุ่ม Login (ใช้ตอนยังไม่ล็อกอิน) -->
         <a id="login-entry" href="login.html">Login</a>
 
+<!----------------------------------บัว--------------------------------------------------------->
         <!-- เมนูโปรไฟล์ (ใช้ตอนล็อกอินแล้ว) -->
         <div class="profile-menu" id="profileMenu" style="display: none;">
           <button class="profile-toggle" id="profileToggle">
             Profile ▾
           </button>
-          <div class="profile-dropdown" id="profileDropdown">
-            <a href="#">Favorite</a>
-            <a href="#">Friend</a>
-            <button id="logoutBtn" type="button">Logout</button>
+        <div class="profile-dropdown" id="profileDropdown">
+          <a href="#" id="fav-link">Favorite</a>
+          <a href="#" id="friend-link">Friend</a>
+          <button id="logoutBtn" type="button">Logout</button>
+
+          <!-- Dropdown ที่สอง (ซ่อนไว้ก่อน) -->
+          <div class="sub-dropdown" id="favDropdown" style="display: none;">
+            <h4>Favorites</h4>
+            <a href="#">Gift 1</a>
+            <a href="#">Gift 2</a>
+            <a href="#">Gift 3</a>
+          </div>
+          <div class="sub-dropdown" id="friendDropdown" style="display: none;">
+            <h4>Friends</h4>
+            <a href="#">Friend A</a>
+            <a href="#">Friend B</a>
+            <a href="#">Friend C</a>
           </div>
         </div>
-      </nav>
+        </div>
+          
+          </nav>
+        </div>
 
-    </div>
+<!----------------------------------บัว--------------------------------------------------------->
+
   </header>
 
   <main>
@@ -211,7 +229,50 @@
           profileDropdown.classList.remove("open");
         }
       });
+//-------------------------------------
+  const favLink = document.getElementById("fav-link");
+  const friendLink = document.getElementById("friend-link");
+  const favDropdown = document.getElementById("favDropdown");
+  const friendDropdown = document.getElementById("friendDropdown");
 
+    // ฟังก์ชันซ่อน dropdown ที่สอง
+  function hideSubDropdowns() {
+    favDropdown.style.display = "none";
+    friendDropdown.style.display = "none";
+  }
+
+  // คลิก Favorite → แสดง favDropdown
+favLink.addEventListener("click", (e) => {
+  console.log("favLink clicked");
+  e.preventDefault();
+  hideSubDropdowns();
+
+  // ใช้ setTimeout เพื่อให้แน่ใจว่า element ถูกแสดงหลังจาก hideSubDropdowns
+  setTimeout(() => {
+    favDropdown.style.display = "block";
+  }, 10);
+});
+
+
+  // คลิก Friend → แสดง friendDropdown
+friendLink.addEventListener("click", (e) => {
+  console.log("Friend clicked");
+  e.preventDefault();
+  hideSubDropdowns();
+
+  setTimeout(() => {
+    friendDropdown.style.display = "block";
+  }, 10);
+});
+
+  // คลิกที่อื่น ซ่อน dropdown ทั้งหมด
+  document.addEventListener("click", (e) => {
+    if (!profileMenu.contains(e.target)) {
+      profileDropdown.classList.remove("open");
+      hideSubDropdowns();
+    }
+  });
+//------------------------------------
       logoutBtn.addEventListener("click", async () => {
         try {
           await fetch("api/logout.php", { method: "POST" });

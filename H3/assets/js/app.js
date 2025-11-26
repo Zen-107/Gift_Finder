@@ -70,9 +70,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ปุ่ม Prev
+  if (prevBtn) {
   prevBtn.addEventListener('click', () => {
     showSlide(currentIndex - 1);
   });
+  } else { console.warn("No previous button found"); }
 
   // คลิกที่ dot
   dots.forEach(dot => {
