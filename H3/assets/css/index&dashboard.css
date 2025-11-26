@@ -526,3 +526,9 @@ main {
   background-color: #f3f4f6;
 }
 /*------------------------------------------------------------------------*/
+.error-message {
+  color: black !important;
+  margin: 8px 16px;
+  font-size: 0.9rem;
+}
+

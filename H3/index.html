@@ -241,29 +241,77 @@
     friendDropdown.style.display = "none";
   }
 
-  // คลิก Favorite → แสดง favDropdown
-favLink.addEventListener("click", (e) => {
-  console.log("favLink clicked");
+// คลิก Favorite → แสดง favDropdown + ดึงข้อมูลจาก API
+favLink.addEventListener("click", async (e) => {
+  console.log("Favorite clicked");
   e.preventDefault();
   hideSubDropdowns();
 
-  // ใช้ setTimeout เพื่อให้แน่ใจว่า element ถูกแสดงหลังจาก hideSubDropdowns
-  setTimeout(() => {
+  try {
+    const response = await fetch('api/get_all_bookmarks.php');
+    const data = await response.json();
+
+    if (data.success && data.folders.length > 0) {
+      // สร้าง HTML สำหรับแสดงชื่อโฟลเดอร์
+      const folderList = data.folders.map(folder => `
+        <a href="folder.php?id=${folder.folder_id}">
+          ${folder.folder_name}
+        </a>
+      `).join('');
+
+      favDropdown.innerHTML = `
+        <h4>Folders</h4>
+        ${folderList}
+      `;
+    } else {
+      favDropdown.innerHTML = '<h4>Folders</h4><p>No folders yet.</p>';
+    }
+
     favDropdown.style.display = "block";
-  }, 10);
+
+  } catch (err) {
+    console.error("Failed to load folders:", err);
+    favDropdown.innerHTML = '<h4>Folders</h4><p class="error-message">Error loading folders.</p>';
+    favDropdown.style.display = "block";
+  }
 });
 
-
-  // คลิก Friend → แสดง friendDropdown
-friendLink.addEventListener("click", (e) => {
+/////////////////////////////////////////////// ให้ โบกี้ จัดการต่อ ///////////////////////////////
+// คลิก Friend → แสดง friendDropdown (ตัวอย่าง: ใช้ข้อมูลตัวอย่าง)
+friendLink.addEventListener("click", async (e) => {
   console.log("Friend clicked");
   e.preventDefault();
   hideSubDropdowns();
 
-  setTimeout(() => {
+  try {
+    // ตัวอย่าง: ดึงข้อมูลเพื่อนจาก API (ถ้าคุณมีตารางเพื่อน)
+    // ถ้ายังไม่มี ให้ใช้ข้อมูลตัวอย่างก่อน
+    const friends = [
+      { id: 1, name: "Friend A" },
+      { id: 2, name: "Friend B" },
+      { id: 3, name: "Friend C" }
+    ];
+
+    const friendList = friends.map(friend => `
+      <a href="#" onclick="alert('Profile of ${friend.name}'); return false;">
+        ${friend.name}
+      </a>
+    `).join('');
+
+    friendDropdown.innerHTML = `
+      <h4>Friends</h4>
+      ${friendList}
+    `;
+
     friendDropdown.style.display = "block";
-  }, 10);
+
+  } catch (err) {
+    console.error("Failed to load friends:", err);
+    friendDropdown.innerHTML = '<h4>Friends</h4><p>Error loading friends.</p>';
+    friendDropdown.style.display = "block";
+  }
 });
+////////////////////////////////////////////////////////////////////////////////////////////////
 
   // คลิกที่อื่น ซ่อน dropdown ทั้งหมด
   document.addEventListener("click", (e) => {
