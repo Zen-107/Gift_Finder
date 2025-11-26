@@ -80,162 +80,6 @@ main {
   font-size: 1.4rem;
 }
 
-/* ========== PROFILE DROPDOWN ========== */
-.profile-menu {
-  position: relative;
-  display: inline-block;
-}
-
-.profile-toggle {
-  background: none;
-  border: none;
-  color: white;
-  font: inherit;
-  padding: 0.5rem 0.75rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.profile-toggle:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.profile-dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: white;
-  border-radius: 12px;
-  min-width: 200px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  padding: 8px 0;
-  margin-top: 6px;
-  z-index: 1001;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(10px);
-  transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.profile-menu:hover .profile-dropdown,
-.profile-dropdown.open {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.profile-dropdown a,
-.profile-dropdown button {
-  display: block;
-  width: 100%;
-  padding: 10px 16px;
-  text-align: left;
-  font: inherit;
-  color: #333;
-  text-decoration: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.profile-dropdown a:hover,
-.profile-dropdown button:hover {
-  background: #f0f7ff;
-  color: var(--primary);
-}
-
-.dropdown-divider {
-  height: 1px;
-  background: #eee;
-  margin: 6px 0;
-}
-
-.dropdown-logout {
-  color: #dc2626;
-  font-weight: var(--font-weight-semibold);
-}
-
-/* ========== FRIEND DROPDOWN ========== */
-.nav-dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.nav-link-btn {
-  background: none;
-  border: none;
-  color: white;
-  font-weight: var(--font-weight-medium);
-  font-family: "Poppins", sans-serif;
-  font-size: var(--font-size-md);
-  padding: 0 1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: white;
-  border-radius: var(--radius);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-  width: 280px;
-  z-index: 1001;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-8px);
-  transition: 0.2s cubic-bezier(0.2, 0, 0.1, 1);
-  border: 1px solid #eee;
-  max-height: 320px;
-  overflow: hidden;
-}
-
-.nav-dropdown:hover .dropdown-menu,
-.nav-dropdown:focus-within .dropdown-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.dropdown-content {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 0.75rem 0.75rem 0.5rem;
-  max-height: 260px;
-  overflow-y: auto;
-}
-
-.friend-tab {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: #333;
-  padding: 0.6rem 0.8rem;
-  transition: 0.2s;
-  border-radius: 6px;
-  gap: 12px;
-}
-
-.friend-tab:hover {
-  background: #f8f9ff;
-  color: var(--primary);
-}
-
-.friend-tab img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #e5e7eb;
-  transition: 0.2s;
-}
-
 /* ========== BUTTONS ========== */
 .btn {
   display: inline-flex;
@@ -402,4 +246,117 @@ select:focus {
   border-top: 1px solid #333;
   color: #ccc;
   font-size: 0.95rem;
+}
+
+/* ===== PROFILE DROPDOWN ===== */
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  position: relative;
+}
+
+.profile-menu {
+  position: relative;
+}
+
+.profile-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  color: #fff;
+  /* ปรับให้เข้ากับสี navbar */
+}
+
+/* กล่อง dropdown */
+.profile-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: #ffffff;
+  border-radius: 10px;
+  min-width: 180px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  padding: 8px 0;
+
+  max-height: 0;
+  opacity: 0;
+  overflow: visible; /* เปลี่ยนจาก hidden เป็น visible */
+  transform-origin: top;
+  transition: max-height 0.2s ease, opacity 0.2s ease;
+  z-index: 100;
+}
+
+.profile-dropdown.open {
+  max-height: 300px;
+  opacity: 1;
+}
+
+/*------------------------------------------------------------------------*/
+
+.sub-dropdown {
+  position: absolute;
+  right: 100%;
+  top: 1;
+  background: white;
+  min-width: 180px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  border-radius: 10px;
+  z-index: 101;
+  display: none;
+  padding: 8px 0;
+  margin-top: -40px; /* ปรับให้ align กับ Favorite */
+  border: 1px solid #e5e7eb;
+}
+
+.sub-dropdown h4 {
+  margin: 0;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  color: #555;
+  font-weight: 600;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.sub-dropdown a {
+  display: block;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: #333;
+  transition: background 0.2s, color 0.2s;
+  font-size: 0.95rem;
+}
+
+.sub-dropdown a:hover {
+  background: #f3f4f6;
+  color: var(--primary);
+  padding-left: 18px;
+}
+
+
+
+.profile-dropdown a,
+.profile-dropdown button {
+  display: block;
+  padding: 8px 16px;
+  text-decoration: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  color: #333;
+}
+
+.profile-dropdown a:hover,
+.profile-dropdown button:hover {
+  background-color: #f3f4f6;
+}
+/*------------------------------------------------------------------------*/
+.error-message {
+  color: black !important;
+  margin: 8px 16px;
+  font-size: 0.9rem;
 }
