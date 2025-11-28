@@ -10,6 +10,7 @@ $user_name = $_SESSION["user_name"] ?? null;
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Gift Finder – Product</title>
   <link rel="stylesheet" href="assets/css/global.css"/>
+  <link rel="stylesheet" href="assets/css/product.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
@@ -38,16 +39,47 @@ $user_name = $_SESSION["user_name"] ?? null;
     </div>
   </header>
 
-  <main class="container section" id="product">
-
-  </main>
-
-  <!-- ✅ เพิ่ม footer -->
-  <footer class="footer">
+  <main class="container section" id="product"></main>
+<footer class="footer">
     <div class="footer-container">
+
+      <div class="footer-columns">
+        <div class="footer-col">
+          <h4>ข้อมูล</h4>
+          <a href="#">เกี่ยวกับเรา</a>
+          <a href="#">การเข้าร่วม</a>
+          <a href="#">นโยบายความเป็นส่วนตัว</a>
+          <a href="#">เงื่อนไขการใช้งาน</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>ช่วยเหลือ</h4>
+          <a href="#">การจัดส่ง</a>
+          <a href="#">การคืนสินค้า</a>
+          <a href="#">คำถามที่พบบ่อย</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>ฝ่ายบริการ</h4>
+          <a href="#">ติดต่อเรา</a>
+          <a href="#">ศูนย์ช่วยเหลือ</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>ติดตามเรา</h4>
+          <div class="social-icons">
+            <i>📘</i>
+            <i>📷</i>
+            <i>▶️</i>
+            <i>🐦</i>
+          </div>
+        </div>
+      </div>
+
       <div class="footer-copy">
         © 2025 Gift Finder
       </div>
+
     </div>
   </footer>
 

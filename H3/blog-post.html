@@ -4,13 +4,211 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Gift Finder – Blog Post</title>
-  <link rel="stylesheet" href="assets/css/styles.css"/>
+  <link rel="stylesheet" href="assets/css/global.css" />
 </head>
 <body>
+  <header class="navbar">
+    <div class="container nav-content">
+      <a class="logo" href="index.html">🎁 Gift Finder</a>
+      <nav class="nav-links">
+        <a href="form.html">Find Gifts</a>
+        <a href="blog.html">Blog</a>
+        <a href="results.html">Product</a>
+
+        <!-- ปุ่ม Login (ใช้ตอนยังไม่ล็อกอิน) -->
+        <a id="login-entry" href="login.html">Login</a>
+
+        <!----------------------------------บัว--------------------------------------------------------->
+        <!-- เมนูโปรไฟล์ (ใช้ตอนล็อกอินแล้ว) -->
+        <div class="profile-menu" id="profileMenu" style="display: none;">
+          <button class="profile-toggle" id="profileToggle">
+            Profile ▾
+          </button>
+          <div class="profile-dropdown" id="profileDropdown">
+            <a href="#" id="fav-link">Favorite</a>
+            <a href="#" id="friend-link">Friend</a>
+            <button id="logoutBtn" type="button">Logout</button>
+
+            <!-- Dropdown ที่สอง (ซ่อนไว้ก่อน) -->
+            <div class="sub-dropdown" id="favDropdown" style="display: none;">
+              <h4>Favorites</h4>
+              <a href="#">Gift 1</a>
+              <a href="#">Gift 2</a>
+              <a href="#">Gift 3</a>
+            </div>
+            <div class="sub-dropdown" id="friendDropdown" style="display: none;">
+              <h4>Friends</h4>
+              <a href="#">Friend A</a>
+              <a href="#">Friend B</a>
+              <a href="#">Friend C</a>
+            </div>
+          </div>
+        </div>
+
+      </nav>
+    </div>
+
+    <!----------------------------------บัว--------------------------------------------------------->
+
+  </header>
   <main class="container section" id="post"></main>
 
   <script src="assets/js/app.js"></script>
   <script src="assets/js/blog.js"></script>
+  <!-- สคริปต์จัดการเมนูโปรไฟล์และการล็อกอิน -->
+
+  <script>
+    (async () => {
+      const loginLink = document.getElementById("login-entry");
+      const profileMenu = document.getElementById("profileMenu");
+      const profileToggle = document.getElementById("profileToggle");
+      const profileDropdown = document.getElementById("profileDropdown");
+      const logoutBtn = document.getElementById("logoutBtn");
+
+      if (!loginLink || !profileMenu || !profileToggle || !profileDropdown || !logoutBtn) {
+        console.warn("nav profile elements not found");
+        return;
+      }
+
+      // ---- ผูก dropdown ให้ทำงานเสมอ ----
+      profileToggle.addEventListener("click", () => {
+        profileDropdown.classList.toggle("open");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!profileMenu.contains(e.target)) {
+          profileDropdown.classList.remove("open");
+        }
+      });
+      //-------------------------------------
+      const favLink = document.getElementById("fav-link");
+      const friendLink = document.getElementById("friend-link");
+      const favDropdown = document.getElementById("favDropdown");
+      const friendDropdown = document.getElementById("friendDropdown");
+
+      // ฟังก์ชันซ่อน dropdown ที่สอง
+      function hideSubDropdowns() {
+        favDropdown.style.display = "none";
+        friendDropdown.style.display = "none";
+      }
+
+      // คลิก Favorite → แสดง favDropdown + ดึงข้อมูลจาก API
+      favLink.addEventListener("click", async (e) => {
+        console.log("Favorite clicked");
+        e.preventDefault();
+        hideSubDropdowns();
+
+        try {
+          const response = await fetch('api/get_all_bookmarks.php');
+          const data = await response.json();
+
+          if (data.success && data.folders.length > 0) {
+            // สร้าง HTML สำหรับแสดงชื่อโฟลเดอร์
+            const folderList = data.folders.map(folder => `
+        <a href="folder.php?id=${folder.folder_id}">
+          ${folder.folder_name}
+        </a>
+      `).join('');
+
+            favDropdown.innerHTML = `
+        <h4>Folders</h4>
+        ${folderList}
+      `;
+          } else {
+            favDropdown.innerHTML = '<h4>Folders</h4><p>No folders yet.</p>';
+          }
+
+          favDropdown.style.display = "block";
+
+        } catch (err) {
+          console.error("Failed to load folders:", err);
+          favDropdown.innerHTML = '<h4>Folders</h4><p class="error-message">Error loading folders.</p>';
+          favDropdown.style.display = "block";
+        }
+      });
+
+      /////////////////////////////////////////////// ให้ โบกี้ จัดการต่อ ///////////////////////////////
+      // คลิก Friend → แสดง friendDropdown (ตัวอย่าง: ใช้ข้อมูลตัวอย่าง)
+      friendLink.addEventListener("click", async (e) => {
+        console.log("Friend clicked");
+        e.preventDefault();
+        hideSubDropdowns();
+
+        try {
+          // ตัวอย่าง: ดึงข้อมูลเพื่อนจาก API (ถ้าคุณมีตารางเพื่อน)
+          // ถ้ายังไม่มี ให้ใช้ข้อมูลตัวอย่างก่อน
+          const friends = [
+            { id: 1, name: "Friend A" },
+            { id: 2, name: "Friend B" },
+            { id: 3, name: "Friend C" }
+          ];
+
+          const friendList = friends.map(friend => `
+      <a href="#" onclick="alert('Profile of ${friend.name}'); return false;">
+        ${friend.name}
+      </a>
+    `).join('');
+
+          friendDropdown.innerHTML = `
+      <h4>Friends</h4>
+      ${friendList}
+    `;
+
+          friendDropdown.style.display = "block";
+
+        } catch (err) {
+          console.error("Failed to load friends:", err);
+          friendDropdown.innerHTML = '<h4>Friends</h4><p>Error loading friends.</p>';
+          friendDropdown.style.display = "block";
+        }
+      });
+      ////////////////////////////////////////////////////////////////////////////////////////////////
+
+      // คลิกที่อื่น ซ่อน dropdown ทั้งหมด
+      document.addEventListener("click", (e) => {
+        if (!profileMenu.contains(e.target)) {
+          profileDropdown.classList.remove("open");
+          hideSubDropdowns();
+        }
+      });
+      //------------------------------------
+      logoutBtn.addEventListener("click", async () => {
+        try {
+          await fetch("api/logout.php", { method: "POST" });
+        } catch (err) {
+          console.error("logout error:", err);
+        }
+        localStorage.removeItem("user");
+        location.reload();
+      });
+
+      // ---- เช็ค session จาก PHP ----
+      try {
+        const res = await fetch("api/check_session.php");
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+
+        if (data.loggedIn) {
+          // ล็อกอินแล้ว
+          loginLink.style.display = "none";
+          profileMenu.style.display = "inline-block";
+        } else {
+          // ยังไม่ล็อกอิน
+          loginLink.style.display = "inline-block";
+          loginLink.textContent = "Login";
+          loginLink.href = "login.html";
+          profileMenu.style.display = "none";
+        }
+      } catch (err) {
+        console.error("check_session error:", err);
+        // ถ้าเรียก API ไม่ได้ ให้โชว์ Login ไว้ก่อน
+        loginLink.style.display = "inline-block";
+        loginLink.textContent = "Login";
+        loginLink.href = "login.html";
+        profileMenu.style.display = "none";
+      }
+    })();
+  </script>
 </body>
 </html>
 

@@ -1,4 +1,21 @@
-/* ========== LOGIN PAGE ONLY ========== */
+/* 
+  FILE: login.css
+  DESC: ใช้เฉพาะหน้า login.html — พื้นหลังลาย + modal สีขาว
+  AUTHOR: [ชื่อคุณ]
+  LAST UPDATE: [วันที่]
+*/
+
+/* ========== 1. GLOBAL STYLES ========== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ========== 2. BACKGROUND ========== */
+/* พื้นหลังลาย radial gradient — สีน้ำเงิน */
 body::before {
   content: "";
   position: fixed;
@@ -13,6 +30,8 @@ body::before {
   pointer-events: none;
 }
 
+/* ========== 3. LAYOUT ========== */
+/* จัดตำแหน่ง modal ให้อยู่กึ่งกลางหน้าจอ */
 .overlay {
   display: flex;
   min-height: 100vh;
@@ -21,6 +40,8 @@ body::before {
   padding: 24px;
 }
 
+/* ========== 4. LOGIN MODAL ========== */
+/* กล่องหลัก — สีขาว + เงา */
 .login-modal {
   width: 100%;
   max-width: 420px;
@@ -30,6 +51,7 @@ body::before {
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
 }
 
+/* หัวเรื่อง */
 .title {
   text-align: center;
   font-size: 24px;
@@ -45,6 +67,8 @@ body::before {
   margin-bottom: 22px;
 }
 
+/* ========== 5. SOCIAL LOGIN ========== */
+/* ปุ่ม Google */
 .social-login {
   display: flex;
   flex-direction: column;
@@ -67,6 +91,13 @@ body::before {
   font-weight: 500;
 }
 
+.btn.google:hover {
+  background: #f8f9ff;
+  border-color: #c7d2fe;
+}
+
+/* ========== 6. DIVIDER ========== */
+/* เส้นแบ่ง "or" */
 .divider {
   text-align: center;
   margin: 12px 0 16px;
@@ -87,5 +118,96 @@ body::before {
   background: #e8eaf0;
 }
 
-.divider::before { left: 0; }
-.divider::after { right: 0; }
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+/* ========== 7. FORM ========== */
+/* แบบฟอร์มหลัก — Email, Password, Name */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* ✅ แก้ไข: เพิ่ม input[type="text"] สำหรับช่อง Name */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e8eaf0;
+  font-size: 14px;
+  outline: none;
+}
+
+input:focus {
+  border-color: #0a4da3;
+  box-shadow: 0 0 0 2px rgba(10, 77, 163, 0.15);
+}
+
+/* ========== 8. BUTTONS ========== */
+/* ปุ่มหลัก "Sign in" */
+.btn {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn.primary {
+  background: #0a4da3;
+  color: white;
+  width: 100%;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+.btn.primary:hover {
+  background: #083a7d;
+}
+
+/* ========== 9. ERROR & SIGNUP ========== */
+/* ข้อความผิดพลาด */
+.error-msg {
+  margin-top: 8px;
+  color: #ff4757;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* ลิงก์สมัครสมาชิก */
+.signup-text {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.signup-link {
+  color: #0a4da3;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.signup-link:hover {
+  text-decoration: underline;
+}
