@@ -91,30 +91,31 @@ function applyFriendToForm(friend) {
 
 // ---------------------------------------------------------
 // บันทึกข้อมูลโปรไฟล์ไปยัง server (php)
+// return true  = บันทึกสำเร็จ
+// return false = ไม่สำเร็จ (เช่น ชื่อซ้ำ หรือ error อื่น)
 // ---------------------------------------------------------
-// ---------------------------------------------------------
-// บันทึกข้อมูลโปรไฟล์ไปยัง server (php)
-// ---------------------------------------------------------
-async function saveProfileToServer(criteria) {
+async function saveProfileToServer(criteria, extraFields = {}) {
   const formData = new FormData();
 
   formData.append("name", criteria.name || "");
-  formData.append("gender_id", criteria.gender || "");
-  formData.append("age_range_id", criteria.age || "");
-  formData.append("relationship_id", criteria.relationship || "");
-  formData.append("budget_id", criteria.budget || "");
+  formData.append("gender", criteria.gender || "");
+  formData.append("age", criteria.age || "");
+  formData.append("relationship", criteria.relationship || "");
 
-  // interests[]
+  // interest[]
   if (Array.isArray(criteria.interests)) {
-    criteria.interests.forEach((i) => {
-      formData.append("interests[]", i);
-    });
+    criteria.interests.forEach((i) => formData.append("interests[]", i));
   }
 
-  // ถ้าแก้เพื่อนเดิม → ส่ง id ไปด้วย
-  if (currentFriendId) {
-    formData.append("recipient_id", currentFriendId);
+  // personality[] (ถ้าใช้)
+  if (Array.isArray(criteria.personality)) {
+    criteria.personality.forEach((p) => formData.append("personality[]", p));
   }
+
+  // extra fields (เช่น budget)
+  Object.entries(extraFields).forEach(([key, value]) => {
+    formData.append(key, value ?? "");
+  });
 
   try {
     const res = await fetch("api/save_recipient.php", {
@@ -122,7 +123,6 @@ async function saveProfileToServer(criteria) {
       body: formData,
     });
 
-    // อ่านเป็น text ก่อน เพื่อดูว่า PHP ส่งอะไรมาจริง ๆ
     const raw = await res.text();
     console.log("save_recipient RAW:", raw);
 
@@ -130,23 +130,32 @@ async function saveProfileToServer(criteria) {
     try {
       json = JSON.parse(raw);
     } catch (e) {
-      // ถ้า parse ไม่ได้ แสดงว่า server ส่ง HTML error กลับมา
       alert("❌ เซิร์ฟเวอร์ตอบกลับไม่ใช่ JSON\n\n" + raw);
-      return;
+      return false;
     }
 
     console.log("save_recipient result", json);
 
-    if (!json || json.status !== "ok") {
-      alert("❌ บันทึกบุคคลสำคัญไม่สำเร็จ: " + (json.message || "unknown error"));
-      return;
+    if (!json) return false;
+
+    if (json.status === "duplicate") {
+      alert("⚠️ มีเพื่อนชื่อนี้อยู่แล้ว");
+      return false;
     }
 
+    if (json.status !== "ok") {
+      alert("❌ บันทึกบุคคลสำคัญไม่สำเร็จ: " + (json.message || "unknown error"));
+      return false;
+    }
+
+    return true;
   } catch (err) {
     console.error("Error saving recipient to server", err);
     alert("❌ มีปัญหาในการเชื่อมต่อเซิร์ฟเวอร์");
+    return false;
   }
 }
+
 
 // ---------------------------------------------------------
 // โหลดรายชื่อเพื่อนจาก server → ใส่ dropdown
@@ -231,26 +240,33 @@ document.addEventListener("DOMContentLoaded", () => {
       relationship: data.get("relationship") || "",
       interests: selectedInterests,
     };
-
     const saveProfile = data.get("save_profile") === "on";
 
     if (saveProfile) {
-      // ✅ บันทึกลง server
-      await saveProfileToServer(criteria);
+      // ไม่ต้องเก็บ localStorage แล้วก็ได้ ถ้าใช้ DB อย่างเดียว
+      // const recipients = loadRecipients();
+      // recipients.push({ ... });
+      // saveRecipients(recipients);
 
-      // ✅ รีโหลดรายชื่อเพื่อนใหม่ทันที
-      await loadRecipientsFromServer();
+      const ok = await saveProfileToServer(criteria, {
+        budget: criteria.budget || "",
+      });
 
-      // ✅ เคลียร์ currentFriendId (เตรียมเพิ่มคนใหม่รอบหน้า)
+      if (!ok) {
+        // ถ้าบันทึกไม่สำเร็จ (เช่น ชื่อซ้ำ) → ไม่ต้องไปหน้า results
+        return;
+      }
+
+      // ถ้าบันทึกสำเร็จ reset currentFriendId
       currentFriendId = null;
-
-      // ✅ แจ้งผู้ใช้
       alert("✅ บันทึกบุคคลสำคัญเรียบร้อยแล้ว");
     }
 
-    // ✅ ค่อยไปหน้า results ทีหลัง
+    // ส่ง criteria ไปหน้า results ตามปกติ
     sessionStorage.setItem(FORM_KEY, JSON.stringify(criteria));
-    window.location.href = "results.html";
+    window.location.href = "show_all_product.html";
+
   });
+
 
 });

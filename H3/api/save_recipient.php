@@ -1,97 +1,123 @@
 <?php
+require_once "config.php";
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 header('Content-Type: application/json; charset=utf-8');
 
-// ✅ แก้ path นี้ให้ตรงกับ config.php ของโปรเจกต์คุณ
-require_once __DIR__ . '/config.php';
-
-
-// ✅ ต้องล็อกอินก่อน (มี user_id ใน session)
-if (!isset($_SESSION['user_id'])) {
-  http_response_code(401);
-  echo json_encode([
-    'status'  => 'error',
-    'message' => 'Not logged in'
-  ]);
-  exit;
+if (empty($_SESSION['user_id'])) {
+    echo json_encode([
+        "status"  => "error",
+        "message" => "Not logged in",
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
 }
 
 $userId = (int) $_SESSION['user_id'];
 
-// ดึงค่าจาก POST
-$name            = trim($_POST['name'] ?? '');
-$genderId        = !empty($_POST['gender_id'])        ? (int)$_POST['gender_id']        : null;
-$ageRangeId      = !empty($_POST['age_range_id'])     ? (int)$_POST['age_range_id']     : null;
-$relationshipId  = !empty($_POST['relationship_id']) ? (int)$_POST['relationship_id']  : null;
-$budgetId        = !empty($_POST['budget_id'])        ? (int)$_POST['budget_id']        : null;
-$recipientId     = !empty($_POST['recipient_id'])    ? (int)$_POST['recipient_id']     : null;
+$name         = trim($_POST['name'] ?? '');
+$gender       = $_POST['gender'] ?? null;
+$ageRange     = $_POST['age'] ?? null;
+$relationship = $_POST['relationship'] ?? null;
+$budget       = $_POST['budget'] ?? null;        // ถ้าอยากใช้ budget ด้วย
+$rid          = !empty($_POST['recipient_id']) ? (int)$_POST['recipient_id'] : null;
 
 try {
-  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    if ($pdo instanceof PDO) {
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
 
-  // ✅ ถ้ามี recipient_id = แก้ไขข้อมูลเดิม
-  if ($recipientId) {
-
-    $sql = "
-      UPDATE gift_recipients
-      SET
-        name = :name,
-        gender_id = :gender_id,
-        age_range_id = :age_range_id,
-        relationship_id = :relationship_id,
-        budget_id = :budget_id
-      WHERE id = :id AND user_id = :user_id
+    // ❶ เช็คชื่อซ้ำ (ต่อ user_id เดียวกัน, ไม่สนตัวพิมพ์ใหญ่/เล็ก, ตัด space หัวท้าย)
+    $checkSql = "
+        SELECT id
+        FROM gift_recipients
+        WHERE user_id = :user_id
+          AND TRIM(LOWER(name)) = TRIM(LOWER(:name))
     ";
+    if ($rid) {
+        $checkSql .= " AND id <> :id";
+    }
 
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-      ':name'            => $name ?: null,
-      ':gender_id'       => $genderId,
-      ':age_range_id'    => $ageRangeId,
-      ':relationship_id'=> $relationshipId,
-      ':budget_id'       => $budgetId,
-      ':id'              => $recipientId,
-      ':user_id'         => $userId,
-    ]);
+    $checkStmt = $pdo->prepare($checkSql);
+    $checkStmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
+    $checkStmt->bindValue(':name', $name, PDO::PARAM_STR);
+    if ($rid) {
+        $checkStmt->bindValue(':id', $rid, PDO::PARAM_INT);
+    }
+    $checkStmt->execute();
+    $dup = $checkStmt->fetch(PDO::FETCH_ASSOC);
 
-    echo json_encode([
-      'status' => 'ok',
-      'mode'   => 'update',
-      'id'     => $recipientId
-    ], JSON_UNESCAPED_UNICODE);
+    if ($dup) {
+        echo json_encode([
+            'status'  => 'duplicate',
+            'message' => 'มีเพื่อนชื่อนี้อยู่แล้ว',
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
 
-  } else {
+    // ❷ ไม่ซ้ำ → update หรือ insert ตามปกติ
+    if ($rid) {
+        // UPDATE friend เดิม
+        $sql = "
+            UPDATE gift_recipients
+            SET
+                name         = :name,
+                gender       = :gender,
+                age_range    = :age_range,
+                relationship = :relationship,
+                budget       = :budget
+            WHERE id = :id AND user_id = :user_id
+        ";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':name'         => $name ?: null,
+            ':gender'       => $gender ?: null,
+            ':age_range'    => $ageRange ?: null,
+            ':relationship' => $relationship ?: null,
+            ':budget'       => $budget ?: null,
+            ':id'           => $rid,
+            ':user_id'      => $userId,
+        ]);
 
-    // ✅ ถ้าไม่มี recipient_id = เพิ่มคนใหม่
-    $sql = "
-      INSERT INTO gift_recipients
-      (name, gender_id, age_range_id, relationship_id, budget_id, user_id)
-      VALUES
-      (:name, :gender_id, :age_range_id, :relationship_id, :budget_id, :user_id)
-    ";
+        echo json_encode([
+            'status' => 'ok',
+            'mode'   => 'update',
+            'id'     => $rid,
+        ], JSON_UNESCAPED_UNICODE);
 
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-      ':name'            => $name ?: null,
-      ':gender_id'       => $genderId,
-      ':age_range_id'    => $ageRangeId,
-      ':relationship_id'=> $relationshipId,
-      ':budget_id'       => $budgetId,
-      ':user_id'         => $userId,
-    ]);
+    } else {
+        // INSERT friend ใหม่
+        $sql = "
+            INSERT INTO gift_recipients
+                (user_id, name, gender, age_range, relationship, budget)
+            VALUES
+                (:user_id, :name, :gender, :age_range, :relationship, :budget)
+        ";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':user_id'      => $userId,
+            ':name'         => $name ?: null,
+            ':gender'       => $gender ?: null,
+            ':age_range'    => $ageRange ?: null,
+            ':relationship' => $relationship ?: null,
+            ':budget'       => $budget ?: null,
+        ]);
 
-    $newId = (int) $pdo->lastInsertId();
+        $newId = (int)$pdo->lastInsertId();
 
-    echo json_encode([
-      'status' => 'ok',
-      'mode'   => 'insert',
-      'id'     => $newId
-    ], JSON_UNESCAPED_UNICODE);
-  }
+        echo json_encode([
+            'status' => 'ok',
+            'mode'   => 'insert',
+            'id'     => $newId,
+        ], JSON_UNESCAPED_UNICODE);
+    }
 
 } catch (Throwable $e) {
-  http_response_code(500);
-  echo json_encode([
-    'status'  => 'error',
-    'message' => $e->getMessage()
-  ], JSON_UNESCAPED_UNICODE);
+    http_response_code(500);
+    echo json_encode([
+        'status'  => 'error',
+        'message' => $e->getMessage(),
+    ], JSON_UNESCAPED_UNICODE);
 }
