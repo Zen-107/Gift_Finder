@@ -101,7 +101,9 @@ INSERT IGNORE INTO relationships (id, name, display_name) VALUES
 (3, 'Family', 'ครอบครัว'),
 (4, 'Respectful Adults', 'ผู้ใหญ่ที่เคารพ'),
 (5, 'self-geft', 'ตัวเอง'),
-(6, 'Guests','ลูกค้า');
+(6, 'Guests','ลูกค้า/ผู้มาเยือน');
+
+
 
 
 

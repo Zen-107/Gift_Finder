@@ -185,6 +185,7 @@ CREATE TABLE gift_recipients (
   FOREIGN KEY (budget_id) REFERENCES budget_options(id) ON DELETE SET NULL
 );
 
+
 CREATE TABLE IF NOT EXISTS product_budgets (
     product_id INT NOT NULL,
     budget_id INT NOT NULL,
