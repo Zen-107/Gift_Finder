@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gift Finder – Stories</title>
+  <link rel="stylesheet" href="assets/css/global.css" />
+  <link rel="stylesheet" href="assets/css/index.css" />
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="container nav-content">
+      <a class="logo" href="index.html">🎁 Gift Finder</a>
+      <nav class="nav-links">
+        <a href="form.html">Find Gifts</a>
+        <a href="blog.html">Blog</a>
+        <a href="results.html">Product</a>
+
+        <!-- ปุ่ม Login (ใช้ตอนยังไม่ล็อกอิน) -->
+        <a id="login-entry" href="login.html">Login</a>
+
+<!----------------------------------บัว--------------------------------------------------------->
+        <!-- เมนูโปรไฟล์ (ใช้ตอนล็อกอินแล้ว) -->
+        <div class="profile-menu" id="profileMenu" style="display: none;">
+          <button class="profile-toggle" id="profileToggle">
+            Profile ▾
+          </button>
+        <div class="profile-dropdown" id="profileDropdown">
+          <a href="#" id="fav-link">Favorite</a>
+          <a href="#" id="friend-link">Friend</a>
+          <button id="logoutBtn" type="button">Logout</button>
+
+          <!-- Dropdown ที่สอง (ซ่อนไว้ก่อน) -->
+          <div class="sub-dropdown" id="favDropdown" style="display: none;">
+            <h4>Favorites</h4>
+            <a href="#">Gift 1</a>
+            <a href="#">Gift 2</a>
+            <a href="#">Gift 3</a>
+          </div>
+          <div class="sub-dropdown" id="friendDropdown" style="display: none;">
+            <h4>Friends</h4>
+            <a href="#">Friend A</a>
+            <a href="#">Friend B</a>
+            <a href="#">Friend C</a>
+          </div>
+        </div>
+        </div>
+          
+      </nav>
+    </div>
+
+<!----------------------------------บัว--------------------------------------------------------->
+
+  </header>
+
+    <main>
+        <section class="stories-section">
+        <div class="container">
+            <h1>Stories</h1>
+
+            <div class="stories-grid">
+
+            <div class="story-card">
+                <img src="assets/images/story1.jpg" alt="Story 1" />
+                <h3>Story Title 1</h3>
+                <p>A brief description of the gift story goes here.</p>
+            </div>
+            <div class="story-card">
+                <img src="assets/images/story2.jpg" alt="Story 2" />
+                <h3>Story Title 2</h3>
+                <p>A brief description of the gift story goes here.</p>     
+            </div>
+            <div class="story-card">
+                <img src="assets/images/story3.jpg" alt="Story 3" />
+                <h3>Story Title 3</h3>
+                <p>A brief description of the gift story goes here.</p>
+            </div>
+            <div class="story-card">
+                <img src="assets/images/story4.jpg" alt="Story 4" />
+                <h3>Story Title 4</h3>
+                <p>A brief description of the gift story goes here.</p>
+            </div>
+
+            </div>  
+
+        </div>
+        </section>
+    </main>    
+    
+
+
+
+<footer class="footer">
+    <div class="footer-container">
+
+      <div class="footer-columns">
+        <div class="footer-col">
+          <h4>ข้อมูล</h4>
+          <a href="#">เกี่ยวกับเรา</a>
+          <a href="#">การเข้าร่วม</a>
+          <a href="#">นโยบายความเป็นส่วนตัว</a>
+          <a href="#">เงื่อนไขการใช้งาน</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>ช่วยเหลือ</h4>
+          <a href="#">การจัดส่ง</a>
+          <a href="#">การคืนสินค้า</a>
+          <a href="#">คำถามที่พบบ่อย</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>ฝ่ายบริการ</h4>
+          <a href="#">ติดต่อเรา</a>
+          <a href="#">ศูนย์ช่วยเหลือ</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>ติดตามเรา</h4>
+          <div class="social-icons">
+            <i>📘</i>
+            <i>📷</i>
+            <i>▶️</i>
+            <i>🐦</i>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-copy">
+        © 2025 Gift Finder
+      </div>
+
+    </div>
+  </footer>
+
+
+</body>
+</html>
