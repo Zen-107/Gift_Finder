@@ -1,20 +1,70 @@
 html, body {
   height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* หยุด scroll หลักของหน้า */
-  font-family: system-ui, sans-serif;
+  background-color: var(--accent); /*bg-light*/
+  
+}
+
+/* ปุ่ม toggle nav ซ้าย */
+.nav-toggle {
+  width: clamp(32px, 2.5vw, 42px);
+  height: clamp(32px, 2.5vw, 42px);
+  border-radius: 50%;
+  font-size: clamp(1rem, 1.5vw, 1.3rem); /* ขนาดตัวอักษรข้างใน */
+  border-radius: 50%; /* ความกลม */
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  position: sticky;
+  top: 50%;                 /* ตรงกลางแนวตั้ง */
+  
+  margin-left: -15px;  /*ขอบขวาของ aside ซ้าย*/
+  border: 1px solid #ccc;
+  background: #fff;
+  display: flex;
+  z-index: 10; /* ให้ทับคอลัมน์กลาง */
+  transition: 0.2s;
+}
+
+/* ปุ่ม + ลอยในคอลัมน์กลาง (ลอยทับ content และไม่เลื่อนไปกับ main-inner) */
+.floating-add-btn {
+  width: clamp(44px, 3vw, 56px);
+  height: clamp(44px, 3vw, 56px);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: clamp(1.4rem, 2vw, 2rem);
+  align-items: center;
+  justify-content: center;
+  position: absolute; /* อ้างอิงจาก .stories-main */
+  border: 1px solid #ccc;
+  background: #fff;
+  display: flex;
+  z-index:  11; /* ให้ทับ content */
+  
+  bottom: 1.5rem;
+  right: 1.5rem;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+
+/* เวลาปิด sidebar ซ้าย */
+.stories-layout.nav-collapsed .stories-sidebar-left {
+  display: none;
+}
+
+/* ให้ main ขยายเต็มมากขึ้นตอนปิด sidebar ซ้าย */
+.stories-layout.nav-collapsed .stories-main {
+  flex: 1 1 auto;
 }
 
 /* กล่องใหญ่ 3 คอลัมน์ */
 .stories-layout {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1.5rem;
+  margin-top: 0;
+  margin-bottom:0;
   display: flex;
-  gap: 1.5rem;
-
-  height: 100vh;          /* สูงเท่าหน้าจอ */
+  gap: 0rem;
+  height: 99vh;          /* สูงเท่าหน้าจอ */
   box-sizing: border-box;
   overflow: hidden;       /* ไม่ให้ layout ใหญ่สกอร์เอง */
 }
@@ -31,7 +81,6 @@ html, body {
   position: relative;     /* ให้ปุ่ม + ยึดกับกรอบนี้ */
   overflow: hidden;       /* ไม่ให้ตัวกรอบสกอร์เอง */
   display: flex;
-  flex-direction: column;
 }
 
 /* ตัวที่เลื่อนจริงในคอลัมน์กลาง */
@@ -54,23 +103,7 @@ html, body {
   margin-bottom: 1rem;
 }
 
-/* ปุ่ม + ลอยในคอลัมน์กลาง (ลอยทับ content และไม่เลื่อนไปกับ main-inner) */
-.floating-add-btn {
-  position: absolute;   /* อ้างอิงจาก .stories-main */
-  bottom: 1.5rem;
-  right: 1.5rem;
 
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: none;
-  font-size: 1.8rem;
-  cursor: pointer;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
 
 /* เวลาหน้าจอเล็ก → ให้คอลัมน์เรียงลงล่างแทน และกลับไป scroll ทั้งหน้า */
 @media (max-width: 900px) {
