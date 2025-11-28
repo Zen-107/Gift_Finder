@@ -314,6 +314,16 @@ main {
   padding: 0.2rem 0.6rem;
   border-radius: var(--radius);
   font-size: 0.8rem;
+  font-weight: var(--font-weight-medium);
+
+  /* บัวเพิ่ม */
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  text-align: left;
+ 
 }
 
 /* ========== FORM BASICS ========== */
