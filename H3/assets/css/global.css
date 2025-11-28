@@ -280,13 +280,10 @@ main {
   gap: 1.5rem;
 }
 
-<<<<<<< HEAD
-=======
 #popular {
   grid-template-columns: repeat(4, 1fr);
 }
 
->>>>>>> 2045004 (Update global.css)
 .card {
   background: white;
   border-radius: var(--radius);
@@ -332,8 +329,11 @@ main {
   display: inline-block;
   text-align: left;
  
+<<<<<<< HEAD
 =======
 >>>>>>> main
+=======
+>>>>>>> 15801f8 (style: update comment syntax in global.css for consistency)
 }
 
 /* ========== FORM BASICS ========== */
