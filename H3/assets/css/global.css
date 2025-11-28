@@ -274,17 +274,27 @@ main {
 }
 
 /* ========== CARDS ========== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+#popular {
+  grid-template-columns: repeat(4, 1fr);
+}
+
 .card {
-  background: var(--card);
+  background: white;
   border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: 0.2s;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .card img {
@@ -299,8 +309,7 @@ main {
 
 .price {
   color: var(--accent);
-  font-weight: var(--font-weight-bold);
-  font-size: 1.1rem;
+  font-weight: bold;
 }
 
 .badge {
@@ -309,13 +318,6 @@ main {
   padding: 0.2rem 0.6rem;
   border-radius: var(--radius);
   font-size: 0.8rem;
-  font-weight: var(--font-weight-medium);
-  max-width: 100px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: inline-block;
-  text-align: left;
 }
 
 /* ========== FORM BASICS ========== */
