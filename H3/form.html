@@ -5,7 +5,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gift Finder – Form</title>
-  <link rel="stylesheet" href="assets/css/global.css" />
   <link rel="stylesheet" href="assets/css/form.css" />
 </head>
 
@@ -57,10 +56,10 @@
             <label>Budget</label>
             <select name="budget" required>
               <option value="">Select budget</option>
-              <option value="0-500">0–500 THB</option>
-              <option value="500-1000">500–1000 THB</option>
-              <option value="1000-2000">1000–2000 THB</option>
-              <option value="2000+">2000+ THB</option>
+              <option value="1">0–500 THB</option>
+              <option value="2">500–1000 THB</option>
+              <option value="3">1000–3000 THB</option>
+              <option value="4">3000+ THB</option>
             </select>
           </div>
 
@@ -71,38 +70,35 @@
           <div class="col-6">
             <label>Gender</label>
             <select name="gender">
-              <option value="">Any</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
+              <option value="1">Any</option>
+              <option value="2">Male</option>
+              <option value="3">Female</option>
+              <option value="4">Non-binary</option>
             </select>
           </div>
 
           <div class="col-6">
             <label>Age Range</label>
             <select name="age">
-              <option value="">Any</option>
-              <option value="0-3">0–3y</option>
-              <option value="4-6">4–6y</option>
-              <option value="7-12">7-12y</option>
-              <option value="13-18">13–18y</option>
-              <option value="18-25">18–25y</option>
-              <option value="26-35">26–35y</option>
-              <option value="36-50">36–50y</option>
-              <option value="50+">50+</option>
+              <option value="1">Any</option>
+              <option value="2">0–5y</option>
+              <option value="3">6-12y</option>
+              <option value="4">13–19y</option>
+              <option value="5">20–35y</option>
+              <option value="6">36–50y</option>
+              <option value="7">50+</option>
             </select>
           </div>
           <div class="col-6">
             <label>Relationship</label>
             <select name="relationship">
               <option value="">Select</option>
-              <option>Friend</option>
-              <option>Lover / Partner</option>
-              <option>Family</option>
-              <!-- <option>Client / Business</option> -->
-              <!-- <option>Coworkers</option> -->
-              <option>Respectful Adults</option>
-              <option>Patients</option>
-              <option>Self-gift</option>
+              <option value="1"> Friend</option>
+              <option value="2">Lover / Partner</option>
+              <option value="3">Family</option>
+              <option value="4">Respectful Adults</option>
+              <option value="5">Self-gift</option>
+              <option value="6">Guests</option>
 
             </select>
           </div>
@@ -146,7 +142,7 @@
           </div>
 
           <div class="col-12">
-            <button class="btn primary" type="submit">See recommendations</button>
+            <button class="btn" type="submit">See recommendations</button>
           </div>
         </div>
       </form>
@@ -206,20 +202,29 @@
         const res = await fetch("api/check_session.php");
         if (!res.ok) throw new Error("HTTP " + res.status);
 
-        const data = await res.json(); // { loggedIn: true/false, ... }
+        const raw = await res.text();
+        console.log("check_session RAW:", raw);
+
+        let data;
+        try {
+          data = JSON.parse(raw);
+        } catch (e) {
+          console.error("check_session not JSON:", raw);
+          // เช็ค session ไม่ได้ → แสดง Login ไว้ก่อน
+          loginLink.style.display = "inline-block";
+          friendsDropdown.style.display = "none";
+          return;
+        }
 
         if (data.loggedIn) {
-          // ล็อกอินแล้ว → ซ่อน Login, โชว์ Friends
           loginLink.style.display = "none";
           friendsDropdown.style.display = "inline-block";
         } else {
-          // ยังไม่ล็อกอิน → โชว์ Login, ซ่อน Friends
           loginLink.style.display = "inline-block";
           friendsDropdown.style.display = "none";
         }
       } catch (err) {
         console.error("check_session error:", err);
-        // ถ้าเช็ค session ไม่ได้ ให้โชว์ Login ไว้ก่อน
         loginLink.style.display = "inline-block";
         friendsDropdown.style.display = "none";
       }

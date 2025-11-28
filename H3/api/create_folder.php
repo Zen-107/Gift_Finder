@@ -16,6 +16,12 @@ if (!$name) {
     exit;
 }
 
+// ห้ามสร้างชื่อว่า Favorite (ถ้ามีอยู่แล้ว)
+if (strtolower($name) === 'favorite') {
+    echo json_encode(['success' => false, 'message' => 'ไม่สามารถสร้างโฟลเดอร์ชื่อ Favorite ได้']);
+    exit;
+}
+
 try {
     $pdo->beginTransaction();
 

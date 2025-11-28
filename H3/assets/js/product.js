@@ -140,14 +140,32 @@ async function loadManageBookmarkContent(productId, buttonElement) {
         </div>
         <div style="flex: 1; border: 1px solid #ddd; padding: 12px; border-radius: 4px;">
           <h4>รายการบุ๊กมาร์ก</h4>
-          <div id="bookmark-list" style="max-height: 200px; overflow-y: auto;">
-            ${bookmarkedFolders.map(f => `
-              <div style="border: 1px solid #eee; padding: 8px; margin: 8px 0; border-radius: 4px;">
-                <strong>${f.folder_name}</strong>
-                <button onclick="viewFolderContents(${f.folder_id}, '${f.folder_name}')" style="margin-left: 8px; padding: 2px 6px; font-size: 12px;">👁️</button>
-                <button onclick="removeBookmarkFromFolder(${productId}, ${f.folder_id})" style="margin-left: 8px; padding: 2px 6px; font-size: 12px;">❌</button>
-              </div>
-            `).join('')}
+
+
+
+      <div id="bookmark-list" style="max-height: 200px; overflow-y: auto;">
+        ${bookmarkedFolders.map(f => `
+          <div style="border: 1px solid #eee; padding: 8px; margin: 8px 0; border-radius: 4px;">
+            <strong>${f.folder_name}</strong>
+            <button onclick="viewFolderContents(${f.folder_id}, '${f.folder_name}')" style="margin-left: 8px; padding: 2px 6px; font-size: 12px;">👁️</button>
+            ${f.folder_name.toLowerCase() === 'favorite' || f.folder_name.toLowerCase() === 'favorites' ? '' : `<button onclick="removeBookmarkFromFolder(${productId}, ${f.folder_id})" style="margin-left: 8px; padding: 2px 6px; font-size: 12px;">❌</button>`}
+          </div>
+        `).join('')}
+      </div>
+
+
+<div id="folder-selection" style="max-height: 200px; overflow-y: auto;">
+  ${bookmarkedFolders
+    .filter(f => f.folder_name.toLowerCase() !== 'favorite' && f.folder_name.toLowerCase() !== 'favorites')
+    .map(f => `
+      <label style="display: block; margin: 8px 0;">
+        <input type="checkbox" name="folder" value="${f.folder_id}" data-name="${f.folder_name}" checked> ${f.folder_name}
+        <button onclick="removeFolderFromSelection(this)" style="margin-left: 8px; padding: 2px 6px; font-size: 12px;">❌</button>
+      </label>
+    `).join('')}
+
+
+
           </div>
         </div>
       </div>
@@ -244,6 +262,11 @@ async function confirmAddToFolders(productId) {
 
 // ✅ ฟังก์ชันยืนยันลบออกจากโฟลเดอร์
 async function deleteFolder(folderId, folderName) {
+  if (folderName.toLowerCase() === 'favorite' || folderName.toLowerCase() === 'favorites') {
+    alert('ไม่สามารถลบโฟลเดอร์นี้ได้');
+    return;
+  }
+
   if (!confirm(`คุณต้องการลบทั้งโฟลเดอร์ "${folderName}" ใช่หรือไม่?\n(สินค้าทั้งหมดในโฟลเดอร์นี้จะถูกลบออก)`)) {
     return;
   }
@@ -257,7 +280,6 @@ async function deleteFolder(folderId, folderName) {
   const data = await res.json();
   if (data.success) {
     alert('ลบทั้งโฟลเดอร์สำเร็จ');
-    // ✅ รีเฟรชหน้า
     location.reload();
   } else {
     alert('⚠️ ' + data.message);
@@ -343,13 +365,19 @@ function showFolderSelectionModal(folders, onConfirm) {
   modal.innerHTML = `
     <div style="background: white; padding: 20px; border-radius: 8px; width: 400px; max-width: 90%;">
       <h3>เลือกโฟลเดอร์</h3>
-      <div style="max-height: 300px; overflow-y: auto;">
-        ${folders.map(f => `
-          <label style="display: block; margin: 8px 0;">
-            <input type="checkbox" name="folder" value="${f.id}" data-name="${f.name}"> ${f.name}
-            <button onclick="removeFolderFromSelection(this)" style="margin-left: 8px; padding: 2px 6px; font-size: 12px;">❌</button>
-          </label>
-        `).join('')}
+
+
+
+<div style="max-height: 300px; overflow-y: auto;">
+  ${folders.map(f => `
+    <label style="display: block; margin: 8px 0;">
+      <input type="checkbox" name="folder" value="${f.id}" data-name="${f.name}"> ${f.name}
+      ${f.name.toLowerCase() === 'favorite' || f.name.toLowerCase() === 'favorites' ? '' : `<button onclick="removeFolderFromSelection(this)" style="margin-left: 8px; padding: 2px 6px; font-size: 12px;">❌</button>`}
+    </label>
+  `).join('')}
+
+
+
         <label style="display: block; margin: 8px 0;">
           <input type="checkbox" name="folder" value="new" id="new-folder-checkbox"> สร้างโฟลเดอร์ใหม่
         </label>

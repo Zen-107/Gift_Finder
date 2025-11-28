@@ -1,5 +1,5 @@
 <?php
-include 'config.php'; // แน่ใจว่าไฟล์นี้ไม่มี error และไม่พิมพ์อะไร
+include 'config.php';
 
 header('Content-Type: application/json');
 
@@ -9,27 +9,34 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
+$folder_id = intval($_POST['folder_id'] ?? 0);
 
-// แก้ไขตรงนี้เพื่ออ่าน JSON
-$input = json_decode(file_get_contents('php://input'), true);
-$product_id = intval($input['product_id'] ?? 0);
-$folder_id = intval($input['folder_id'] ?? null);
-
-
-if ($product_id <= 0) {
-    http_response_code(400); //case 400: $text = 'Bad Request'
-    echo json_encode(['success' => false, 'message' => 'ID สินค้าไม่ถูกต้อง']);
+if ($folder_id <= 0) {
+    echo json_encode(['success' => false, 'message' => 'ID โฟลเดอร์ไม่ถูกต้อง']);
     exit;
 }
 
-// ลบเฉพาะใน folder ที่ระบุ
-if ($folder_id) {
-    $stmt = $pdo->prepare("DELETE FROM bookmarks WHERE user_id = ? AND product_id = ? AND folder_id = ?");
-    $stmt->execute([$user_id, $product_id, $folder_id]);
-} else {
-    // ถ้าไม่ระบุ folder_id → ลบบุ๊กมาร์กทั้งหมดของสินค้านี้ (ไม่ว่า folder ไหน)
-    $stmt = $pdo->prepare("DELETE FROM bookmarks WHERE user_id = ? AND product_id = ?");
-    $stmt->execute([$user_id, $product_id]);
+// ดึงชื่อโฟลเดอร์
+$stmt = $pdo->prepare("SELECT name FROM bookmark_folders WHERE id = ? AND user_id = ?");
+$stmt->execute([$folder_id, $user_id]);
+$folder = $stmt->fetch();
+
+if (!$folder) {
+    echo json_encode(['success' => false, 'message' => 'โฟลเดอร์ไม่พบหรือคุณไม่มีสิทธิ์']);
+    exit;
 }
 
-echo json_encode(["success" => true, "message" => "ลบบุ๊กมาร์กสำเร็จ"]);
+if (strtolower($folder['name']) === 'favorite') {
+    echo json_encode(['success' => false, 'message' => 'ไม่สามารถลบโฟลเดอร์ Favorite ได้']);
+    exit;
+}
+
+// ลบ folder และ bookmarks ที่อยู่ใน folder นี้
+$stmt = $pdo->prepare("DELETE FROM bookmarks WHERE folder_id = ?");
+$stmt->execute([$folder_id]);
+
+$stmt = $pdo->prepare("DELETE FROM bookmark_folders WHERE id = ? AND user_id = ?");
+$stmt->execute([$folder_id, $user_id]);
+
+echo json_encode(['success' => true, 'message' => 'ลบโฟลเดอร์สำเร็จ']);
+?>

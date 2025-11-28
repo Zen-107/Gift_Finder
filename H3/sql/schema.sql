@@ -171,14 +171,13 @@ INSERT INTO relationships (name, display_name) VALUES
 CREATE TABLE gift_recipients (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(190),
-  relationship_id INT, -- แทน relationship VARCHAR
-  gender_id INT,       -- แทน gender VARCHAR
-  age_range_id INT,    -- แทน age_range VARCHAR
-  budget_id INT,       -- แทน budget VARCHAR
-  category VARCHAR(100), -- ถ้ายังใช้ string ได้ (หรือจะเชื่อมกับ categories ที่มีแล้วก็ได้)
+  relationship_id INT,
+  gender_id INT,
+  age_range_id INT,
+  budget_id INT,
+  category VARCHAR(100),
   user_id INT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY (relationship_id) REFERENCES relationships(id) ON DELETE SET NULL,
   FOREIGN KEY (gender_id) REFERENCES genders(id) ON DELETE SET NULL,

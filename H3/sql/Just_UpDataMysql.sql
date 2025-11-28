@@ -86,18 +86,24 @@ INSERT IGNORE INTO genders (id, name, display_name) VALUES
 (4, 'non_binary', 'Non-binary');
 
 INSERT IGNORE INTO age_ranges (id, name, min_age, max_age, display_name) VALUES
-(1, 'any', 0, 150, 'Any'),
-(2, 'child', 0, 12, 'Child (0-12)'),
-(3, 'teen', 13, 19, 'Teen (13-19)'),
-(4, 'adult', 20, 60, 'Adult (20-60)'),
-(5, 'senior', 61, 150, 'Senior (61+)');
+(1, 'any',    0, 150, 'All Ages'),
+(2, '0-5y',   0, 5,   'Infant & Toddler (0–5)'),
+(3, '6-12y',  6, 12,  'Child (6–12)'),
+(4, '13-19y', 13, 19, 'Teenager (13–19)'),
+(5, '20-35y', 20, 35, 'Young Adult (20–35)'),
+(6, '36-50y', 36, 50, 'Middle-aged Adult (36–50)'),
+(7, '50y+',   51, 150,'Senior (51+)');
+
 
 INSERT IGNORE INTO relationships (id, name, display_name) VALUES
-(1, 'family', 'ครบครัว'),
-(2, 'friend', 'เพื่อน'),
-(3, 'colleague', 'เพื่อนร่วมงาน'),
-(4, 'partner', 'คู่รัก'),
-(5, 'boss', 'เจ้านาย');
+(1, 'Friend', 'เพื่อน'),
+(2, 'Lover / Partner', 'คู่รัก/คนคุย'),
+(3, 'Family', 'ครอบครัว'),
+(4, 'Respectful Adults', 'ผู้ใหญ่ที่เคารพ'),
+(5, 'self-geft', 'ตัวเอง'),
+(6, 'Guests','ลูกค้า/ผู้มาเยือน');
+
+
 
 
 
@@ -107,23 +113,17 @@ DROP TABLE order_items, orders;
 
 -- เพิ่มข้อมูลหมวดหมู่ตแบบไม่ต้องเปลี่ยนแปลงโครงสร้างตาราง
 INSERT INTO categories (name) VALUES
-('ความงามและของใช้ส่วนตัว'),
-('เสื้อผ้าสำหรับผู้ชาย'),
-('กระเป๋า'),
-('รองเท้าผู้หญิง'),
-('นาฬิกาและแว่นตา'),
-('อุปกรณ์อิเล็กทรอนิกส์'),
-('เครื่องใช้ไฟฟ้าภายในบ้าน'),
-('กล้องและอุปกรณ์ถ่ายภาพ'),
-('ของเล่น สินค้าแม่และเด็ก'),
-('สัตว์เลี้ยง'),
-('เสื้อผ้าสำหรับผู้หญิง'),
-('รองเท้าผู้ชาย'),
-('เครื่องประดับ'),
-('เครื่องใช้ในบ้าน'),
-('มือถือ และแท็บเล็ต'),
-('คอมพิวเตอร์และแล็ปท็อป'),
-('อาหารและเครื่องดื่ม'),
-('กีฬาและกิจกรรมกลางแจ้ง'),
-('เกมและอุปกรณ์เสริม'),
-('เครื่องเขียน หนังสือ และงานศิลปะ');
+('Photography'),
+('travel & Outdoors'),
+('Toys & Kids'),
+('Beauty & Personal Care'),
+('Pets'),
+('Food, Drinks & Cooking'),
+('Electronics'),
+('Gaming & Accessories'),
+('Fashion & Jewelry'),
+('Stationery & Books'),
+('Home & Lifestyle'),
+('Health & Supplements'),
+('Art & Music'),
+('DIY & Crafts');

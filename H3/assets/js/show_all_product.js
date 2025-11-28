@@ -1,4 +1,3 @@
-// results.js — แสดงสินค้าทั้งหมดจาก API
 document.addEventListener('DOMContentLoaded', () => {
   const critEl = document.getElementById('criteria');
   const grid = document.getElementById('results');

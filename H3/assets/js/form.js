@@ -2,24 +2,24 @@
 const qsa = (sel, parent = document) => Array.from(parent.querySelectorAll(sel));
 
 const FORM_KEY = "gf_criteria";
-const RECIPIENTS_KEY = "gf_recipients";
+// const RECIPIENTS_KEY = "gf_recipients";
 
 // เก็บว่า user คลิกเลือกเพื่อนคนไหน (สำหรับแก้ไข)
 let currentFriendId = null;
 
 // ดึงรายชื่อบุคคลสำคัญจาก localStorage
-function loadRecipients() {
-  try {
-    return JSON.parse(localStorage.getItem(RECIPIENTS_KEY)) || [];
-  } catch (e) {
-    return [];
-  }
-}
+// function loadRecipients() {
+//   try {
+//     return JSON.parse(localStorage.getItem(RECIPIENTS_KEY)) || [];
+//   } catch (e) {
+//     return [];
+//   }
+// }
 
 // เซฟ list บุคคลสำคัญลง localStorage
-function saveRecipients(list) {
-  localStorage.setItem(RECIPIENTS_KEY, JSON.stringify(list));
-}
+// function saveRecipients(list) {
+//   localStorage.setItem(RECIPIENTS_KEY, JSON.stringify(list));
+// }
 
 // ---------------------------------------------------------
 // สร้างปุ่ม interests ให้กดได้จริง
@@ -92,22 +92,23 @@ function applyFriendToForm(friend) {
 // ---------------------------------------------------------
 // บันทึกข้อมูลโปรไฟล์ไปยัง server (php)
 // ---------------------------------------------------------
-async function saveProfileToServer(criteria, extraFields = {}) {
+// ---------------------------------------------------------
+// บันทึกข้อมูลโปรไฟล์ไปยัง server (php)
+// ---------------------------------------------------------
+async function saveProfileToServer(criteria) {
   const formData = new FormData();
 
   formData.append("name", criteria.name || "");
-  formData.append("gender", criteria.gender || "");
-  formData.append("age", criteria.age || "");
-  formData.append("relationship", criteria.relationship || "");
+  formData.append("gender_id", criteria.gender || "");
+  formData.append("age_range_id", criteria.age || "");
+  formData.append("relationship_id", criteria.relationship || "");
+  formData.append("budget_id", criteria.budget || "");
 
-  // interest[]
+  // interests[]
   if (Array.isArray(criteria.interests)) {
-    criteria.interests.forEach((i) => formData.append("interests[]", i));
-  }
-
-  // personality[]
-  if (Array.isArray(criteria.personality)) {
-    criteria.personality.forEach((p) => formData.append("personality[]", p));
+    criteria.interests.forEach((i) => {
+      formData.append("interests[]", i);
+    });
   }
 
   // ถ้าแก้เพื่อนเดิม → ส่ง id ไปด้วย
@@ -115,20 +116,35 @@ async function saveProfileToServer(criteria, extraFields = {}) {
     formData.append("recipient_id", currentFriendId);
   }
 
-  // extra fields (ถ้ามี)
-  Object.entries(extraFields).forEach(([key, value]) => {
-    formData.append(key, value ?? "");
-  });
-
   try {
     const res = await fetch("api/save_recipient.php", {
       method: "POST",
       body: formData,
     });
-    const json = await res.json();
+
+    // อ่านเป็น text ก่อน เพื่อดูว่า PHP ส่งอะไรมาจริง ๆ
+    const raw = await res.text();
+    console.log("save_recipient RAW:", raw);
+
+    let json;
+    try {
+      json = JSON.parse(raw);
+    } catch (e) {
+      // ถ้า parse ไม่ได้ แสดงว่า server ส่ง HTML error กลับมา
+      alert("❌ เซิร์ฟเวอร์ตอบกลับไม่ใช่ JSON\n\n" + raw);
+      return;
+    }
+
     console.log("save_recipient result", json);
+
+    if (!json || json.status !== "ok") {
+      alert("❌ บันทึกบุคคลสำคัญไม่สำเร็จ: " + (json.message || "unknown error"));
+      return;
+    }
+
   } catch (err) {
     console.error("Error saving recipient to server", err);
+    alert("❌ มีปัญหาในการเชื่อมต่อเซิร์ฟเวอร์");
   }
 }
 
@@ -136,40 +152,57 @@ async function saveProfileToServer(criteria, extraFields = {}) {
 // โหลดรายชื่อเพื่อนจาก server → ใส่ dropdown
 // ---------------------------------------------------------
 async function loadRecipientsFromServer() {
-  const res = await fetch("api/get_recipients.php");
-  const list = await res.json();
+  try {
+    const res = await fetch("api/get_recipients.php");
+    const raw = await res.text();
+    console.log("get_recipients RAW:", raw);
 
-  const container = document.getElementById("recipient-list");
-  container.innerHTML = list
-    .map(
-      (r) => `
-    <a class="friend-tab"
-       data-id="${r.id}"
-       data-name="${r.name || ''}"
-       data-gender="${r.gender || ''}"
-       data-age="${r.age_range || ''}"
-       data-relationship="${r.relationship || ''}">
-       <img src="assets/img/default-avatar.png">
-       <span>${r.name || "(No name)"} </span>
-    </a>
-  `
-    )
-    .join("");
+    let list;
+    try {
+      list = JSON.parse(raw);
+    } catch (e) {
+      alert("❌ get_recipients.php ส่งกลับมาไม่ใช่ JSON\n\n" + raw);
+      return;
+    }
 
-  // ผูก event → คลิกแล้วเติมฟอร์ม
-  container.querySelectorAll(".friend-tab").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const d = tab.dataset;
-      applyFriendToForm({
-        id: d.id,
-        name: d.name,
-        gender: d.gender,
-        age: d.age,
-        relationship: d.relationship,
+    const container = document.getElementById("recipient-list");
+    container.innerHTML = list
+      .map(
+        (r) => `
+      <a class="friend-tab"
+         data-id="${r.id}"
+         data-name="${r.name || ""}"
+         data-gender="${r.gender_id || ""}"
+         data-age="${r.age_range_id || ""}"
+         data-relationship="${r.relationship_id || ""}">
+         <img src="assets/img/default-avatar.png">
+         <span>${r.name || "(No name)"} </span>
+      </a>
+    `
+      )
+      .join("");
+
+    container.querySelectorAll(".friend-tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const d = tab.dataset;
+        applyFriendToForm({
+          id: d.id,
+          name: d.name,
+          gender: d.gender,
+          age: d.age,
+          relationship: d.relationship,
+        });
       });
     });
-  });
+  } catch (err) {
+    console.error("Error loading recipients:", err);
+  }
 }
+
+
+
+
+
 
 // ---------------------------------------------------------
 // Event: ตอนโหลดหน้า
@@ -189,9 +222,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const selectedInterests = qsa("#interests input:checked").map(
       (i) => i.value
     );
-    const selectedPersonality = qsa("#personality input:checked").map(
-      (i) => i.value
-    );
 
     const criteria = {
       budget: data.get("budget") || "",
@@ -200,32 +230,27 @@ document.addEventListener("DOMContentLoaded", () => {
       age: data.get("age") || "",
       relationship: data.get("relationship") || "",
       interests: selectedInterests,
-      personality: selectedPersonality,
-      reason: data.get("reason") || "",
     };
 
-    // ต้องบันทึกโปรไฟล์ไหม?
     const saveProfile = data.get("save_profile") === "on";
 
     if (saveProfile) {
-      const recipients = loadRecipients();
-      recipients.push({
-        id: Date.now(),
-        name: criteria.name,
-        gender: criteria.gender,
-        age: criteria.age,
-        relationship: criteria.relationship,
-        interests: criteria.interests,
-        personality: criteria.personality,
-        created_at: new Date().toISOString(),
-      });
-      saveRecipients(recipients);
-
+      // ✅ บันทึกลง server
       await saveProfileToServer(criteria);
+
+      // ✅ รีโหลดรายชื่อเพื่อนใหม่ทันที
+      await loadRecipientsFromServer();
+
+      // ✅ เคลียร์ currentFriendId (เตรียมเพิ่มคนใหม่รอบหน้า)
+      currentFriendId = null;
+
+      // ✅ แจ้งผู้ใช้
+      alert("✅ บันทึกบุคคลสำคัญเรียบร้อยแล้ว");
     }
 
-    // ส่ง criteria ไปรัน results.html
+    // ✅ ค่อยไปหน้า results ทีหลัง
     sessionStorage.setItem(FORM_KEY, JSON.stringify(criteria));
     window.location.href = "results.html";
   });
+
 });
