@@ -280,6 +280,13 @@ main {
   gap: 1.5rem;
 }
 
+<<<<<<< HEAD
+=======
+#popular {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+>>>>>>> 2045004 (Update global.css)
 .card {
   background: white;
   border-radius: var(--radius);
@@ -314,6 +321,7 @@ main {
   padding: 0.2rem 0.6rem;
   border-radius: var(--radius);
   font-size: 0.8rem;
+<<<<<<< HEAD
   font-weight: var(--font-weight-medium);
 
   /* บัวเพิ่ม */
@@ -324,6 +332,8 @@ main {
   display: inline-block;
   text-align: left;
  
+=======
+>>>>>>> main
 }
 
 /* ========== FORM BASICS ========== */
