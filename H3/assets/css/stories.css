@@ -69,13 +69,90 @@ html,body {
 
 /* คอลัมน์ซ้าย */
 .stories-sidebar-left {
- width: 260px;
-  overflow-y: auto;       /* สกอร์ของตัวเอง */
+  overflow-wrap: anywhere;
+  width: 260px;
+  overflow-y: auto;      /* สกอร์ของตัวเอง */
+  background-color: rgb(209, 209, 209);
 }
-.stories-nav{
+
+/* กล่องเมนูด้านซ้ายแบบ YouTube */
+.stories-sidebar-nav {
+  padding: 0.5rem 0;
+}
+
+/* ลิสต์หลัก */
+.yt-nav-list {
+  list-style: none;   /* ไม่มีจุด */
+  margin: 0;
+  padding: 0;
+}
+
+/* แต่ละรายการเมนู */
+.yt-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  /* ความสูงแถวแบบ YouTube */
+  height: 40px;
+  padding: 0 12px;
+
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  color: #0f0f0f;
+  font-weight: 400;
+
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* Hover แบบ YouTube */
+.yt-nav-link:hover {
+  background: #f2f2f2;
+}
+
+/* ลิงก์หลัก (New Story) ให้เด่นขึ้นนิดหน่อยก็ได้ */
+.yt-nav-link--primary {
+  font-weight: 500;
+}
+
+/* สถานะหน้าใช้งาน (เหมือนเมนู Active ใน YouTube) */
+.yt-nav-link.is-active {
+  background: #e5e5e5;
+  font-weight: 500;
+}
+
+
+/* .stories-nav{
+  padding: 0.5rem 0;
+  list-style: none; 
+  max-width: 100%;
   padding-left: 1rem;
   min-height: 70%;
+  overflow-x: hidden;
+   display: block;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  background: transparent;
+  transition: background 0.2s, transform 0.1s;
 }
+
+.stories-nav li a:hover {
+  background: rgba(0, 102, 255, 0.08);
+  transform: translateX(3px);
+  color: var(--primary);
+}
+
+hr {
+  width: 70%;
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 2rem auto;
+} */
+
 
 
 /* คอลัมน์กลาง (กรอบ) */
@@ -115,7 +192,7 @@ html,body {
   }
 
   .stories-layout {
-    flex-direction: column;
+    flex-direction: column-reverse;
     height: auto;
     overflow: visible;
   }
