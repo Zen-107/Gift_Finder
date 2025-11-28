@@ -66,7 +66,7 @@ main {
 
 .navbar a {
   color: white;
-  margin: 0 1rem;
+  margin: 0 0.05rem;
   text-decoration: none;
   font-weight: 500;
 }
@@ -340,7 +340,7 @@ select:focus {
 .profile-dropdown a,
 .profile-dropdown button {
   display: block;
-  padding: 8px 16px;
+  padding: 12px 20px;
   text-decoration: none;
   border: none;
   background: none;
