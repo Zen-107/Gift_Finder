@@ -75,19 +75,61 @@ function renderInterests() {
 // ---------------------------------------------------------
 // เวลา user คลิกชื่อเพื่อน → เติมข้อมูลลงฟอร์ม
 // ---------------------------------------------------------
-function applyFriendToForm(friend) {
+function applyFriendToForm(friend = {}) {
   currentFriendId = friend.id || null;
 
   const nameInput = document.querySelector('input[name="name"]');
   const genderSel = document.querySelector('select[name="gender"]');
   const ageSel = document.querySelector('select[name="age"]');
   const relSel = document.querySelector('select[name="relationship"]');
+  const budgetSel = document.querySelector('select[name="budget"]');
+  const recIdInput = document.getElementById("recipient_id");
+  const deleteBtn = document.getElementById("deleteFriendBtn");
 
   if (nameInput) nameInput.value = friend.name || "";
-  if (genderSel && friend.gender) genderSel.value = friend.gender;
-  if (ageSel && friend.age) ageSel.value = friend.age;
-  if (relSel && friend.relationship) relSel.value = friend.relationship;
+  if (genderSel) genderSel.value = friend.gender ? String(friend.gender) : "";
+  if (ageSel) ageSel.value = friend.age ? String(friend.age) : "";
+  if (relSel) relSel.value = friend.relationship ? String(friend.relationship) : "";
+  if (budgetSel) budgetSel.value = friend.budget ? String(friend.budget) : "";
+  if (recIdInput) recIdInput.value = currentFriendId || "";
+
+  if (deleteBtn) {
+    deleteBtn.style.display = currentFriendId ? "inline-block" : "none";
+  }
 }
+// ---------------------------------------------------------
+// โหลดข้อมูลเพื่อน 1 คนจาก server แล้วเติมลงฟอร์ม
+// ---------------------------------------------------------
+async function loadRecipientFromServer(id) {
+  try {
+    const res = await fetch(`api/get_recipient.php?id=${encodeURIComponent(id)}`);
+    const raw = await res.text();
+    console.log("get_recipient RAW:", raw);
+
+    let data;
+    try {
+      data = JSON.parse(raw);
+    } catch (e) {
+      console.error("get_recipient not JSON", e, raw);
+      return;
+    }
+
+    if (!data) return;
+
+    applyFriendToForm({
+      id: data.id,
+      name: data.name,
+      gender: data.gender,
+      age: data.age_range,
+      relationship: data.relationship,
+      budget: data.budget,
+    });
+  } catch (err) {
+    console.error("loadRecipientFromServer error", err);
+  }
+}
+
+
 
 // ---------------------------------------------------------
 // บันทึกข้อมูลโปรไฟล์ไปยัง server (php)
@@ -116,6 +158,9 @@ async function saveProfileToServer(criteria, extraFields = {}) {
   Object.entries(extraFields).forEach(([key, value]) => {
     formData.append(key, value ?? "");
   });
+  if (currentFriendId) {
+    formData.append("recipient_id", currentFriendId);
+  }
 
   try {
     const res = await fetch("api/save_recipient.php", {
@@ -174,7 +219,15 @@ async function loadRecipientsFromServer() {
       return;
     }
 
+    // ✅ กัน error: ถ้าไม่ใช่ array ให้เปลี่ยนเป็น []
+    if (!Array.isArray(list)) {
+      console.warn("get_recipients: expected array but got", list);
+      list = [];
+    }
+
     const container = document.getElementById("recipient-list");
+    if (!container) return;
+
     container.innerHTML = list
       .map(
         (r) => `
@@ -213,12 +266,63 @@ async function loadRecipientsFromServer() {
 
 
 
+
 // ---------------------------------------------------------
 // Event: ตอนโหลดหน้า
 // ---------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
   renderInterests();
   loadRecipientsFromServer();
+  const params = new URLSearchParams(window.location.search);
+  const ridFromUrl = params.get("recipient_id");
+  if (ridFromUrl) {
+    loadRecipientFromServer(ridFromUrl);
+  }
+
+  const deleteBtn = document.getElementById("deleteFriendBtn");
+  if (deleteBtn) {
+    deleteBtn.addEventListener("click", async () => {
+      if (!currentFriendId) {
+        alert("ยังไม่ได้เลือกบุคคลสำคัญ");
+        return;
+      }
+      if (!confirm("ต้องการลบบุคคลสำคัญคนนี้หรือไม่?")) return;
+
+      try {
+        const fd = new FormData();
+        fd.append("recipient_id", currentFriendId);
+        const res = await fetch("api/delete_recipient.php", {
+          method: "POST",
+          body: fd,
+        });
+        const raw = await res.text();
+        console.log("delete_recipient RAW:", raw);
+
+        let json;
+        try {
+          json = JSON.parse(raw);
+        } catch (e) {
+          alert("เซิร์ฟเวอร์ตอบกลับไม่ใช่ JSON\n\n" + raw);
+          return;
+        }
+
+        if (json.status === "ok") {
+          alert("ลบบุคคลสำคัญเรียบร้อยแล้ว ✅");
+
+          // ✅ กลับไปหน้า index ทันที
+          window.location.href = "index.html";
+        }
+        else {
+          alert("ลบไม่สำเร็จ: " + (json.message || "ไม่ทราบสาเหตุ"));
+        }
+
+      } catch (err) {
+        console.error("delete_recipient error", err);
+        alert("ลบไม่สำเร็จ (ปัญหาการเชื่อมต่อ)");
+      }
+    });
+  }
+
 
   const form = document.getElementById("gift-form");
 

@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const profileToggle = document.getElementById("profileToggle");
   const profileDropdown = document.getElementById("profileDropdown");
   const logoutBtn = document.getElementById("logoutBtn");
+  loadFriendDropdown();
 
   // ถ้าไม่มีองค์ประกอบพวกนี้ในหน้านี้ (เช่น หน้า login.html) ให้ออกเลย
   if (!loginLink || !profileMenu || !profileToggle || !profileDropdown || !logoutBtn) {
@@ -148,4 +149,43 @@ document.addEventListener('DOMContentLoaded', async () => {
     loginLink.href = "login.html";
     profileMenu.style.display = "none";
   }
+  async function loadFriendDropdown() {
+    try {
+      const res = await fetch("api/get_recipients.php");
+      const raw = await res.text();
+      console.log("HEADER get_recipients RAW:", raw);
+
+      let list = [];
+      try {
+        list = JSON.parse(raw);
+      } catch (e) {
+        console.error("parse JSON error:", e);
+        return;
+      }
+
+      if (!Array.isArray(list)) list = [];
+
+      const select = document.getElementById("friend-select");
+      if (!select) return;
+
+      // เคลียร์ของเก่า
+      select.innerHTML = `
+      <option value="">-- เลือกบุคคลสำคัญ --</option>
+    `;
+
+      // เติมรายชื่อใหม่จาก DB
+      select.innerHTML += list
+        .map(
+          (r) => `
+        <option value="${r.id}">
+          ${r.name || "(ไม่มีชื่อ)"}
+        </option>
+      `
+        )
+        .join("");
+    } catch (err) {
+      console.error("Error loading friend dropdown:", err);
+    }
+  }
+
 });

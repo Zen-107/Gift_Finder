@@ -91,13 +91,6 @@
       </div>
     </section>
 
-    <section class="section">
-      <div class="container">
-        <h2>Popular Stories</h2>
-        <div id="popular-stories" class="grid cards"></div>
-      </div>
-     </section>
-
   </main>
 
   <footer class="footer">
@@ -144,7 +137,6 @@
   </footer>
 
   <script src="assets/js/app.js"></script>
-  <script src="assets/js/data.js"></script>
   <script src="assets/js/header.js"></script>
 
   <script>
@@ -211,26 +203,6 @@
     });
   </script>
   <script src="assets/js/header.js"></script>
-
-<!-- ========== POPULAR STORIES ดึงข้อมูลจาก data.js ชั่วคราว ========== -->
-<script> document.addEventListener('DOMContentLoaded', () => {
-            const storiesContainer = document.getElementById('popular-stories');
-            if (storiesContainer && POSTS) {
-                const stories = POSTS.slice(0, 3); // ✅ เอาแค่ 3 รายการแรก
-                storiesContainer.innerHTML = stories.map(post => `
-    <div class="card">
-      <a href="blog-post.html?slug=${post.slug}" style="display: block; text-decoration: none; color: inherit;">
-        <img src="${post.image}" alt="${post.title}">
-        <div class="card-body">
-          <div class="product-title">${post.title}</div>
-          <div class="excerpt">${post.excerpt}</div>
-        </div>
-      </a>
-    </div>
-  `).join('');
-            }
-  });
-  </script>
 
 
 </body>

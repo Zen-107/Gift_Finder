@@ -17,12 +17,12 @@ if (empty($_SESSION['user_id'])) {
 
 $userId = (int) $_SESSION['user_id'];
 
-$name         = trim($_POST['name'] ?? '');
-$gender       = $_POST['gender'] ?? null;
-$ageRange     = $_POST['age'] ?? null;
-$relationship = $_POST['relationship'] ?? null;
-$budget       = $_POST['budget'] ?? null;        // ถ้าอยากใช้ budget ด้วย
-$rid          = !empty($_POST['recipient_id']) ? (int)$_POST['recipient_id'] : null;
+$name            = trim($_POST['name'] ?? '');
+$genderId        = isset($_POST['gender'])       && $_POST['gender']       !== '' ? (int)$_POST['gender']       : null;
+$ageRangeId      = isset($_POST['age'])          && $_POST['age']          !== '' ? (int)$_POST['age']          : null;
+$relationshipId  = isset($_POST['relationship']) && $_POST['relationship'] !== '' ? (int)$_POST['relationship'] : null;
+$budgetId        = isset($_POST['budget'])       && $_POST['budget']       !== '' ? (int)$_POST['budget']       : null;
+$rid             = !empty($_POST['recipient_id']) ? (int)$_POST['recipient_id'] : null;
 
 try {
     if ($pdo instanceof PDO) {
@@ -59,26 +59,26 @@ try {
 
     // ❷ ไม่ซ้ำ → update หรือ insert ตามปกติ
     if ($rid) {
-        // UPDATE friend เดิม
+        // UPDATE friend เดิม ให้ใช้ *_id ให้ตรง schema
         $sql = "
             UPDATE gift_recipients
             SET
-                name         = :name,
-                gender       = :gender,
-                age_range    = :age_range,
-                relationship = :relationship,
-                budget       = :budget
+                name            = :name,
+                gender_id       = :gender_id,
+                age_range_id    = :age_range_id,
+                relationship_id = :relationship_id,
+                budget_id       = :budget_id
             WHERE id = :id AND user_id = :user_id
         ";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
-            ':name'         => $name ?: null,
-            ':gender'       => $gender ?: null,
-            ':age_range'    => $ageRange ?: null,
-            ':relationship' => $relationship ?: null,
-            ':budget'       => $budget ?: null,
-            ':id'           => $rid,
-            ':user_id'      => $userId,
+            ':name'            => $name ?: null,
+            ':gender_id'       => $genderId,
+            ':age_range_id'    => $ageRangeId,
+            ':relationship_id' => $relationshipId,
+            ':budget_id'       => $budgetId,
+            ':id'              => $rid,
+            ':user_id'         => $userId,
         ]);
 
         echo json_encode([
@@ -88,21 +88,21 @@ try {
         ], JSON_UNESCAPED_UNICODE);
 
     } else {
-        // INSERT friend ใหม่
+        // INSERT friend ใหม่ ให้ใช้ *_id ให้ตรง schema
         $sql = "
             INSERT INTO gift_recipients
-                (user_id, name, gender, age_range, relationship, budget)
+                (user_id, name, gender_id, age_range_id, relationship_id, budget_id)
             VALUES
-                (:user_id, :name, :gender, :age_range, :relationship, :budget)
+                (:user_id, :name, :gender_id, :age_range_id, :relationship_id, :budget_id)
         ";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
-            ':user_id'      => $userId,
-            ':name'         => $name ?: null,
-            ':gender'       => $gender ?: null,
-            ':age_range'    => $ageRange ?: null,
-            ':relationship' => $relationship ?: null,
-            ':budget'       => $budget ?: null,
+            ':user_id'         => $userId,
+            ':name'            => $name ?: null,
+            ':gender_id'       => $genderId,
+            ':age_range_id'    => $ageRangeId,
+            ':relationship_id' => $relationshipId,
+            ':budget_id'       => $budgetId,
         ]);
 
         $newId = (int)$pdo->lastInsertId();
