@@ -77,6 +77,16 @@ label {
   gap: 10px;
 }
 
+#interests {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+
+}
+
+
+
+
 .pill {
   border: 1px solid #e4e7ee;
   padding: 8px 12px;
@@ -88,9 +98,9 @@ label {
   transition: all 0.2s;
 }
 
-.pill input {
+/* .pill input {
   display: none;
-}
+} */
 
 .pill:hover {
   background: #f8f9ff;

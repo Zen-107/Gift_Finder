@@ -26,51 +26,43 @@ let currentFriendId = null;
 // ---------------------------------------------------------
 function renderInterests() {
   const target = document.getElementById("interests");
-  const unique = [
 
-    "Sports & Outdoors",
-
+  // ✅ ใช้หมวดหมู่สินค้าแทน
+  const categories = [
+    "Travel & Outdoors",
     "Toys & Kids",
-
     "Beauty & Personal Care",
-
     "Pets",
-
     "Food, Drinks & Cooking",
-
     "Electronics",
-
     "Gaming & Accessories",
-
     "Fashion & Jewelry",
-
     "Stationery & Books",
-
     "Home & Lifestyle",
-
     "Health & Supplements",
-
     "Art & Music",
-
-    "DIY & Crafts",
+    "DIY & Crafts"
   ];
 
-  target.innerHTML = unique
+  // สร้าง checkbox เป็น pill
+  target.innerHTML = categories
     .map(
-      (v) => `
-      <label class="pill">
-        <input type="checkbox" value="${v}" />
-        ${v}
-      </label>
-    `
+      (name) => `
+        <label class="pill">
+          <input type="checkbox" value="${name}" />
+          ${name}
+        </label>
+      `
     )
     .join("");
 
+  // toggle class active เวลา click
   target.addEventListener("click", (e) => {
     const pill = e.target.closest(".pill");
     if (pill) pill.classList.toggle("active");
   });
 }
+
 
 // ---------------------------------------------------------
 // เวลา user คลิกชื่อเพื่อน → เติมข้อมูลลงฟอร์ม
