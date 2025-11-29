@@ -28,30 +28,30 @@ async function loadBookmarkStatus(productId) {
   }
 }
 
-async function getOrCreateFavoriteFolder(userId){
+async function getOrCreateFavoriteFolder(userId) {
   try {
     const res = await fetch('/H3/api/get_folder_by_name.php', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ user_id: userId, name: 'Favorites' })
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: userId, name: 'Favorites' })
     });
     const data = await res.json();
-    if(data.success && data.folder){
+    if (data.success && data.folder) {
       return data.folder.id;
-    }else{
+    } else {
       const createRes = await fetch('/H3/api/create_folder.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_id: userId, name: 'Favorites' })
       });
       const createData = await createRes.json();
-      if(createData.success){
+      if (createData.success) {
         return createData.folder_id;
-      }else{
+      } else {
         throw new Error(createData.message || 'ไม่สามารถสร้างโฟลเดอร์ Favorites ได้');
       }
     }
-  }catch(e){
+  } catch (e) {
     console.error('Error in getOrCreateFavoriteFolder:', e);
     throw e;
   }
@@ -156,8 +156,8 @@ async function loadManageBookmarkContent(productId, buttonElement) {
 
 <div id="folder-selection" style="max-height: 200px; overflow-y: auto;">
   ${bookmarkedFolders
-    .filter(f => f.folder_name.toLowerCase() !== 'favorite' && f.folder_name.toLowerCase() !== 'favorites')
-    .map(f => `
+        .filter(f => f.folder_name.toLowerCase() !== 'favorite' && f.folder_name.toLowerCase() !== 'favorites')
+        .map(f => `
       <label style="display: block; margin: 8px 0;">
         <input type="checkbox" name="folder" value="${f.folder_id}" data-name="${f.folder_name}" checked> ${f.folder_name}
         <button onclick="removeFolderFromSelection(this)" style="margin-left: 8px; padding: 2px 6px; font-size: 12px;">❌</button>
@@ -508,7 +508,7 @@ async function toggleBookmark(productId, buttonElement) {
 
 document.addEventListener('DOMContentLoaded', async () => { // ✅ เพิ่ม async ที่นี่
   const id = Number(getQueryParam('id'));
-  
+
   if (!id) {
     document.getElementById('product').innerHTML = '<div class="empty">Product not found.</div>';
     return;
@@ -599,7 +599,7 @@ document.addEventListener('DOMContentLoaded', async () => { // ✅ เพิ่�
 
   } catch (error) {
     console.error('❌ Error:', error);
-    document.getElementById('product').innerHTML = 
+    document.getElementById('product').innerHTML =
       `<div class="empty">เกิดข้อผิดพลาด: ${error.message}</div>`;
   }
 });
