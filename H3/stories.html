@@ -151,7 +151,8 @@
           <p class="story-excerpt">
             เล่าโมเมนต์ตอนเตรียมเค้ก ทำของขวัญเอง และแอบซ่อนของไว้ในครัว...
           </p>
-          <a href="#" class="story-link">View post</a>
+          <a href="story-view.html" class="story-link">View post</a>
+
         </article>
       </section>
 
@@ -176,7 +177,7 @@
           <p class="story-excerpt">
             จริง ๆ แล้วเป็นของเล็ก ๆ ที่ตั้งใจมากกว่าราคา เลยอยากมาแชร์ไอเดีย...
           </p>
-          <a href="#" class="story-link">View post</a>
+          <a href="story-view.html" class="story-link">View post</a>
           <div class="story-actions">
             <button>❤️ 120</button>
             <button>💬 8</button>
@@ -184,35 +185,7 @@
           </div>
         </article>
 
-        <article class="story-card">
-          <img src="cover2.jpg" alt="" class="story-cover">
-          <h3 class="story-title">ของขวัญชิ้นแรกที่ให้แฟน</h3>
-          <p class="story-meta">by Mew · 5 hours ago</p>
-          <p class="story-excerpt">
-            จริง ๆ แล้วเป็นของเล็ก ๆ ที่ตั้งใจมากกว่าราคา เลยอยากมาแชร์ไอเดีย...
-          </p>
-          <a href="#" class="story-link">View post</a>
-          <div class="story-actions">
-            <button>❤️ 120</button>
-            <button>💬 8</button>
-            <button>↗ Share</button>
-          </div>
-        </article>
-
-        <article class="story-card">
-          <img src="cover2.jpg" alt="" class="story-cover">
-          <h3 class="story-title">ของขวัญชิ้นแรกที่ให้แฟน</h3>
-          <p class="story-meta">by Mew · 5 hours ago</p>
-          <p class="story-excerpt">
-            จริง ๆ แล้วเป็นของเล็ก ๆ ที่ตั้งใจมากกว่าราคา เลยอยากมาแชร์ไอเดีย...
-          </p>
-          <a href="#" class="story-link">View post</a>
-          <div class="story-actions">
-            <button>❤️ 120</button>
-            <button>💬 8</button>
-            <button>↗ Share</button>
-          </div>
-        </article>
+        
 
         <!-- การ์ดอื่น ๆ -->
       </section>
@@ -388,6 +361,17 @@
     </aside>
 
   </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const composer = document.querySelector('.composer-input');
+    if (composer) {
+      composer.addEventListener('click', () => {
+        window.location.href = 'story-new.html';
+      });
+    }
+  });
+</script>
 <script src="assets/js/header.js"></script>
 
 </body>
