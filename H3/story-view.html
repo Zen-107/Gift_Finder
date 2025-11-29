@@ -1,0 +1,210 @@
+<!-- story-view.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gift Finder | Story Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="assets/css/global.css" />
+  <link rel="stylesheet" href="assets/css/stories.css" />
+
+  <link rel="stylesheet" href="assets/css/story-view.css">
+</head>
+<body> 
+  <header class="navbar">
+    <div class="container nav-content">
+      <a class="logo" href="index.html">🎁 Gift Finder</a>
+    </div>
+  </header>
+
+<div class="story-top-bar">
+    <a href="stories.html" class="back-link">← Back to Stories</a>
+  </div>
+
+  <main class="story-view-container">
+    <article class="story-card" data-story-id="first-gift-for-friend">
+      <header class="story-meta">
+        <h2 class="story-title">How I Found the Perfect Gift</h2>
+        <div class="story-meta-row">
+          <span class="story-author">by <strong>Naai</strong></span>
+          <span class="story-date">27 November 2025</span>
+        </div>
+        <div class="story-tags">
+          <span class="tag">🎁 Birthday</span>
+          <span class="tag">Budget: 500–1000</span>
+          <span class="tag">For: Best Friend</span>
+        </div>
+      </header>
+
+      <figure class="story-cover">
+        <img src="assets/images/sample-story.jpg" alt="Gift story cover">
+      </figure>
+
+      <section class="story-content">
+        <p>
+          I always struggle to find gifts, but this time I tried using our Gift Finder
+          filters to narrow down budget, interest, and personality…
+        </p>
+        <p>
+          First, I listed three things my friend really loves: coffee, journaling,
+          and cute stationery. Then I…
+        </p>
+        <p>
+          <!-- ตรงนี้ให้ใส่เนื้อเรื่องจริงของโปรเจกต์ -->
+        </p>
+      </section>
+
+      <footer class="story-actions">
+        <button class="btn-icon js-like-btn">
+          <span class="icon">♡</span>
+          <span class="label">Like</span>
+        </button>
+
+        <button class="btn-icon js-save-btn">
+          <span class="icon">★</span>
+          <span class="label">Save</span>
+        </button>
+
+        <button class="btn-icon js-share-btn">
+          <span class="icon">⤴</span>
+          <span class="label">Share</span>
+        </button>
+      </footer>
+    </article>
+
+    <!-- ถ้าอยากมีส่วนแนะนำ story อื่น -->
+    <aside class="story-suggestions">
+      <h3>More stories</h3>
+      <ul class="story-suggestions-list">
+        <li><a href="#">Last-minute gift for dad</a></li>
+        <li><a href="#">Secret Santa on a tiny budget</a></li>
+        <li><a href="#">Choosing a gift for someone you barely know</a></li>
+      </ul>
+    </aside>
+  </main>
+
+  <!-- ✅ JS รวม logic like/save (ตอนนี้ใส่ในไฟล์นี้ก่อน) -->
+  <script>
+    // ====== CONFIG เล็ก ๆ ======
+    const STORAGE_KEY = 'gf_story_actions'; // เก็บ like/save ของทุก story ใน localStorage
+
+    function loadStoryActions() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) {
+        console.error('Cannot read story actions from storage', e);
+        return {};
+      }
+    }
+
+    function saveStoryActions(actions) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(actions));
+      } catch (e) {
+        console.error('Cannot save story actions', e);
+      }
+    }
+
+    // actions[storyId] = { liked: true/false, saved: true/false }
+    function getStoryState(storyId) {
+      const all = loadStoryActions();
+      return all[storyId] || { liked: false, saved: false };
+    }
+
+    function setStoryState(storyId, newState) {
+      const all = loadStoryActions();
+      all[storyId] = newState;
+      saveStoryActions(all);
+    }
+
+    // ====== UI helper ======
+    function updateButtonState(button, isActive) {
+      if (!button) return;
+      button.classList.toggle('is-active', isActive);
+
+      // เปลี่ยน icon แบบง่าย ๆ
+      const iconSpan = button.querySelector('.icon');
+      const labelSpan = button.querySelector('.label');
+
+      if (button.classList.contains('js-like-btn')) {
+        if (iconSpan) iconSpan.textContent = isActive ? '❤' : '♡';
+        if (labelSpan) labelSpan.textContent = isActive ? 'Liked' : 'Like';
+      }
+
+      if (button.classList.contains('js-save-btn')) {
+        if (iconSpan) iconSpan.textContent = isActive ? '★' : '☆';
+        if (labelSpan) labelSpan.textContent = isActive ? 'Saved' : 'Save';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const storyEl = document.querySelector('.story-card');
+      if (!storyEl) return;
+
+      const storyId = storyEl.getAttribute('data-story-id');
+      const likeBtn = storyEl.querySelector('.js-like-btn');
+      const saveBtn = storyEl.querySelector('.js-save-btn');
+      const shareBtn = storyEl.querySelector('.js-share-btn');
+
+      const state = getStoryState(storyId);
+      updateButtonState(likeBtn, state.liked);
+      updateButtonState(saveBtn, state.saved);
+
+      // ====== Event listeners ======
+      if (likeBtn) {
+        likeBtn.addEventListener('click', () => {
+          const current = getStoryState(storyId);
+          const newState = { ...current, liked: !current.liked };
+          setStoryState(storyId, newState);
+          updateButtonState(likeBtn, newState.liked);
+        });
+      }
+
+      if (saveBtn) {
+        saveBtn.addEventListener('click', () => {
+          const current = getStoryState(storyId);
+          const newState = { ...current, saved: !current.saved };
+          setStoryState(storyId, newState);
+          updateButtonState(saveBtn, newState.saved);
+        });
+      }
+
+      if (shareBtn) {
+        shareBtn.addEventListener('click', async () => {
+          const url = window.location.href;
+
+          if (navigator.share) {
+            // ถ้า browser รองรับ Web Share API
+            try {
+              await navigator.share({
+                title: document.title,
+                text: 'Check out this gift story!',
+                url: url
+              });
+            } catch (e) {
+              console.warn('Share cancelled', e);
+            }
+          } else if (navigator.clipboard) {
+            // ถ้าแชร์ไม่ได้ก็ copy link แทน
+            try {
+              await navigator.clipboard.writeText(url);
+              alert('Copied link to clipboard!');
+            } catch (e) {
+              alert('Cannot copy link, please copy manually.');
+            }
+          } else {
+            alert('Sharing is not supported on this browser.');
+          }
+        });
+      }
+    });
+
+    // ====== NOTE ======
+    // ถ้าอยากใช้ฟังก์ชันพวกนี้ร่วมกับหน้าอื่น
+    // ให้ย้าย block ตั้งแต่ loadStoryActions() ถึง setStoryState()
+    // ไปไว้ในไฟล์ js กลาง เช่น js/story-actions.js แล้ว include ทุกหน้าแทน
+  </script>
+</body>
+</html>
