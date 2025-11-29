@@ -11,6 +11,7 @@ $user_name = $_SESSION["user_name"] ?? null;
   <title>Gift Finder – Product</title>
   <link rel="stylesheet" href="assets/css/global.css"/>
   <link rel="stylesheet" href="assets/css/product.css"/>
+  <link rel="stylesheet" href="assets/css/mobile.css" media="(max-width: 767px)">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
