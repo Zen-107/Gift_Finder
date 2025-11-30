@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const profileToggle = document.getElementById("profileToggle");
   const profileDropdown = document.getElementById("profileDropdown");
   const logoutBtn = document.getElementById("logoutBtn");
+  loadFriendDropdown();
 
   // ถ้าไม่มีองค์ประกอบพวกนี้ในหน้านี้ (เช่น หน้า login.html) ให้ออกเลย
   if (!loginLink || !profileMenu || !profileToggle || !profileDropdown || !logoutBtn) {
@@ -37,43 +38,83 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   // === Favorite Dropdown ===
-favLink?.addEventListener("click", async (e) => {
-  e.preventDefault();
-  hideSubDropdowns();
-  try {
-    const response = await fetch('api/get_all_bookmarks.php');
-    const data = await response.json();
-    if (data.success && data.folders?.length > 0) {
-      const folderList = data.folders.map(folder => `
+  favLink?.addEventListener("click", async (e) => {
+    e.preventDefault();
+    hideSubDropdowns();
+    try {
+      const response = await fetch('api/get_all_bookmarks.php');
+      const data = await response.json();
+      if (data.success && data.folders?.length > 0) {
+        const folderList = data.folders.map(folder => `
         <a href="folder.php?id=${folder.folder_id}">${folder.folder_name}</a>
       `).join('');
-      favDropdown.innerHTML = `<h4 class="dropdown-header">Folders</h4>${folderList}`;
-    } else {
-      favDropdown.innerHTML = '<h4 class="dropdown-header">Folders</h4><p class="dropdown-message">No folders yet.</p>';
+        favDropdown.innerHTML = `<h4 class="dropdown-header">Folders</h4>${folderList}`;
+      } else {
+        favDropdown.innerHTML = '<h4 class="dropdown-header">Folders</h4><p class="dropdown-message">No folders yet.</p>';
+      }
+      favDropdown.style.display = "block";
+    } catch (err) {
+      console.error("Failed to load folders:", err);
+      favDropdown.innerHTML = '<h4 class="dropdown-header">Folders</h4><p class="dropdown-message error-message">Error loading folders.</p>';
+      favDropdown.style.display = "block";
     }
-    favDropdown.style.display = "block";
-  } catch (err) {
-    console.error("Failed to load folders:", err);
-    favDropdown.innerHTML = '<h4 class="dropdown-header">Folders</h4><p class="dropdown-message error-message">Error loading folders.</p>';
-    favDropdown.style.display = "block";
-  }
-});
+  });
 
   // === Friend Dropdown (ตัวอย่าง) ===
   friendLink?.addEventListener("click", async (e) => {
     e.preventDefault();
     hideSubDropdowns();
-    // ตัวอย่างข้อมูลเพื่อน (เปลี่ยนเป็น API จริงได้ทีหลัง)
-    const friends = [
-      { id: 1, name: "Friend A" },
-      { id: 2, name: "Friend B" },
-      { id: 3, name: "Friend C" }
-    ];
-    const friendList = friends.map(f => `
-      <a href="#" onclick="alert('Profile of ${f.name}'); return false;">${f.name}</a>
-    `).join('');
-    friendDropdown.innerHTML = `<h4>Friends</h4>${friendList}`;
-    friendDropdown.style.display = "block";
+
+    try {
+      const res = await fetch("api/get_recipients.php");
+      const raw = await res.text();
+      console.log("get_recipients RAW (header):", raw);
+
+      let friends;
+      try {
+        friends = JSON.parse(raw);
+      } catch (err) {
+        console.error("get_recipients ไม่ใช่ JSON:", err);
+        friendDropdown.innerHTML = `
+        <h4>Friends</h4>
+        <p class="dropdown-message">Error loading friends.</p>
+      `;
+        friendDropdown.style.display = "block";
+        return;
+      }
+
+      if (!Array.isArray(friends) || friends.length === 0) {
+        friendDropdown.innerHTML = `
+        <h4>Friends</h4>
+        <p class="dropdown-message">No friends yet.</p>
+      `;
+        friendDropdown.style.display = "block";
+        return;
+      }
+
+      const friendList = friends
+        .map(
+          (f) => `
+          <a href="form.html?recipient_id=${f.id}" class="dropdown-item">
+            ${f.name || "(No name)"}
+          </a>
+        `
+        )
+        .join("");
+
+      friendDropdown.innerHTML = `
+      <h4>Friends</h4>
+      ${friendList}
+    `;
+      friendDropdown.style.display = "block";
+    } catch (err) {
+      console.error("Failed to load friends:", err);
+      friendDropdown.innerHTML = `
+      <h4>Friends</h4>
+      <p class="dropdown-message error-message">Error loading friends.</p>
+    `;
+      friendDropdown.style.display = "block";
+    }
   });
 
   // === Logout ===
@@ -108,4 +149,43 @@ favLink?.addEventListener("click", async (e) => {
     loginLink.href = "login.html";
     profileMenu.style.display = "none";
   }
+  async function loadFriendDropdown() {
+    try {
+      const res = await fetch("api/get_recipients.php");
+      const raw = await res.text();
+      console.log("HEADER get_recipients RAW:", raw);
+
+      let list = [];
+      try {
+        list = JSON.parse(raw);
+      } catch (e) {
+        console.error("parse JSON error:", e);
+        return;
+      }
+
+      if (!Array.isArray(list)) list = [];
+
+      const select = document.getElementById("friend-select");
+      if (!select) return;
+
+      // เคลียร์ของเก่า
+      select.innerHTML = `
+      <option value="">-- เลือกบุคคลสำคัญ --</option>
+    `;
+
+      // เติมรายชื่อใหม่จาก DB
+      select.innerHTML += list
+        .map(
+          (r) => `
+        <option value="${r.id}">
+          ${r.name || "(ไม่มีชื่อ)"}
+        </option>
+      `
+        )
+        .join("");
+    } catch (err) {
+      console.error("Error loading friend dropdown:", err);
+    }
+  }
+
 });

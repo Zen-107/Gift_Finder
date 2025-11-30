@@ -1,15 +1,15 @@
 <?php
 require_once "config.php";
 
-header("Content-Type: application/json");
+header('Content-Type: application/json; charset=utf-8');
 
-if (!empty($_SESSION["user_email"])) {
-    echo json_encode([
-        "loggedIn" => true,
-        "email" => $_SESSION["user_email"]
-    ]);
+if (isset($_SESSION['user_id'])) {
+  echo json_encode([
+    'loggedIn' => true,
+    'user_id'  => (int)$_SESSION['user_id'],
+  ]);
 } else {
-    echo json_encode([
-        "loggedIn" => false
-    ]);
+  echo json_encode([
+    'loggedIn' => false,
+  ]);
 }

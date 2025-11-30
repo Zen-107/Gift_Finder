@@ -280,10 +280,6 @@ main {
   gap: 1.5rem;
 }
 
-#popular {
-  grid-template-columns: repeat(4, 1fr);
-}
-
 .card {
   background: white;
   border-radius: var(--radius);

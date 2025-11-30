@@ -98,4 +98,30 @@ const BUDGET_RANGES = [
   { key: "2000+", min: 2000, max: Infinity },
 ];
 
-
+// ========== BLOG POSTS (สำหรับ Popular Stories) ==========
+const POSTS = [
+  { 
+    slug: 'Demo_Post', 
+    title: 'Demo Post Title', 
+    excerpt: 'Demo post excerpt goes here.', 
+    image: 'https://i0.wp.com/emle.org/wp-content/uploads/revslider/blog/demo-img-2.png?ssl=1'
+  },
+  { 
+    slug: 'Demo_Post', 
+    title: 'Demo Post Title', 
+    excerpt: 'Demo post excerpt goes here.', 
+    image: 'https://i0.wp.com/emle.org/wp-content/uploads/revslider/blog/demo-img-2.png?ssl=1'
+  },
+  { 
+    slug: 'Demo_Post', 
+    title: 'Demo Post Title', 
+    excerpt: 'Demo post excerpt goes here.', 
+    image: 'https://i0.wp.com/emle.org/wp-content/uploads/revslider/blog/demo-img-2.png?ssl=1'
+  },
+  { 
+    slug: 'Demo_Post', 
+    title: 'Demo Post Title', 
+    excerpt: 'Demo post excerpt goes here.', 
+    image: 'https://i0.wp.com/emle.org/wp-content/uploads/revslider/blog/demo-img-2.png?ssl=1'
+  }
+];
