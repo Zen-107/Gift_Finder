@@ -12,7 +12,7 @@ if (!isset($_SESSION["user_id"])) {
 $user_id = $_SESSION["user_id"];
 
 try {
-    // ดึงเฉพาะชื่อโฟลเดอร์ (ถ้ามีการบุ๊กมาร์กในโฟลเดอร์)
+
     $stmt = $pdo->prepare("
         SELECT DISTINCT
             f.id as folder_id,
