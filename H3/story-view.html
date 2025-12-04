@@ -1,6 +1,7 @@
-<!-- story-view.html -->
+<!-- story-view.html  แสดงรายละเอียดของสตอรี่แบบเต็ม พร้อมรูปปก เนื้อหา และแท็ก-->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Gift Finder | Story Details</title>
@@ -11,83 +12,135 @@
 
   <link rel="stylesheet" href="assets/css/story-view.css">
 </head>
-<body> 
+
+<body>
+<!-- รอแก้ -->
   <header class="navbar">
     <div class="container nav-content">
       <a class="logo" href="index.html">🎁 Gift Finder</a>
     </div>
   </header>
-
-<div class="story-top-bar">
+<!-- รอแก้ -->
+<div class="story-top-bar"> <!-- แถบด้านบน มีลิงก์กลับไปหน้า stories -->
     <a href="stories.html" class="back-link">← Back to Stories</a>
   </div>
 
+<!-- กล่องใหญ่สุด -->
   <main class="story-view-container">
-    <article class="story-card" data-story-id="first-gift-for-friend">
-      <header class="story-meta">
-        <h2 class="story-title">How I Found the Perfect Gift</h2>
-        <div class="story-meta-row">
-          <span class="story-author">by <strong>Naai</strong></span>
-          <span class="story-date">27 November 2025</span>
-        </div>
-        <div class="story-tags">
-          <span class="tag">🎁 Birthday</span>
-          <span class="tag">Budget: 500–1000</span>
-          <span class="tag">For: Best Friend</span>
-        </div>
-      </header>
 
+<!-- Complete! -->
+    <!-- กล่องย่อยซ้าย -->
+    <article class="story-card" data-story-id="story-001" data-likes-base="18">
+      <!-- รูปปกใหญ่ด้านบน -->
       <figure class="story-cover">
-        <img src="assets/images/sample-story.jpg" alt="Gift story cover">
+        <img src="uploads/covers/sample-cover.jpg" alt="Story cover">
       </figure>
 
-      <section class="story-content">
+      <h2 class="story-title">How I Found the Perfect Giftttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt</h2>
+      <!-- แถวผู้เขียน / ปุ่มกด -->
+      <section class="actoin-row">
+        <div class="story-meta-left">
+          <span class="story-author">by <strong>Naizzz</strong></span>
+          <span class="story-date">27 November 2018</span>
+        </div>
+
+        <div class="story-actions">
+          <!-- ปุ่ม Like มีตัวเลข -->
+          <button class="pill-btn js-like-btn">
+            <span class="pill-count js-like-count">18</span>
+            <span class="pill-icon js-like-icon">♡</span>
+          </button>
+
+          <!-- ปุ่ม Save -->
+          <button class="pill-btn js-save-btn">
+            <span class="pill-icon js-save-icon">☆</span> 
+          </button>
+
+          <!-- ปุ่ม Share -->
+          <button class="pill-btn js-share-btn">
+            <span class="pill-icon">⤴</span>
+            <span class="pill-label">Share</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- เนื้อเรื่อง -->
+      <section class="story-body">
         <p>
           I always struggle to find gifts, but this time I tried using our Gift Finder
           filters to narrow down budget, interest, and personality…
         </p>
         <p>
           First, I listed three things my friend really loves: coffee, journaling,
-          and cute stationery. Then I…
+          and cute stationery. Then yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy i hate you so much yyyyyyyyyyyyyyyy yyyyyyyyyyyyyyyyyy
         </p>
-        <p>
-          <!-- ตรงนี้ให้ใส่เนื้อเรื่องจริงของโปรเจกต์ -->
-        </p>
+<!-- เวลาใช้จริง ให้ echo จาก PHP + ฟังก์ชัน render_story_body ที่เราเคยคุยกัน -->
       </section>
 
-      <footer class="story-actions">
-        <button class="btn-icon js-like-btn">
-          <span class="icon">♡</span>
-          <span class="label">Like</span>
-        </button>
-
-        <button class="btn-icon js-save-btn">
-          <span class="icon">★</span>
-          <span class="label">Save</span>
-        </button>
-
-        <button class="btn-icon js-share-btn">
-          <span class="icon">⤴</span>
-          <span class="label">Share</span>
-        </button>
-      </footer>
+      <!-- แท็กด้านล่าง -->
+      <section class="story-tags">
+        <div class="tags-label">Tags:</div>
+        <div class="tags-list">
+          <!-- ตัวอย่าง tag ยอดนิยม -->
+          <a href="stories.php?tag=birthday" class="tag-chip">#birthday</a>
+          <a href="stories.php?tag=friend" class="tag-chip">#friend</a>
+          <a href="stories.php?tag=low%20budget" class="tag-chip">#low&nbsp;budget</a>
+          <a href="stories.php?tag=stationery" class="tag-chip">#stationery</a>
+          <a href="stories.php?tag=surprise" class="tag-chip">#surprise</a>
+          <a href="stories.php?tag=birthday" class="tag-chip">#birthday</a>
+          <a href="stories.php?tag=friend" class="tag-chip">#friend</a>
+          <a href="stories.php?tag=low%20budget" class="tag-chip">#low&nbsp;budget</a>
+          <a href="stories.php?tag=stationery" class="tag-chip">#stationery</a>
+          <a href="stories.php?tag=surprise" class="tag-chip">#surprise</a>
+        </div>
+      </section>
     </article>
 
-    <!-- ถ้าอยากมีส่วนแนะนำ story อื่น -->
-    <aside class="story-suggestions">
+    <!-- right-aside แนะนำ story อื่น -->
+    <aside class="right-aside">
       <h3>More stories</h3>
-      <ul class="story-suggestions-list">
-        <li><a href="#">Last-minute gift for dad</a></li>
-        <li><a href="#">Secret Santa on a tiny budget</a></li>
-        <li><a href="#">Choosing a gift for someone you barely know</a></li>
-      </ul>
+
+      <div id="suggestions-grid" class="suggestions-grid">
+        <!-- JS จะเติม popular stories แบบหน้า index -->
+      </div>
+       
     </aside>
   </main>
-
-  <!-- ✅ JS รวม logic like/save (ตอนนี้ใส่ในไฟล์นี้ก่อน) -->
+  
+<!-- รอแก้ -->
+<!-- ดึงข้อมูล mock POSTS จาก data.js แบบเดียวกับหน้า index -->
+  <script src="assets/js/data.js"></script>
   <script>
-    // ====== CONFIG เล็ก ๆ ======
-    const STORAGE_KEY = 'gf_story_actions'; // เก็บ like/save ของทุก story ใน localStorage
+  document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("suggestions-grid");
+    if (!container || typeof POSTS === "undefined") return;
+
+    // เอา 3 เรื่องแรกแบบหน้า index
+    const popular = POSTS.slice(0, 3);
+
+    container.innerHTML = popular
+      .map(
+        (p) => `
+        <div class="popular-card">
+          <a href="story-view.html" class="popular-card-link">
+            <img src="${p.image}" alt="${p.title}">
+            <!-- มุมซ้ายบน: แสดงไลค์ --> 
+            <div class="popular-like-badge">
+              ${p.likes ?? 0} ❤
+            </div>
+            <div class="popular-card-title">${p.title}</div>
+          </a> 
+        </div>
+      `
+      )
+      .join("");
+  });
+  </script>
+
+<!-- รอแก้ -->
+  <!-- JS like / save / share -->
+  <script>
+    const STORAGE_KEY = 'gf_story_actions';
 
     function loadStoryActions() {
       try {
@@ -107,7 +160,6 @@
       }
     }
 
-    // actions[storyId] = { liked: true/false, saved: true/false }
     function getStoryState(storyId) {
       const all = loadStoryActions();
       return all[storyId] || { liked: false, saved: false };
@@ -119,25 +171,38 @@
       saveStoryActions(all);
     }
 
-    // ====== UI helper ======
-    function updateButtonState(button, isActive) {
-      if (!button) return;
-      button.classList.toggle('is-active', isActive);
+    function updateLikeUI(storyEl, state) {
+  const likeBtn   = storyEl.querySelector('.js-like-btn');
+  const likeIcon  = storyEl.querySelector('.js-like-icon');
+  const likeCount = storyEl.querySelector('.js-like-count');
 
-      // เปลี่ยน icon แบบง่าย ๆ
-      const iconSpan = button.querySelector('.icon');
-      const labelSpan = button.querySelector('.label');
+  if (!likeBtn) return;
 
-      if (button.classList.contains('js-like-btn')) {
-        if (iconSpan) iconSpan.textContent = isActive ? '❤' : '♡';
-        if (labelSpan) labelSpan.textContent = isActive ? 'Liked' : 'Like';
-      }
+  const baseLikes = parseInt(storyEl.getAttribute('data-likes-base') || '0', 10) || 0;
+  const totalLikes = baseLikes + (state.liked ? 1 : 0);
 
-      if (button.classList.contains('js-save-btn')) {
-        if (iconSpan) iconSpan.textContent = isActive ? '★' : '☆';
-        if (labelSpan) labelSpan.textContent = isActive ? 'Saved' : 'Save';
-      }
-    }
+  likeBtn.classList.toggle('is-active', state.liked);
+
+  if (likeIcon)  likeIcon.textContent  = state.liked ? '❤' : '♡';
+  if (likeCount) likeCount.textContent = totalLikes;
+
+  // ✅ เปลี่ยน tooltip ตามสถานะ
+  likeBtn.title = state.liked ? 'Liked' : 'Like';
+}
+
+function updateSaveUI(storyEl, state) {
+  const saveBtn  = storyEl.querySelector('.js-save-btn');
+  const saveIcon = storyEl.querySelector('.js-save-icon');
+
+  if (!saveBtn) return;
+
+  saveBtn.classList.toggle('is-active', state.saved);
+
+  if (saveIcon) saveIcon.textContent = state.saved ? '★' : '☆';
+
+  // ✅ tooltip ตามสถานะ
+  saveBtn.title = state.saved ? 'Saved' : 'Save';
+}
 
     document.addEventListener('DOMContentLoaded', function () {
       const storyEl = document.querySelector('.story-card');
@@ -149,16 +214,15 @@
       const shareBtn = storyEl.querySelector('.js-share-btn');
 
       const state = getStoryState(storyId);
-      updateButtonState(likeBtn, state.liked);
-      updateButtonState(saveBtn, state.saved);
+      updateLikeUI(storyEl, state);
+      updateSaveUI(storyEl, state);
 
-      // ====== Event listeners ======
       if (likeBtn) {
         likeBtn.addEventListener('click', () => {
           const current = getStoryState(storyId);
           const newState = { ...current, liked: !current.liked };
           setStoryState(storyId, newState);
-          updateButtonState(likeBtn, newState.liked);
+          updateLikeUI(storyEl, newState);
         });
       }
 
@@ -167,7 +231,7 @@
           const current = getStoryState(storyId);
           const newState = { ...current, saved: !current.saved };
           setStoryState(storyId, newState);
-          updateButtonState(saveBtn, newState.saved);
+          updateSaveUI(storyEl, newState);
         });
       }
 
@@ -176,18 +240,14 @@
           const url = window.location.href;
 
           if (navigator.share) {
-            // ถ้า browser รองรับ Web Share API
             try {
               await navigator.share({
                 title: document.title,
                 text: 'Check out this gift story!',
                 url: url
               });
-            } catch (e) {
-              console.warn('Share cancelled', e);
-            }
+            } catch (_) {}
           } else if (navigator.clipboard) {
-            // ถ้าแชร์ไม่ได้ก็ copy link แทน
             try {
               await navigator.clipboard.writeText(url);
               alert('Copied link to clipboard!');
@@ -200,11 +260,6 @@
         });
       }
     });
-
-    // ====== NOTE ======
-    // ถ้าอยากใช้ฟังก์ชันพวกนี้ร่วมกับหน้าอื่น
-    // ให้ย้าย block ตั้งแต่ loadStoryActions() ถึง setStoryState()
-    // ไปไว้ในไฟล์ js กลาง เช่น js/story-actions.js แล้ว include ทุกหน้าแทน
   </script>
 </body>
 </html>
