@@ -1,9 +1,11 @@
 /* story-view.css */
-
 body {
-  background: #f7f8fb;
+  background: rgb(255, 255, 255);
 }
 
+/* header{} */
+
+/* แถบด้านบน มีลิงก์กลับไปหน้า stories */
 .story-top-bar {
   max-width: 80vw;
   margin: 1rem auto 0.5rem;
@@ -16,57 +18,24 @@ body {
   text-decoration: none;
 }
 
+/* กล่องใหญ่สุดใส่ card และ right-aside */
 .story-view-container {
-  max-width: 900px;
-  margin: 1.5rem auto;
-  padding: 0 1rem;
+  max-width: 1000px;
+  margin: 0.5rem auto;
+  padding: 0 0.5rem;
   display: grid;
-  grid-template-columns: minmax(0, 2.5fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   gap: 1.5rem;
 }
 
-@media (max-width: 800px) {
-  .story-view-container {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* story card */
-.story-card {
-  background: #fff;
-  border-radius: 12px;
+/* กล่องย่อย */
+.story-card, .right-aside{
+  background: #ffffff;
+  border-radius: 24px;
   padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
-}
-
-.story-meta {
-  margin-bottom: 1rem;
-}
-
-.story-title {
-  margin: 0 0 0.5rem;
-}
-
-.story-meta-row {
-  display: flex;
-  gap: 1rem;
-  font-size: 0.85rem;
-  color: #777;
-}
-
-.story-tags {
-  margin-top: 0.5rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.tag {
-  font-size: 0.75rem;
-  background: #f1f5f9;
-  border-radius: 999px;
-  padding: 0.15rem 0.7rem;
-}
+  padding-top: 0.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+} 
 
 /* cover image */
 .story-cover {
@@ -81,67 +50,196 @@ body {
   height: auto;
 }
 
-/* content */
-.story-content p {
-  line-height: 1.6;
-  margin-bottom: 0.9rem;
+.story-title {
+  margin: 0 0 0.5rem;
+  font-size: 2rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
-/* actions */
-.story-actions {
-  margin-top: 1.25rem;
+/* แถวหัวเรื่อง + ปุ่มต่าง ๆ */
+.actoin-row {
   display: flex;
-  gap: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: space-between;
 }
 
-.btn-icon {
+.story-meta-left {
+  display: grid;
+  grid-template-columns: 1fr; 
+  gap: 0rem;
+  justify-content: flex-start;
+}
+.story-author strong {
+  font-weight: 600;
+}
+.story-date {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+/* ปุ่ม like / save / share */
+.story-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.pill-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  border: 1px solid #d0d7e2;
+  gap: 0.25rem;
   border-radius: 999px;
-  padding: 0.3rem 0.9rem;
-  background: #fff;
+  border: 1px solid #cbd5e1;
+  padding: 0.25rem 0.7rem;
+  background: #f8fafc;
   cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.pill-count {
+  font-weight: 600;
+}
+
+.pill-icon {
   font-size: 0.9rem;
 }
 
-.btn-icon .icon {
+.pill-btn.is-active {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+/* เนื้อเรื่อง */
+.story-body {
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
   font-size: 1rem;
+  line-height: 1.7;
+  color: #1f2933;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
-.btn-icon.is-active {
-  border-color: #ff6b81;
-  background: #ffeef2;
+.story-body p {
+  margin-bottom: 1rem;
 }
 
-/* suggestions */
-.story-suggestions {
-  background: #fff;
-  border-radius: 12px;
-  padding: 1rem;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+/* แท็กด้านล่าง */
+.story-tags {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
 }
 
-.story-suggestions h3 {
-  margin-top: 0;
+.tags-label {
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
-.story-suggestions-list {
-  list-style: none;
-  padding-left: 0;
-  margin: 0.5rem 0 0;
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
-.story-suggestions-list li + li {
-  margin-top: 0.4rem;
-}
-
-.story-suggestions-list a {
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid #fb7185;
+  font-size: 0.8rem;
   text-decoration: none;
-  color: #2563eb;
+  color: #be123c;
+  background: #fff1f2;
 }
 
-.story-suggestions-list a:hover {
-  text-decoration: underline;
+.tag-chip:hover {
+  background: #ffe4e6;
+}
+
+/* right-aside -> suggestions *//* layout ใหม่ของ suggestions: 1 คอลัมน์ 3 แถว แบบการ์ดเล็ก ๆ */
+/* layout: 1 คอลัมน์ */
+.suggestions-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* จากเดิม index = 3 คอลัมน์ */
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+/* การ์ดแบบหน้า index */
+.popular-card {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.popular-card img {
+  width: 100%;
+  height: 140px; /* ปรับให้เหมาะกับ sidebar */
+  object-fit: cover;
+  display: block;
+}
+
+/* title ซ้อนบนรูปเหมือนหน้า index */
+.popular-card-title {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: .6rem;
+  font-size: .9rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0));
+}
+
+.popular-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+/* ป้ายไลค์มุมซ้ายบน */
+.popular-like-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  color: #fff;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  border-radius: 6px;
+  backdrop-filter: blur(2px);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+@media (max-width: 800px) {
+  .story-view-container {
+    grid-template-columns: 1fr;
+  }
+  .story-card {
+    padding: 1rem 1rem 1.25rem;
+  }
+
+  .story-head-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .story-actions {
+    justify-content: flex-start;
+  }
+
+  /* Popular Picks/Stories */
+  #popular,
+  #popular-stories {
+    grid-template-columns: 1fr;
+  }
 }
