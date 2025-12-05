@@ -1,6 +1,7 @@
 /* story-view.css */
 body {
-  background: rgb(255, 255, 255);
+  overflow-y: auto;
+  background: #ffffff;
 }
 
 /* header{} */
@@ -228,18 +229,7 @@ body {
     padding: 1rem 1rem 1.25rem;
   }
 
-  .story-head-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
   .story-actions {
     justify-content: flex-start;
-  }
-
-  /* Popular Picks/Stories */
-  #popular,
-  #popular-stories {
-    grid-template-columns: 1fr;
   }
 }
