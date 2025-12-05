@@ -74,6 +74,30 @@
           First, I listed three things my friend really loves: coffee, journaling,
           and cute stationery. Then yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy i hate you so much yyyyyyyyyyyyyyyy yyyyyyyyyyyyyyyyyy
         </p>
+        <p>
+          I always struggle to find gifts, but this time I tried using our Gift Finder
+          filters to narrow down budget, interest, and personality…
+        </p>
+        <p>
+          First, I listed three things my friend really loves: coffee, journaling,First, I listed three things my friend really loves: coffee, journaling,
+          and cute stationery. Then yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy i hate you so much yyyyyyyyyyyyyyyy yyyyyyyyyyyyyyyyyyFirst, I listed three things my friend really loves: coffee, journaling,
+         
+        </p>
+
+        <!--  and cute stationery. Then yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy i hate you so much yyyyyyyyyyyyyyyy yyyyyyyyyyyyyyyyyyFirst, I listed three things my friend really loves: coffee, journaling,
+          and cute stationery. Then yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy i hate you so much yyyyyyyyyyyyyyyy yyyyyyyyyyyyyyyyyyFirst, I listed three things my friend really loves: coffee, journaling,
+          and cute stationery. Then yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy i hate you so much yyyyyyyyyyyyyyyy yyyyyyyyyyyyyyyyyyFirst, I listed three things my friend really loves: coffee, journaling,
+          and cute stationery. Then yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy i hate you so much yyyyyyyyyyyyyyyy yyyyyyyyyyyyyyyyyyFirst, I listed three things my friend really loves: coffee, journaling,
+          and cute stationery. Then yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy i hate you so much yyyyyyyyyyyyyyyy yyyyyyyyyyyyyyyyyyFirst, I listed three things my friend really loves: coffee, journaling,
+          and cute stationery. Then yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy i hate you so much yyyyyyyyyyyyyyyy yyyyyyyyyyyyyyyyyyFirst, I listed three things my friend really loves: coffee, journaling,
+          and cute stationery. Then yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy i hate you so much yyyyyyyyyyyyyyyy yyyyyyyyyyyyyyyyyyFirst, I listed three things my friend really loves: coffee, journaling,
+          and cute stationery. Then yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy i hate you so much yyyyyyyyyyyyyyyy yyyyyyyyyyyyyyyyyyFirst, I listed three things my friend really loves: coffee, journaling,
+          and cute stationery. Then yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy i hate you so much yyyyyyyyyyyyyyyy yyyyyyyyyyyyyyyyyyFirst, I listed three things my friend really loves: coffee, journaling,
+          and cute stationery. Then yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy i hate you so much yyyyyyyyyyyyyyyy yyyyyyyyyyyyyyyyyyFirst, I listed three things my friend really loves: coffee, journaling,
+          and cute stationery. Then yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy i hate you so much yyyyyyyyyyyyyyyy yyyyyyyyyyyyyyyyyyFirst, I listed three things my friend really loves: coffee, journaling,
+          and cute stationery. Then yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy i hate you so much yyyyyyyyyyyyyyyy yyyyyyyyyyyyyyyyyyFirst, I listed three things my friend really loves: coffee, journaling,
+          and cute stationery. Then yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy i hate you so much yyyyyyyyyyyyyyyy yyyyyyyyyyyyyyyyyy
+          and cute stationery. Then yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy i hate you so much yyyyyyyyyyyyyyyy yyyyyyyyyyyyyyyyyy -->
 <!-- เวลาใช้จริง ให้ echo จาก PHP + ฟังก์ชัน render_story_body ที่เราเคยคุยกัน -->
       </section>
 
@@ -115,8 +139,8 @@
     const container = document.getElementById("suggestions-grid");
     if (!container || typeof POSTS === "undefined") return;
 
-    // เอา 3 เรื่องแรกแบบหน้า index
-    const popular = POSTS.slice(0, 3);
+    // เอา 3 เรื่องแรกแบบหน้า index max  4 เรื่อง i dont know why.
+    const popular = POSTS.slice(0, 4);
 
     container.innerHTML = popular
       .map(
