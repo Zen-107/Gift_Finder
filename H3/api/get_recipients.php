@@ -17,7 +17,7 @@ $userId = (int) $_SESSION['user_id'];
 
 try {
     // --- 3) ดึงรายชื่อบุคคลสำคัญของ user คนนี้ ---
-
+/*
         $sql = "
         SELECT
             r.id,
@@ -26,8 +26,8 @@ try {
         WHERE r.user_id = :uid
         ORDER BY r.id DESC
     ";
+*/
 
-    /* โบกีมาแก้
     $sql = "
         SELECT
             r.id,
@@ -42,7 +42,7 @@ try {
         WHERE r.user_id = :uid
         ORDER BY r.id DESC
     ";
-*/
+
 
 
     $stmt = $pdo->prepare($sql);
