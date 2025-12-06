@@ -22,7 +22,7 @@ $user_name = $_SESSION["user_name"] ?? null;
       <a class="logo" href="index.html">🎁 Gift Finder</a>
       <nav class="nav-links">
         <a href="form.html">Find Gifts</a>
-        <a href="blog.html">Blog</a>
+        <a href="stories.html">Stories</a>
         <a href="show_all_product.html">Product</a>
         <!-- Login / Profile -->
         <a id="login-entry" href="login.html">Login</a>

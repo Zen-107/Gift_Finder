@@ -66,7 +66,7 @@ try {
       <a class="logo" href="index.html">🎁 Gift Finder</a>
       <nav class="nav-links">
         <a href="form.html">Find Gifts</a>
-        <a href="blog.html">Blog</a>
+        <a href="stories.html">Stories</a>
         <a href="show_all_product.html">Product</a>
 
         <!-- ปุ่ม Login (ใช้ตอนยังไม่ล็อกอิน) -->
