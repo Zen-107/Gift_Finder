@@ -1,10 +1,10 @@
-/* story-view.css */
+/* story-view.css  use for view and new*/
+
 body {
   overflow-y: auto;
   background: #ffffff;
 }
 
-/* header{} */
 
 /* แถบด้านบน มีลิงก์กลับไปหน้า stories */
 .story-top-bar {

@@ -14,7 +14,7 @@
       <a class="logo" href="index.html">🎁 Gift Finder</a>
       <nav class="nav-links">
         <a href="form.html">Find Gifts</a>
-        <a href="blog.html">Blog</a>
+        <a href="stories.html">Stories</a>
         <a href="results.html">Product</a>
 
         <!-- ปุ่ม Login (ใช้ตอนยังไม่ล็อกอิน) -->
@@ -63,22 +63,22 @@
       <nav class="stories-sidebar-nav">
   <ul class="yt-nav-list">
     <li>
-      <a href="#" class="yt-nav-link yt-nav-link--primary">New Story</a>
+      <a href="story-new.html" class="yt-nav-link yt-nav-link--primary">New Story</a>
     </li>
     <li>
-      <a href="#" class="yt-nav-link">All Stories</a>
+      <a href="stories.html" class="yt-nav-link">All Stories</a>
     </li>
     <li>
-      <a href="#" class="yt-nav-link">My Stories</a>
+      <a href="my-stories.html" class="yt-nav-link">My Stories</a>
     </li>
     <li>
-      <a href="#" class="yt-nav-link">Drafts</a>
+      <a href="my-stories.html" class="yt-nav-link">Drafts</a>
     </li>
     <li>
-      <a href="#" class="yt-nav-link">Saved Stories</a>
+      <a href="my-stories.html" class="yt-nav-link">Saved Stories</a>
     </li>
     <li>
-      <a href="#" class="yt-nav-link">Liked Stories</a>
+      <a href="my-stories.html" class="yt-nav-link">Liked Stories</a>
     </li>
   </ul>
 </nav>
@@ -151,7 +151,9 @@
           <p class="story-excerpt">
             เล่าโมเมนต์ตอนเตรียมเค้ก ทำของขวัญเอง และแอบซ่อนของไว้ในครัว...
           </p>
-          <a href="story-view.html" class="story-link">View post</a>
+           <a href="story-view.html?id=2" class="btn-view">
+    View
+  </a>
 
         </article>
       </section>
@@ -366,6 +368,12 @@
   document.addEventListener('DOMContentLoaded', () => {
     const composer = document.querySelector('.composer-input');
     if (composer) {
+      composer.addEventListener('click', () => {
+        window.location.href = 'story-new.html';
+      });
+    }
+    const composerplus = document.querySelector('.floating-add-btn');
+    if (composerplus) {
       composer.addEventListener('click', () => {
         window.location.href = 'story-new.html';
       });
