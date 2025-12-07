@@ -3,14 +3,216 @@ html,body {
   width: 100vw;
   margin: 0;
   padding: 0;
-  background-color: var(--accent); /*bg-light*/
+  background-color: var(--bg-light); /*bg-light*/
   overflow: hidden;       /* ไม่ให้เลื่อนทั้งหน้า */
+}
+.author-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.author-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #f5f5f5;
+  text-decoration: none;
+  color: #333;
+}
+
+.author-item:hover {
+  background: #000;
+  color: #fff;
+}
+
+.author-name {
+  font-weight: 500;
+}
+
+.author-count {
+  opacity: 0.7;
+}
+
+
+.story-card-horizontal {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+/* ซ้าย */
+.story-left {
+  width: 500px;
+  flex-shrink: 0;
+}
+.story-image img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.story-meta-under {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;   /* แนวนอน */
+  gap: 8px;              /* ระยะห่างเล็ก ๆ */
+  font-size: 12px;
+  color: #666;
+}
+.story-meta-under span:not(:last-child)::after {
+  content: "-";
+  margin-left: 8px;
+  color: #aaa;
+}
+
+/* ขวา */
+.story-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.story-title {
+  font-size: 18px;
+  margin: 0 0 6px;
+}
+
+.story-excerpt {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  color: #444;
+  margin: 0 0 12px;
+}
+
+.btn-view-story {
+  align-self: flex-start;
+  padding: 6px 12px;
+  background: #000;
+  color: #fff;
+  font-size: 13px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+
+.popular-stories {
+  position: relative;
+}
+
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.scroll-btn.left {
+  left: 0;
+}
+
+.scroll-btn.right {
+  right: 0;
+}
+
+
+.staff-picks-container {
+  display: flex;
+  flex-direction: row;     /* เรียงเป็นแนวนอน */
+  gap: 12px;               /* ระยะห่างระหว่างการ์ด */
+  overflow-x: auto;        /* ให้เลื่อนในแนวนอนได้ */
+  padding: 8px 0 12px;
+  scroll-snap-type: x mandatory; /* เลื่อนแล้วล็อกทีละใบ (ถ้าชอบฟีลนี้) */
+}
+
+/* การ์ดแต่ละใบ */
+.staff-pick-card {
+  display: block;
+  flex: 0 0 auto;          /* ห้ามยืด ให้กินแค่ขนาดของตัวเอง */
+  text-decoration: none;
+  color: #fff;
+}
+
+/* กล่องพื้นหลัง (ตามที่เราเคยเขียน) */
+.card-bg {
+  position: relative;
+   width: 360px;
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  overflow: hidden;
+  scroll-snap-align: start; /* ใช้กับ scroll-snap-type ด้านบน */
+}
+.card-bg {
+  border-radius: 16px;
+}
+
+.staff-pick-card:hover .card-bg {
+  transform: translateY(-4px);
+}
+
+@media (min-width: 768px) {
+  .card-bg {
+    width: 340px;
+    height: 210px;
+  }
+
+  .card-title {
+    font-size: 18px;
+  }
+}
+
+/* ชั้นมืด ๆ ทับ เพื่อให้ตัวหนังสืออ่านง่าย */
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0.2)
+  );
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.card-author {
+  font-size: 13px;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* เอฟเฟกต์ hover เล็กน้อย */
+.staff-pick-card:hover .card-bg {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  transition: 0.2s ease;
 }
 
 /* ปุ่ม toggle nav ซ้าย */
 .nav-toggle {
   position: absolute; /* ให้ปุ่มลอยอยู่เหนือ Layout */
-  left: 240px; /* ตำแหน่งตั้งต้น อยู่ริมขวาของ Sidebar */
+  left: 300px; /* ตำแหน่งตั้งต้น อยู่ริมขวาของ Sidebar */
   transition: left 0.3s ease; /* เพิ่ม Transition ให้ปุ่มเคลื่อนที่ตาม Sidebar */
   width: clamp(32px, 2.5vw, 42px);
   height: clamp(32px, 2.5vw, 42px);
@@ -28,6 +230,7 @@ html,body {
 
 /* กล่องใหญ่ 3 คอลัมน์ */
 .stories-layout {
+   position: relative;  /* ให้ปุ่ม nav-toggle อ้างอิงจากกล่องนี้ */
   display: flex; /* ใช้ Flexbox เพื่อจัดการ Layout */
   gap: 0rem;
   height: calc(100vh - 56px);  /* ลบ header ออก */
@@ -37,9 +240,9 @@ html,body {
 
     /* คอลัมน์ซ้าย */
 .stories-sidebar-left {
-  border-right: rgb(209, 209, 209)15px solid;
+  border-right: 15px solid rgb(209, 209, 209);
   overflow-wrap: anywhere;
-  width: 260px;
+  width: 300px;
   overflow-y: auto;      /* สกอร์ของตัวเอง */
   background-color: rgb(209, 209, 209);
   transition: width 0.3s ease, margin-left 0.3s ease; /* เพิ่ม Transition เพื่อให้เกิด Animation */
@@ -136,6 +339,8 @@ html,body {
 
 /* ตัวที่เลื่อนจริงในคอลัมน์กลาง */
 .stories-main-inner {
+  padding-left: 1rem;
+  padding-right: 1rem;
   flex: 1 1 auto;
   overflow-y: auto;       /* อันนี้แหละ scroll กลาง */
 }

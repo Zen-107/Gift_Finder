@@ -133,15 +133,21 @@
           <div class="composer-input" role="button">เริ่มเล่าเรื่องราวของคุณได้ที่นี่...!</div> 
         </section>
         <!----------------------------- เรื่องยอดนิยม -->
-        <h2 class="section-title">Popular</h2>
+        <h2 class="section-title">Staff Picks</h2>
         <section class="popular-stories">
-          <article class="story-card small">
-          </article>
-        </section>
+  <button class="scroll-btn left" id="staff-left">&#8249;</button>
+  <div class="staff-picks-container" id="staff-picks-container">
+    <p id="staff-picks-loading">กำลังโหลด Staff Picks...</p>
+  </div>
+  <button class="scroll-btn right" id="staff-right">&#8250;</button>
+</section>
+
         <!----------------------------- Main Feed - All Stories -->
         <h2 class="section-title">Feed</h2>
         <section class="stories-feed" id="stories-feed-container"> 
-          <p id="loading-message">Loading stories...</p>
+          <div class="stories-feed-container list-view" id="stories-feed-container">
+                    <p id="loading-message">กำลังโหลด Stories...</p>
+                </div>
         </section>
       </div>
       <button class="floating-add-btn">+</button>
@@ -157,7 +163,7 @@
       <!------------------------------- นักเขียนที่แนะนำ -->
       <section class="creator-panel">
         <h2 class="section-title">Authors</h2>
-        
+         <div class="author-list" id="author-list"></div>
       </section>
     </aside>
   </div>
