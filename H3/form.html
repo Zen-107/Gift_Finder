@@ -11,7 +11,6 @@
 </head>
 
 <body>
-  <!-- Navbar แบบ static -->
   <header class="navbar">
     <div class="container nav-content">
       <a class="logo" href="index.html">🎁 Gift Finder</a>
@@ -22,31 +21,21 @@
 
         <!-- ปุ่ม Login (ใช้ตอนยังไม่ล็อกอิน) -->
         <a id="login-entry" href="login.html">Login</a>
-
-        <!-- 🔽 Friends / Important people (โชว์เฉพาะตอนล็อกอิน) -->
-        <div class="nav-dropdown" id="friendsDropdown" style="display:none;">
-          <button class="nav-link-btn" type="button">
-            Friends
-            <span>▼</span>
-          </button>
-          <div class="dropdown-menu">
-            <div class="dropdown-content" id="recipient-list">
-              <!-- JS จะเติมรายชื่อบุคคลสำคัญมาตรงนี้ -->
-            </div>
-            <div class="dropdown-footer">
-              <button type="button" class="add-friend-btn" id="add-friend-btn">
-                + Add person
-              </button>
-            </div>
+        <div class="profile-menu" id="profileMenu" style="display: none;">
+          <button class="profile-toggle" id="profileToggle">Profile ▾</button>
+          <div class="profile-dropdown" id="profileDropdown">
+            <a href="#" id="fav-link">Favorite</a>
+            <a href="#" id="friend-link">Friend</a>
+            <button id="logoutBtn" type="button">Logout</button>
+            <div class="sub-dropdown" id="favDropdown" style="display: none;"></div>
+            <div class="sub-dropdown" id="friendDropdown" style="display: none;"></div>
           </div>
         </div>
       </nav>
-
-
     </div>
   </header>
 
-  <!-- เนื้อหาหลัก -->
+
   <main class="section">
     <div class="container">
       <h1>Gift Finder</h1>
@@ -111,20 +100,6 @@
             <div class="stack" id="interests"></div>
           </div>
 
-          <!-- <div class="col-12">
-            <label>Personality</label>
-            <div class="stack" id="personality">
-              <label class="pill"><input type="checkbox" value="modern">Modern</label>
-              <label class="pill"><input type="checkbox" value="innovative">Innovative</label>
-              <label class="pill"><input type="checkbox" value="calm">Calm</label>
-              <label class="pill"><input type="checkbox" value="health-conscious">Health-conscious</label>
-              <label class="pill"><input type="checkbox" value="simple">Simple</label>
-              <label class="pill"><input type="checkbox" value="aesthetic">Aesthetic</label>
-              <label class="pill"><input type="checkbox" value="animal-lover">Animal lover</label>
-              <label class="pill"><input type="checkbox" value="thoughtful">Thoughtful</label>
-              <label class="pill"><input type="checkbox" value="quiet">Quiet</label>
-            </div>
-          </div> -->
           <div class="col-12">
             <div class="checkbox-wrapper">
               <input id="terms-checkbox-37" name="save_profile" type="checkbox">
@@ -133,20 +108,19 @@
                   <mask fill="white" id="path-1-inside-1_476_5-37">
                     <rect width="200" height="200"></rect>
                   </mask>
-                  <rect class="checkbox-box" width="200" ห height="200" mask="url(#path-1-inside-1_476_5-37)"
-                    stroke-width="40">
-                  </rect>
-                  <path class="checkbox-tick" d="M52 111.018L76.9867 136L149 64" stroke-width="15">
-                  </path>
+                  <rect class="checkbox-box" width="200" height="200" mask="url(#path-1-inside-1_476_5-37)"
+                    stroke-width="40"></rect>
+                  <path class="checkbox-tick" d="M52 111.018L76.9867 136L149 64" stroke-width="15"></path>
                 </svg>
-                <span class="label-text">บันทึกข้อมูลลงในบุคคลสำคัญ</span>
-              </label>
-              <button type="button" id="deleteFriendBtn" class="danger-btn" style="display:none; margin-top: 8px;">
-                ลบบุคคลสำคัญนี้
-              </button>
 
+                <span class="label-text">Save this recipient to friend list</span>
+              </label>
+              <button type="button" id="deleteFriendBtn" class="danger-btn" style="display:none;">
+                Delete this friend
+              </button>
             </div>
           </div>
+
 
           <div class="col-12">
             <button class="btn" type="submit">See recommendations</button>
@@ -197,43 +171,29 @@
 
     </div>
   </footer>
+  <script src="assets/js/header.js"></script>
   <script src="assets/js/form.js"></script>
   <script>
+
     (async () => {
       const loginLink = document.getElementById("login-entry");
-      const friendsDropdown = document.getElementById("friendsDropdown");
-
-      if (!loginLink || !friendsDropdown) return;
+      const profileMenu = document.getElementById("profileMenu");
+      if (!loginLink || !profileMenu) return;
 
       try {
         const res = await fetch("api/check_session.php");
-        if (!res.ok) throw new Error("HTTP " + res.status);
-
-        const raw = await res.text();
-        console.log("check_session RAW:", raw);
-
-        let data;
-        try {
-          data = JSON.parse(raw);
-        } catch (e) {
-          console.error("check_session not JSON:", raw);
-          // เช็ค session ไม่ได้ → แสดง Login ไว้ก่อน
-          loginLink.style.display = "inline-block";
-          friendsDropdown.style.display = "none";
-          return;
-        }
-
+        const data = await res.json();
         if (data.loggedIn) {
           loginLink.style.display = "none";
-          friendsDropdown.style.display = "inline-block";
+          profileMenu.style.display = "inline-block";
         } else {
           loginLink.style.display = "inline-block";
-          friendsDropdown.style.display = "none";
+          profileMenu.style.display = "none";
         }
       } catch (err) {
-        console.error("check_session error:", err);
+        // ถ้า API ล้มเหลว ให้แสดง login
         loginLink.style.display = "inline-block";
-        friendsDropdown.style.display = "none";
+        profileMenu.style.display = "none";
       }
     })();
   </script>

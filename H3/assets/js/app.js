@@ -40,6 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const nextBtn = document.querySelector('.next');
   const slidesContainer = document.querySelector('.slides-container');
 
+  if (!slidesContainer || slides.length === 0) {
+    return;
+  }
+
   let currentIndex = 0;
   const totalSlides = slides.length;
 
@@ -71,9 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ปุ่ม Prev
   if (prevBtn) {
-  prevBtn.addEventListener('click', () => {
-    showSlide(currentIndex - 1);
-  });
+    prevBtn.addEventListener('click', () => {
+      showSlide(currentIndex - 1);
+    });
   } else { console.warn("No previous button found"); }
 
   // คลิกที่ dot

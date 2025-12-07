@@ -114,7 +114,10 @@ label {
 
 /* ========== checkbox ========== */
 .checkbox-wrapper {
-  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .checkbox-wrapper input[type="checkbox"] {
@@ -154,4 +157,35 @@ label {
 .checkbox-wrapper input[type="checkbox"]:checked+.terms-label .checkbox-box,
 .checkbox-wrapper input[type="checkbox"]:checked+.terms-label .checkbox-tick {
   stroke-dashoffset: 0;
+}
+
+/* ========== DELETE FRIEND BUTTON ========== */
+.danger-btn {
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid #ff5b14;
+  background-color: #ffffff;
+  color: #ff5b14;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.1s ease,
+    box-shadow 0.1s ease;
+}
+
+.danger-btn:hover {
+  background-color: #ff5b14;
+  color: #ffffff;
+  border-color: #ff5b14;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.danger-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+  opacity: 0.9;
 }
