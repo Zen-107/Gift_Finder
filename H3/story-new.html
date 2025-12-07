@@ -35,7 +35,6 @@
 
             <img id="image-preview" src="#" alt="Image Preview" style="display: none; max-width: 100%; margin-top: 15px; border-radius: 8px; cursor: pointer;">
             
-            <input type="hidden" id="author_id" name="author_id" value="1"> 
             <label for="story-title">Title:</label>
               <input type="text" id="story-title" name="story_title" required placeholder="ใส่ชื่อเรื่องหรือหัวข้อที่คุณอยากนำเสนอ"><br> 
             <label for="story-body">Story Body:</label>
@@ -105,43 +104,53 @@
 
                 // ส่งข้อมูลทั้งหมดไปยัง PHP API
                 // **Path นี้ควรชี้ไปที่ upload_story.php ที่แก้ไขแล้ว**
-                fetch('api/upload_story.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => {
-                    // ตรวจสอบว่า Response เป็น JSON หรือไม่
-                    const contentType = response.headers.get("content-type");
-                    if (contentType && contentType.indexOf("application/json") !== -1) {
-                        return response.json();
-                    } else {
-                        // ถ้าไม่ใช่ JSON แสดงว่ามี Error ที่ไม่ได้อยู่ในรูปแบบ JSON (เช่น PHP Error)
-                        console.error('Server returned non-JSON response.');
-                        throw new Error('Server returned unexpected format.');
-                    }
-                })
-                .then(data => {
-                    if (data.success) {
-                        alert(`🎉 บันทึกเรื่องราวสำเร็จ!\nStory ID: ${data.story_id}\nรูปภาพถูกเก็บใน: ${data.cover_image_path}`);
-                        uploadForm.reset(); 
-                        
-                        // คืนค่าสถานะเดิมของ Preview
-                        imagePreview.style.display = 'none';
-                        imagePreview.src = '#';
-                        uploadLabel.style.display = 'flex';
-                    } else {
-                        console.error('Upload failed:', data.message);
-                        alert('🚨 การบันทึกล้มเหลว: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error during fetch:', error);
-                    alert('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์ หรือมีข้อผิดพลาดที่ไม่คาดคิด');
-                })
-                .finally(() => {
-                    submitButton.textContent = 'บันทึกเรื่องราว';
-                    submitButton.disabled = false;
-                });
+                // ส่งข้อมูลทั้งหมดไปยัง PHP API
+fetch('api/upload_story.php', {
+    method: 'POST',
+    body: formData
+})
+.then(response => {
+    // ตรวจสอบ Response Status
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const contentType = response.headers.get("content-type");
+    
+    // ตรวจสอบว่า Response เป็น JSON จริงหรือไม่
+    if (contentType && contentType.includes("application/json")) {
+        return response.json();
+    } else {
+        // ถ้าไม่ใช่ JSON แสดงว่ามี output อื่นมาปน (JSON Corrupted)
+        console.error('Server returned non-JSON response. Full response:', response);
+        // *** เราจะพยายามอ่านข้อความ Response เพื่อดูว่ามี PHP Error ไหม
+        return response.text().then(text => {
+             throw new Error(`Server returned unexpected format (non-JSON). Raw Response: ${text.substring(0, 150)}`);
+        });
+    }
+})
+.then(data => {
+    if (data.success) {
+        alert(`🎉 บันทึกเรื่องราวสำเร็จ!\nStory ID: ${data.story_id}\nรูปภาพถูกเก็บใน: ${data.cover_image_path}`);
+        uploadForm.reset(); 
+        
+        // คืนค่าสถานะเดิมของ Preview
+        imagePreview.style.display = 'none';
+        imagePreview.src = '#';
+        uploadLabel.style.display = 'flex';
+    } else {
+        console.error('Upload failed:', data.message);
+        alert('🚨 การบันทึกล้มเหลว: ' + data.message);
+    }
+})
+.catch(error => {
+    console.error('Error during fetch:', error);
+    // แสดง Error ที่ชัดเจนขึ้น
+    alert('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์ หรือมีข้อผิดพลาดที่ไม่คาดคิด: ' + error.message);
+})
+.finally(() => {
+    submitButton.textContent = 'บันทึกเรื่องราว';
+    submitButton.disabled = false;
+});
             });
         });
     </script>
