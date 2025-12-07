@@ -1,32 +1,11 @@
-
-
-
-// helper query
 const qsa = (sel, parent = document) => Array.from(parent.querySelectorAll(sel));
 
 const FORM_KEY = "gf_criteria";
 // const RECIPIENTS_KEY = "gf_recipients";
 
-// เก็บว่า user คลิกเลือกเพื่อนคนไหน (สำหรับแก้ไข)
 let currentFriendId = null;
 
-// ดึงรายชื่อบุคคลสำคัญจาก localStorage
-// function loadRecipients() {
-//   try {
-//     return JSON.parse(localStorage.getItem(RECIPIENTS_KEY)) || [];
-//   } catch (e) {
-//     return [];
-//   }
-// }
 
-// เซฟ list บุคคลสำคัญลง localStorage
-// function saveRecipients(list) {
-//   localStorage.setItem(RECIPIENTS_KEY, JSON.stringify(list));
-// }
-
-// ---------------------------------------------------------
-// สร้างปุ่ม interests ให้กดได้จริง
-// ---------------------------------------------------------
 function renderInterests() {
   const target = document.getElementById("interests");
 
@@ -140,12 +119,6 @@ async function saveProfileToServer(criteria, extraFields = {}) {
   if (Array.isArray(criteria.categories)) {
     criteria.categories.forEach((c) => formData.append("categories[]", c));
   }
-
-
-  // personality[] (ถ้าใช้ในอนาคต)
-  // if (Array.isArray(criteria.personality)) {
-  //   criteria.personality.forEach((p) => formData.append("personality[]", p));
-  // }
 
   // extra fields (เช่น budget)
   Object.entries(extraFields).forEach(([key, value]) => {
@@ -273,12 +246,6 @@ async function loadRecipientsFromServer() {
   }
 }
 
-
-
-
-
-
-
 // ---------------------------------------------------------
 // Event: ตอนโหลดหน้า
 // ---------------------------------------------------------
@@ -385,17 +352,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     if (saveProfile) {
-      // ไม่ต้องเก็บ localStorage แล้วก็ได้ ถ้าใช้ DB อย่างเดียว
-      // const recipients = loadRecipients();
-      // recipients.push({ ... });
-      // saveRecipients(recipients);
 
       const ok = await saveProfileToServer(criteria, {
         budget: criteria.budget || "",
       });
 
       if (!ok) {
-        // ถ้าบันทึกไม่สำเร็จ (เช่น ชื่อซ้ำ) → ไม่ต้องไปหน้า results
+        // ถ้าบันทึกไม่สำเร็จ→ ไม่ต้องไปหน้า results
         return;
       }
 
