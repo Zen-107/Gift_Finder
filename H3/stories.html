@@ -56,10 +56,8 @@
 
 <!------------------------- ในหน้านี้แบ่งเป็น 3 คอลัมน์ ----------------------------->
   <div class="stories-layout">
-    
-    
-    <!-- คอลัมน์ซ้าย: navigation ของ stories -->
-    <aside class="stories-sidebar-left">
+    <!------------------------------- คอลัมน์ซ้าย: navigation ของ stories ------->
+    <aside class="stories-sidebar-left" id="sidebarLeft">
       <nav class="stories-sidebar-nav">
   <ul class="yt-nav-list">
     <li>
@@ -69,16 +67,16 @@
       <a href="stories.html" class="yt-nav-link">All Stories</a>
     </li>
     <li>
-      <a href="my-stories.html" class="yt-nav-link">My Stories</a>
+      <a href="#" class="yt-nav-link">My Stories</a>
     </li>
     <li>
-      <a href="my-stories.html" class="yt-nav-link">Drafts</a>
+      <a href="#" class="yt-nav-link">Drafts</a>
     </li>
     <li>
-      <a href="my-stories.html" class="yt-nav-link">Saved Stories</a>
+      <a href="#" class="yt-nav-link">Saved Stories</a>
     </li>
     <li>
-      <a href="my-stories.html" class="yt-nav-link">Liked Stories</a>
+      <a href="#" class="yt-nav-link">Liked Stories</a>
     </li>
   </ul>
 </nav>
@@ -127,260 +125,74 @@
     </div>
   </footer>
     </aside>
-<button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation">☰</button>
-
-    <!-- คอลัมน์กลาง: main feed -->
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation">☰</button>
+    <!------------------------------- คอลัมน์กลาง: main feed ------------------->
     <main class="stories-main">
       <div class="stories-main-inner">
-      <!-- แถบเขียนโพสต์ด้านบน -->
-      <section class="composer-card">
-        <div class="composer-input" role="button">
-          วันนี้อยากเล่าเรื่องของขวัญอะไร?
-        </div>
-        <!-- คลิกแล้วไปหน้า story-new.html -->
-      </section>
-
-      <!-- พื้นที่โพสต์แนะนำ (optional) -->
-      <section class="featured-stories">
-        <h2 class="section-title">แนะนำสำหรับคุณ</h2>
-        <!-- การ์ดแนะนำ 1–2 ใบ -->
-        <article class="story-card featured">
-          <img src="cover1.jpg" alt="" class="story-cover">
-          <h3 class="story-title">เซอร์ไพรส์วันเกิดแม่ปีนี้</h3>
-          <p class="story-meta">by Nana · 2 days ago</p>
-          <p class="story-excerpt">
-            เล่าโมเมนต์ตอนเตรียมเค้ก ทำของขวัญเอง และแอบซ่อนของไว้ในครัว...
-          </p>
-           <a href="story-view.html?id=2" class="btn-view">
-    View
-  </a>
-
-        </article>
-      </section>
-
-      <!-- แถบควบคุมฟีด (sort / view mode) -->
-      <section class="feed-controls">
-        <div class="sort-group">
-          <button class="is-active">Latest</button>
-          <button>Popular</button>
-        </div>
-        <div class="view-group">
-          <button title="Full view">📄</button>
-          <button title="Compact view">☰</button>
-        </div>
-      </section>
-
-      <!-- ฟีด stories ปกติ -->
-      <section class="stories-feed">
-        <article class="story-card">
-          <img src="cover2.jpg" alt="" class="story-cover">
-          <h3 class="story-title">ของขวัญชิ้นแรกที่ให้แฟน</h3>
-          <p class="story-meta">by Mew · 5 hours ago</p>
-          <p class="story-excerpt">
-            จริง ๆ แล้วเป็นของเล็ก ๆ ที่ตั้งใจมากกว่าราคา เลยอยากมาแชร์ไอเดีย...
-          </p>
-          <a href="story-view.html" class="story-link">View post</a>
-          <div class="story-actions">
-            <button>❤️ 120</button>
-            <button>💬 8</button>
-            <button>↗ Share</button>
-          </div>
-        </article>
-
-        
-
-        <!-- การ์ดอื่น ๆ -->
-      </section>
-</div>
-<button class="floating-add-btn">+</button>
+        <!----------------------------- แถบเขียนโพสต์ด้านบน --><!-- คลิกแล้วไปหน้า story-new.html -->
+        <section class="composer-card">
+          <div class="composer-input" role="button">เริ่มเล่าเรื่องราวของคุณได้ที่นี่...!</div> 
+        </section>
+        <!----------------------------- เรื่องยอดนิยม -->
+        <h2 class="section-title">Popular</h2>
+        <section class="popular-stories">
+          <article class="story-card small">
+          </article>
+        </section>
+        <!----------------------------- Main Feed - All Stories -->
+        <h2 class="section-title">Feed</h2>
+        <section class="stories-feed" id="stories-feed-container"> 
+          <p id="loading-message">Loading stories...</p>
+        </section>
+      </div>
+      <button class="floating-add-btn">+</button>
     </main>
-
-    <!-- คอลัมน์ขวา: แท็ก + creator แนะนำ -->
+    <!------------------------------- คอลัมน์ขวา: แท็ก + นักเขียนแนะนำ -->
     <aside class="stories-sidebar-right">
-      <!-- แท็กยอดนิยม -->
+      <!------------------------------- แท็กที่แนะนำ -->
       <section class="tag-panel">
         <h2 class="section-title">Popular tags</h2>
         <div class="tag-list">
-          <button>#birthday</button>
-          <button>#DIY</button>
-          <button>#forMom</button>
-          <button>#surprise</button>
-
-          <button>#birthday</button>
-          <button>#DIY</button>
-          <button>#forMom</button>
-          <button>#surprise</button>
-
-          <button>#birthday</button>
-          <button>#DIY</button>
-          <button>#forMom</button>
-          <button>#surprise</button>
-
-          <button>#birthday</button>
-          <button>#DIY</button>
-          <button>#forMom</button>
-          <button>#surprise</button>
-
-          <button>#birthday</button>
-          <button>#DIY</button>
-          <button>#forMom</button>
-          <button>#surprise</button>
-
-          <button>#birthday</button>
-          <button>#DIY</button>
-          <button>#forMom</button>
-          <button>#surprise</button>
         </div>
       </section>
-
-      <!-- creator แนะนำ -->
+      <!------------------------------- นักเขียนที่แนะนำ -->
       <section class="creator-panel">
-        <h2 class="section-title">Recommended creators</h2>
-        <ul class="creator-list">
-          <li>
-            <a href="#">
-              <img src="user1.jpg" alt="" class="creator-avatar">
-              <span class="creator-name">NanaGift</span>
-              <span class="creator-meta">12 stories</span>
-            </a>
-          </li>
-          <!-- คนอื่น ๆ -->
-           <li>
-            <a href="#">
-              <img src="user1.jpg" alt="" class="creator-avatar">
-              <span class="creator-name">NanaGift</span>
-              <span class="creator-meta">12 stories</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img src="user1.jpg" alt="" class="creator-avatar">
-              <span class="creator-name">NanaGift</span>
-              <span class="creator-meta">12 stories</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img src="user1.jpg" alt="" class="creator-avatar">
-              <span class="creator-name">NanaGift</span>
-              <span class="creator-meta">12 stories</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img src="user1.jpg" alt="" class="creator-avatar">
-              <span class="creator-name">NanaGift</span>
-              <span class="creator-meta">12 stories</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img src="user1.jpg" alt="" class="creator-avatar">
-              <span class="creator-name">NanaGift</span>
-              <span class="creator-meta">12 stories</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img src="user1.jpg" alt="" class="creator-avatar">
-              <span class="creator-name">NanaGift</span>
-              <span class="creator-meta">12 stories</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img src="user1.jpg" alt="" class="creator-avatar">
-              <span class="creator-name">NanaGift</span>
-              <span class="creator-meta">12 stories</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img src="user1.jpg" alt="" class="creator-avatar">
-              <span class="creator-name">NanaGift</span>
-              <span class="creator-meta">12 stories</span>
-            </a>
-          </li>
-          <!-- คนอื่น ๆ -->
-           <li>
-            <a href="#">
-              <img src="user1.jpg" alt="" class="creator-avatar">
-              <span class="creator-name">NanaGift</span>
-              <span class="creator-meta">12 stories</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img src="user1.jpg" alt="" class="creator-avatar">
-              <span class="creator-name">NanaGift</span>
-              <span class="creator-meta">12 stories</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img src="user1.jpg" alt="" class="creator-avatar">
-              <span class="creator-name">NanaGift</span>
-              <span class="creator-meta">12 stories</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img src="user1.jpg" alt="" class="creator-avatar">
-              <span class="creator-name">NanaGift</span>
-              <span class="creator-meta">12 stories</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img src="user1.jpg" alt="" class="creator-avatar">
-              <span class="creator-name">NanaGift</span>
-              <span class="creator-meta">12 stories</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img src="user1.jpg" alt="" class="creator-avatar">
-              <span class="creator-name">NanaGift</span>
-              <span class="creator-meta">12 stories</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img src="user1.jpg" alt="" class="creator-avatar">
-              <span class="creator-name">NanaGift</span>
-              <span class="creator-meta">12 stories</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <img src="user1.jpg" alt="" class="creator-avatar">
-              <span class="creator-name">NanaGift</span>
-              <span class="creator-meta">12 stories</span>
-            </a>
-          </li>
-        </ul>
+        <h2 class="section-title">Authors</h2>
+        
       </section>
     </aside>
-
   </div>
 
+  <script src="assets/js/header.js"></script>
+  <script src="assets/js/stories.js"></script>
+
   <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', function() {
     const composer = document.querySelector('.composer-input');
     if (composer) {
       composer.addEventListener('click', () => {
         window.location.href = 'story-new.html';
       });
     }
-    const composerplus = document.querySelector('.floating-add-btn');
-    if (composerplus) {
-      composer.addEventListener('click', () => {
+    const floating_add_btn = document.querySelector('.floating-add-btn');
+    if (floating_add_btn) {
+      floating_add_btn.addEventListener('click', () => {
         window.location.href = 'story-new.html';
       });
     }
+    const navToggle = document.getElementById('navToggle');
+    const storiesLayout = document.querySelector('.stories-layout');
+    // ตรวจสอบว่ามี Element ทั้งสองอยู่จริงก่อนทำงาน
+    if (navToggle && storiesLayout) {
+        navToggle.addEventListener('click', function() {
+            // เมื่อคลิก ให้สลับ (toggle) Class 'sidebar-closed' บน div หลัก
+            storiesLayout.classList.toggle('sidebar-closed');
+
+            // เพิ่มการจัดการสำหรับปุ่ม nav-toggle ให้เปลี่ยนตำแหน่ง/หมุน ได้ ถ้าต้องการ
+            this.classList.toggle('is-open'); 
+        });
+    }
   });
 </script>
-<script src="assets/js/header.js"></script>
-
 </body>
 </html>
