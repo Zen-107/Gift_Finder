@@ -1,3 +1,6 @@
+alert("FORM.JS FILE A LOADED");
+
+
 // helper query
 const qsa = (sel, parent = document) => Array.from(parent.querySelectorAll(sel));
 
@@ -319,6 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // 🎯 submit form
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    console.log("🔔 SUBMIT HANDLER RUN");
 
     const data = new FormData(form);
 
@@ -359,8 +363,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ส่ง criteria ไปหน้า results ตามปกติ
     sessionStorage.setItem(FORM_KEY, JSON.stringify(criteria));
-    window.location.href = "show_all_product.html";
-
+    // ➜ ใส่พารามิเตอร์ filtered=1 บอกว่ามาจาก "การค้นหา"
+    window.location.href = "show_all_product.html?filtered=1";
   });
 
 

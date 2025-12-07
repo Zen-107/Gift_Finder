@@ -7,7 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const grid = document.getElementById("results");
   const empty = document.getElementById("empty");
 
-  // helper: สร้าง UI แสดงสินค้า (ใช้ร่วมกันทั้ง 2 กรณี)
+  // ---------------------------
+  // helper: แสดงสินค้า
+  // ---------------------------
   function renderProducts(products) {
     if (!Array.isArray(products) || products.length === 0) {
       empty.style.display = "block";
@@ -19,34 +21,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
     grid.innerHTML = products
       .map((p) => {
+        // แสดงช่วงราคา ถ้ามี
         let priceText = "—";
         if (p.min_price !== null && p.max_price !== null) {
           const min = parseFloat(p.min_price);
           const max = parseFloat(p.max_price);
           const currency = p.currency || "THB";
-          if (min === max) {
-            priceText =
-              min.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              }) +
-              " " +
-              currency;
-          } else {
-            priceText =
-              min.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              }) +
-              " – " +
-              max.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              }) +
-              " " +
-              currency;
+          if (!Number.isNaN(min) && !Number.isNaN(max)) {
+            if (min === max) {
+              priceText =
+                min.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }) +
+                " " +
+                currency;
+            } else {
+              priceText =
+                min.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }) +
+                " – " +
+                max.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }) +
+                " " +
+                currency;
+            }
           }
         }
+
+        const badge =
+          (Array.isArray(p.categories) && p.categories[0]) || "Gift";
 
         return `
           <div class="card">
@@ -54,10 +62,11 @@ document.addEventListener("DOMContentLoaded", () => {
                  alt="${p.name}"
                  onerror="this.onerror=null; this.src='assets/images/placeholder.png';">
             <div class="card-body">
-              <div class="badge">${(p.categories && p.categories[0]) || "Gift"}</div>
+              <div class="badge">${badge}</div>
               <strong>${p.name}</strong>
               <div class="price">${priceText}</div>
-              <div>${p.description ? p.description.substring(0, 100) + "..." : ""}</div>
+              <div>${p.description ? p.description.substring(0, 100) + "..." : ""
+          }</div>
               <div class="stack">
                 <a class="btn" href="product.php?id=${p.id}">View details</a>
               </div>
@@ -68,9 +77,9 @@ document.addEventListener("DOMContentLoaded", () => {
       .join("");
   }
 
-  // ----------------------------------------------------
-  // 1) ลองอ่าน criteria จาก sessionStorage ก่อน
-  // ----------------------------------------------------
+  // ---------------------------
+  // 1) อ่าน criteria จาก sessionStorage
+  // ---------------------------
   let criteria = null;
   try {
     const raw = sessionStorage.getItem(FORM_KEY);
@@ -82,12 +91,22 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn("Cannot parse criteria JSON:", e);
   }
 
-  // ----------------------------------------------------
-  // 2) ถ้ามี criteria → เรียก API แบบค้นหาตามเงื่อนไข
-  //    ถ้าไม่มี → ดึงสินค้าทั้งหมดเหมือนเดิม
-  // ----------------------------------------------------
-  if (criteria && (Array.isArray(criteria.categories) || Array.isArray(criteria.interests))) {
-    // รองรับทั้งชื่อใหม่ categories และชื่อเดิม interests
+  // ---------------------------
+  // 2) ดูว่า URL มี ?filtered=1 มั้ย
+  // ---------------------------
+  const params = new URLSearchParams(window.location.search);
+  const fromFilter = params.get("filtered") === "1";
+
+  // ---------------------------
+  // 3) ถ้ามาจากการกรอง → เรียก search_products
+  //    ถ้าไม่ใช่ → แสดงสินค้าทั้งหมด
+  // ---------------------------
+  if (
+    fromFilter &&
+    criteria &&
+    (Array.isArray(criteria.categories) ||
+      Array.isArray(criteria.interests))
+  ) {
     const selectedCategories =
       criteria.categories && criteria.categories.length
         ? criteria.categories
@@ -115,6 +134,8 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((products) => {
         console.log("Filtered products:", products);
         renderProducts(products);
+        // ใช้เสร็จแล้ว จะล้างเกณฑ์ทิ้งก็ได้ กันค้าง
+        // sessionStorage.removeItem(FORM_KEY);
       })
       .catch((error) => {
         console.error("Error loading filtered products:", error);
@@ -123,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
         empty.style.display = "block";
       });
   } else {
-    // 👉 กรณีไม่มี criteria → ใช้แบบเดิม ดึงสินค้าทั้งหมด
+    // กรณีไม่ได้มาจากการกรอง → แสดงสินค้าทั้งหมด
     critEl.textContent = "แสดงสินค้าทั้งหมด";
 
     fetch("api/get_all_product.php")

@@ -1,6 +1,16 @@
 // assets/js/header.js
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // ✅ เคลียร์ค่าการกรองทุกครั้งที่กดจาก Navbar ไปหน้า show_all_product
+  const navAllProductLinks = document.querySelectorAll('a[href="show_all_product.html"]');
+
+  navAllProductLinks.forEach(link => {
+    link.addEventListener("click", () => {
+      console.log("🔄 Clear gf_criteria from navbar");
+      sessionStorage.removeItem("gf_criteria");
+    });
+  });
+
   const loginLink = document.getElementById("login-entry");
   const profileMenu = document.getElementById("profileMenu");
   const profileToggle = document.getElementById("profileToggle");
