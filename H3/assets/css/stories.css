@@ -1,0 +1,297 @@
+html,body {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  background-color: var(--accent); /*bg-light*/
+  overflow: hidden;       /* ไม่ให้เลื่อนทั้งหน้า */
+}
+
+/* ปุ่ม toggle nav ซ้าย */
+.nav-toggle {
+<<<<<<< HEAD
+  width: clamp(32px, 2.5vw, 42px);
+  height: clamp(32px, 2.5vw, 42px);
+  border-radius: 50%;
+=======
+  position: absolute; /* ให้ปุ่มลอยอยู่เหนือ Layout */
+  left: 240px; /* ตำแหน่งตั้งต้น อยู่ริมขวาของ Sidebar */
+  transition: left 0.3s ease; /* เพิ่ม Transition ให้ปุ่มเคลื่อนที่ตาม Sidebar */
+  width: clamp(32px, 2.5vw, 42px);
+  height: clamp(32px, 2.5vw, 42px);
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
+  font-size: clamp(1rem, 1.5vw, 1.3rem); /* ขนาดตัวอักษรข้างใน */
+  border-radius: 50%; /* ความกลม */
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+<<<<<<< HEAD
+  position: sticky;
+  top: 50%;                 /* ตรงกลางแนวตั้ง */
+  
+  margin-left: -15px;  /*ขอบขวาของ aside ซ้าย*/
+=======
+  top: 50%;                 /* ตรงกลางแนวตั้ง */
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
+  border: 1px solid #ccc;
+  background: #fff;
+  display: flex;
+  z-index: 10; /* ให้ทับคอลัมน์กลาง */
+<<<<<<< HEAD
+  transition: 0.2s;
+=======
+}
+
+/* กล่องใหญ่ 3 คอลัมน์ */
+.stories-layout {
+  display: flex; /* ใช้ Flexbox เพื่อจัดการ Layout */
+  gap: 0rem;
+  height: calc(100vh - 56px);  /* ลบ header ออก */
+  box-sizing: border-box;
+  overflow: hidden;       /* ไม่ให้ layout ใหญ่สกอร์เอง */
+}
+
+    /* คอลัมน์ซ้าย */
+.stories-sidebar-left {
+  border-right: rgb(209, 209, 209)15px solid;
+  overflow-wrap: anywhere;
+  width: 260px;
+  overflow-y: auto;      /* สกอร์ของตัวเอง */
+  background-color: rgb(209, 209, 209);
+  transition: width 0.3s ease, margin-left 0.3s ease; /* เพิ่ม Transition เพื่อให้เกิด Animation */
+}
+
+/* คอลัมน์กลาง (กรอบ) */
+.stories-main {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  flex: 1 1 auto;
+  flex-grow: 1; /* ให้ Main Content กินพื้นที่ที่เหลือ */
+  position: relative;     /* ให้ปุ่ม + ยึดกับกรอบนี้ */
+  overflow: hidden;       /* ไม่ให้ตัวกรอบสกอร์เอง */
+  display: flex;
+}
+/* เวลาปิด sidebar ซ้าย: ลดความกว้างลงเหลือ 0 */
+.stories-layout.sidebar-closed .stories-sidebar-left {
+    width: 18px; /* หรือความกว้างเล็กน้อย เช่น 50px ถ้าต้องการให้เหลือไอคอน */
+    overflow: hidden; /* ซ่อนเนื้อหาภายใน */
+}
+
+.stories-layout.sidebar-closed .nav-toggle {
+    left: 0; /* ย้ายปุ่มไปที่ตำแหน่งใหม่ (จาก 250px เป็น 10px) */
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
+}
+
+/* ปุ่ม + ลอยในคอลัมน์กลาง (ลอยทับ content และไม่เลื่อนไปกับ main-inner) */
+.floating-add-btn {
+  width: clamp(44px, 3vw, 56px);
+  height: clamp(44px, 3vw, 56px);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: clamp(1.4rem, 2vw, 2rem);
+  align-items: center;
+  justify-content: center;
+  position: absolute; /* อ้างอิงจาก .stories-main */
+  border: 1px solid #ccc;
+  background: #fff;
+  display: flex;
+  z-index:  11; /* ให้ทับ content */
+  
+  bottom: 1.5rem;
+  right: 1.5rem;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+
+<<<<<<< HEAD
+/* เวลาปิด sidebar ซ้าย */
+.stories-layout.nav-collapsed .stories-sidebar-left {
+  display: none;
+}
+
+/* ให้ main ขยายเต็มมากขึ้นตอนปิด sidebar ซ้าย */
+.stories-layout.nav-collapsed .stories-main {
+  flex: 1 1 auto;
+}
+
+/* กล่องใหญ่ 3 คอลัมน์ */
+.stories-layout {
+  display: flex;
+  gap: 0rem;
+  height: calc(100vh - 56px);  /* ลบ header ออก */
+  box-sizing: border-box;
+  overflow: hidden;       /* ไม่ให้ layout ใหญ่สกอร์เอง */
+}
+
+/* คอลัมน์ซ้าย */
+.stories-sidebar-left {
+  overflow-wrap: anywhere;
+  width: 260px;
+  overflow-y: auto;      /* สกอร์ของตัวเอง */
+  background-color: rgb(209, 209, 209);
+}
+
+=======
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
+/* กล่องเมนูด้านซ้ายแบบ YouTube */
+.stories-sidebar-nav {
+  padding: 0.5rem 0;
+}
+
+/* ลิสต์หลัก */
+.yt-nav-list {
+  list-style: none;   /* ไม่มีจุด */
+  margin: 0;
+  padding: 0;
+}
+
+/* แต่ละรายการเมนู */
+.yt-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  /* ความสูงแถวแบบ YouTube */
+  height: 40px;
+  padding: 0 12px;
+
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  color: #0f0f0f;
+  font-weight: 400;
+
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* Hover แบบ YouTube */
+.yt-nav-link:hover {
+  background: #f2f2f2;
+}
+
+/* ลิงก์หลัก (New Story) ให้เด่นขึ้นนิดหน่อยก็ได้ */
+.yt-nav-link--primary {
+  font-weight: 500;
+}
+
+/* สถานะหน้าใช้งาน (เหมือนเมนู Active ใน YouTube) */
+.yt-nav-link.is-active {
+  background: #e5e5e5;
+  font-weight: 500;
+}
+
+
+<<<<<<< HEAD
+/* .stories-nav{
+  padding: 0.5rem 0;
+  list-style: none; 
+  max-width: 100%;
+  padding-left: 1rem;
+  min-height: 70%;
+  overflow-x: hidden;
+   display: block;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  background: transparent;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.stories-nav li a:hover {
+  background: rgba(0, 102, 255, 0.08);
+  transform: translateX(3px);
+  color: var(--primary);
+}
+
+hr {
+  width: 70%;
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 2rem auto;
+} */
+
+
+
+/* คอลัมน์กลาง (กรอบ) */
+.stories-main {
+  flex: 1 1 auto;
+  position: relative;     /* ให้ปุ่ม + ยึดกับกรอบนี้ */
+  overflow: hidden;       /* ไม่ให้ตัวกรอบสกอร์เอง */
+  display: flex;
+}
+
+=======
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
+/* ตัวที่เลื่อนจริงในคอลัมน์กลาง */
+.stories-main-inner {
+  flex: 1 1 auto;
+  overflow-y: auto;       /* อันนี้แหละ scroll กลาง */
+}
+
+/* คอลัมน์ขวา */
+.stories-sidebar-right {
+  flex: 0 0 260px;
+  overflow-y: auto;       /* สกอร์ของตัวเอง */
+}
+
+<<<<<<< HEAD
+=======
+.composer-card {
+  display: flex;
+  justify-content: center;   /* กลางแนวนอน */
+}
+.composer-input {
+  text-align: start;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+  padding: 0.8rem 0.5rem;
+  padding-left: 2rem;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: text;
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
+/* การ์ด / ส่วนต่าง ๆ ข้างในค่อยแต่งเพิ่ม */
+.story-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+}
+
+
+
+/* เวลาหน้าจอเล็ก → ให้คอลัมน์เรียงลงล่างแทน และกลับไป scroll ทั้งหน้า */
+@media (max-width: 900px) {
+  html, body {
+    overflow: auto;       /* ให้กลับมาเลื่อนทั้งหน้า */
+  }
+
+  .stories-layout {
+    flex-direction: column-reverse;
+    height: auto;
+    overflow: visible;
+  }
+  .stories-sidebar-left,
+  .stories-main,
+  .stories-sidebar-right {
+    flex: 1 1 auto;
+    overflow: visible;    /* ไม่ต้องแยกสกอร์แล้ว */
+    
+  }
+  
+
+  .floating-add-btn {
+    position: fixed;      /* มือถือให้ลอยติดจอแทน */
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+  
+}

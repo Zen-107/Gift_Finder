@@ -1,0 +1,327 @@
+/* story-view.css  use for view and new*/
+
+body {
+  overflow-y: auto;
+  background: #ffffff;
+}
+
+
+/* แถบด้านบน มีลิงก์กลับไปหน้า stories */
+.story-top-bar {
+  max-width: 80vw;
+  margin: 1rem auto 0.5rem;
+  padding: 0 1rem;
+}
+
+.story-top-bar .back-link {
+  font-size: 0.9rem;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+/* กล่องใหญ่สุดใส่ card และ right-aside */
+.story-view-container {
+  max-width: 1000px;
+  margin: 0.5rem auto;
+  padding: 0 0.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 1.5rem;
+}
+
+/* กล่องย่อย */
+.story-card, .right-aside{
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 1.5rem;
+  padding-top: 0.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+} 
+
+/* cover image */
+.story-cover {
+  margin: 1rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.story-cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.story-title {
+  margin: 0 0 0.5rem;
+  font-size: 2rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* แถวหัวเรื่อง + ปุ่มต่าง ๆ */
+.actoin-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.story-meta-left {
+  display: grid;
+  grid-template-columns: 1fr; 
+  gap: 0rem;
+  justify-content: flex-start;
+}
+.story-author strong {
+  font-weight: 600;
+}
+.story-date {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+/* ปุ่ม like / save / share */
+.story-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 999px;
+  border: 1px solid #cbd5e1;
+  padding: 0.25rem 0.7rem;
+  background: #f8fafc;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.pill-count {
+  font-weight: 600;
+}
+
+.pill-icon {
+  font-size: 0.9rem;
+}
+
+.pill-btn.is-active {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+/* เนื้อเรื่อง */
+.story-body {
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #1f2933;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.story-body p {
+  margin-bottom: 1rem;
+}
+
+/* แท็กด้านล่าง */
+.story-tags {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.tags-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid #fb7185;
+  font-size: 0.8rem;
+  text-decoration: none;
+  color: #be123c;
+  background: #fff1f2;
+}
+
+.tag-chip:hover {
+  background: #ffe4e6;
+}
+
+/* right-aside -> suggestions *//* layout ใหม่ของ suggestions: 1 คอลัมน์ 3 แถว แบบการ์ดเล็ก ๆ */
+/* layout: 1 คอลัมน์ */
+.suggestions-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* จากเดิม index = 3 คอลัมน์ */
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+/* การ์ดแบบหน้า index */
+.popular-card {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.popular-card img {
+  width: 100%;
+  height: 140px; /* ปรับให้เหมาะกับ sidebar */
+  object-fit: cover;
+  display: block;
+}
+
+/* title ซ้อนบนรูปเหมือนหน้า index */
+.popular-card-title {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: .6rem;
+  font-size: .9rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0));
+}
+
+.popular-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+/* ป้ายไลค์มุมซ้ายบน */
+.popular-like-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  color: #fff;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  border-radius: 6px;
+  backdrop-filter: blur(2px);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+@media (max-width: 800px) {
+  .story-view-container {
+    grid-template-columns: 1fr;
+  }
+  .story-card {
+    padding: 1rem 1rem 1.25rem;
+  }
+
+  .story-actions {
+    justify-content: flex-start;
+  }
+}
+<<<<<<< HEAD
+=======
+
+
+.story-card1 {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box; /* สำคัญ */
+        }
+
+        textarea {
+            resize: vertical;
+        }
+        
+        button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* สไตล์สำหรับกล่องอัพโหลด (Upload Box) */
+        .file-upload-container {
+            margin-bottom: 20px;
+        }
+
+        .file-upload-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%; 
+            height: 120px; 
+            border: 2px dashed #ccc; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            text-align: center;
+            transition: border-color 0.3s, background-color 0.3s;
+            padding: 15px;
+            color: #555;
+            box-sizing: border-box;
+        }
+
+        .file-upload-label:hover {
+            border-color: #007bff; 
+            background-color: #f8f9fa; 
+        }
+
+        .upload-text {
+            font-size: 14px;
+        }
+
+        /* ซ่อน input type="file" จริงๆ */
+        #image-upload {
+            display: none;
+        }
+
+        /* สไตล์สำหรับรูปภาพ Preview */
+        #image-preview {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28

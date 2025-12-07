@@ -1,0 +1,140 @@
+<!-- story-new.html  สร้าง story เพื่อ insert ข้อมูลชุดใหม่ลงใน stories -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Gift Finder | Story Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="assets/css/global.css" />
+  <link rel="stylesheet" href="assets/css/stories.css" />
+  <link rel="stylesheet" href="assets/css/story-view.css">
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="container nav-content">
+      <a class="logo" href="index.html">🎁 Gift Finder</a>
+    </div>
+  </header>
+
+  <div class="story-top-bar"> <!-- แถบด้านบน มีลิงก์กลับไปหน้า stories.html -->
+    <a href="stories.html" class="back-link">← View Feed</a>
+  </div>
+<<<<<<< HEAD
+=======
+<!-- กล่องใหญ่สุด -->
+  <main class="story-view-container">
+    <!-- กล่องย่อยซ้าย -->
+    <article class="story-card" >
+        <h2>สร้างเรื่องราวใหม่</h2>
+        <form id="uploadForm">
+            <div class="file-upload-container">
+                <label for="image-upload" class="file-upload-label">
+                    <span class="upload-text">เลือกรูปปกของคุณ (คลิกเพื่อเลือกรูปภาพ หรือลากไฟล์มาวางที่นี่)</span>
+                    <input type="file" id="image-upload" name="cover_file" accept="image/*" required> </label>
+            </div>
+
+            <img id="image-preview" src="#" alt="Image Preview" style="display: none; max-width: 100%; margin-top: 15px; border-radius: 8px; cursor: pointer;">
+            
+            <input type="hidden" id="author_id" name="author_id" value="1"> 
+            <label for="story-title">Title:</label>
+              <input type="text" id="story-title" name="story_title" required placeholder="ใส่ชื่อเรื่องหรือหัวข้อที่คุณอยากนำเสนอ"><br> 
+            <label for="story-body">Story Body:</label>
+              <textarea id="story-body" name="body_text" rows="6" required placeholder="เขียนเรื่องราวของคุณเลย!"></textarea><br> 
+            <label for="story-tags">Tags: (เพิ่ม Tags ที่เกี่ยวข้องกับเรื่องราวของคุณ โดยใช้ #)</label>
+              <input type="text" id="story-tags" name="tags_text" placeholder="#ของขวัญวันเกิด #DIY #วันนี้วันดี"><br> 
+            <button type="submit">บันทึกเรื่องราว</button>
+        </form>
+    </article>
+    <!-- <aside class="right-aside">
+      <h3>Tools</h3>
+      <button title="Compact view">☰</button>
+    </aside> -->
+  </main>
+
+
+
+  <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const imageUpload = document.getElementById('image-upload');
+            const imagePreview = document.getElementById('image-preview');
+            const uploadLabel = document.querySelector('.file-upload-label');
+            const uploadForm = document.getElementById('uploadForm');
+
+            // --- Logic สำหรับ Preview รูปภาพ (เหมือนเดิม) ---
+            const handleFileChange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        imagePreview.src = event.target.result;
+                        imagePreview.style.display = 'block';
+                        uploadLabel.style.display = 'none'; 
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    imagePreview.src = '#';
+                    imagePreview.style.display = 'none';
+                    uploadLabel.style.display = 'flex';
+                }
+            };
+
+            imageUpload.addEventListener('change', handleFileChange);
+            imagePreview.addEventListener('click', function() {
+                imageUpload.click();
+            });
+
+
+            // --- Logic สำหรับส่งข้อมูล (Submit) ---
+            uploadForm.addEventListener('submit', function(e) {
+                e.preventDefault(); 
+
+                const formData = new FormData(uploadForm); 
+
+                // ตรวจสอบไฟล์
+                if (formData.get('cover_file').size === 0) {
+                    alert('กรุณาเลือกรูปปกของเรื่องราว');
+                    return; 
+                }
+
+                const submitButton = uploadForm.querySelector('button[type="submit"]');
+                submitButton.textContent = 'กำลังบันทึก...';
+                submitButton.disabled = true;
+
+                // ส่งข้อมูลทั้งหมดไปยัง PHP API
+                fetch('api/upload_story.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(`บันทึกเรื่องราวสำเร็จ! Story ID: ${data.story_id}, Path รูปภาพ: ${data.cover_image_path}`);
+                        uploadForm.reset(); 
+                        
+                        // คืนค่าสถานะเดิมของ Preview
+                        imagePreview.style.display = 'none';
+                        imagePreview.src = '#';
+                        uploadLabel.style.display = 'flex';
+                    } else {
+                        console.error('Upload failed:', data.message);
+                        alert('การบันทึกล้มเหลว: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during fetch:', error);
+                    alert('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์');
+                })
+                .finally(() => {
+                    submitButton.textContent = 'บันทึกเรื่องราว';
+                    submitButton.disabled = false;
+                });
+            });
+        });
+    </script>
+
+
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
+</body>
+</html>
