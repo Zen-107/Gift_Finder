@@ -59,6 +59,7 @@ try {
         }
     }
 
+<<<<<<< HEAD
     // เช็ค login (ถ้ามี session)
     if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -95,6 +96,12 @@ try {
 
     // ------------------------------------
     // 2) More stories logic
+=======
+    // *** ส่วนการตรวจสอบ Like/Save ที่ต้องใช้ Session ถูกลบออกแล้ว ***
+
+    // ------------------------------------
+    // 2) More stories logic (ยังคงไว้ตามโค้ดเดิม)
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
     //    1) ผู้เขียนคนเดียวกัน
     //    2) tags คล้ายกัน
     //    3) ถ้ายังไม่ครบ เติมจากทั้งหมด
@@ -223,7 +230,11 @@ try {
 
     $suggestions = array_values($suggestions);
 
+<<<<<<< HEAD
     // 3) ส่ง JSON กลับไปให้หน้า HTML
+=======
+    // 3) ส่ง JSON กลับไป
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
     $data = [
         'success' => true,
         'story' => [
@@ -238,8 +249,12 @@ try {
             'like_count'  => (int)$story['like_count'],
             'tags'        => $tags,
         ],
+<<<<<<< HEAD
         'liked'       => $liked,
         'saved'       => $saved,
+=======
+        // 'liked' และ 'saved' ถูกลบออก
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
         'suggestions' => $suggestions,
     ];
 
@@ -252,3 +267,7 @@ try {
         'message' => 'Server error'
     ]);
 }
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28

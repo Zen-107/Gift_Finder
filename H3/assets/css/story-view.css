@@ -233,3 +233,95 @@ body {
     justify-content: flex-start;
   }
 }
+<<<<<<< HEAD
+=======
+
+
+.story-card1 {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box; /* สำคัญ */
+        }
+
+        textarea {
+            resize: vertical;
+        }
+        
+        button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* สไตล์สำหรับกล่องอัพโหลด (Upload Box) */
+        .file-upload-container {
+            margin-bottom: 20px;
+        }
+
+        .file-upload-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%; 
+            height: 120px; 
+            border: 2px dashed #ccc; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            text-align: center;
+            transition: border-color 0.3s, background-color 0.3s;
+            padding: 15px;
+            color: #555;
+            box-sizing: border-box;
+        }
+
+        .file-upload-label:hover {
+            border-color: #007bff; 
+            background-color: #f8f9fa; 
+        }
+
+        .upload-text {
+            font-size: 14px;
+        }
+
+        /* ซ่อน input type="file" จริงๆ */
+        #image-upload {
+            display: none;
+        }
+
+        /* สไตล์สำหรับรูปภาพ Preview */
+        #image-preview {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28

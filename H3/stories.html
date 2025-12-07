@@ -56,10 +56,15 @@
 
 <!------------------------- ในหน้านี้แบ่งเป็น 3 คอลัมน์ ----------------------------->
   <div class="stories-layout">
+<<<<<<< HEAD
     
     
     <!-- คอลัมน์ซ้าย: navigation ของ stories -->
     <aside class="stories-sidebar-left">
+=======
+    <!------------------------------- คอลัมน์ซ้าย: navigation ของ stories ------->
+    <aside class="stories-sidebar-left" id="sidebarLeft">
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
       <nav class="stories-sidebar-nav">
   <ul class="yt-nav-list">
     <li>
@@ -69,6 +74,7 @@
       <a href="stories.html" class="yt-nav-link">All Stories</a>
     </li>
     <li>
+<<<<<<< HEAD
       <a href="my-stories.html" class="yt-nav-link">My Stories</a>
     </li>
     <li>
@@ -79,6 +85,18 @@
     </li>
     <li>
       <a href="my-stories.html" class="yt-nav-link">Liked Stories</a>
+=======
+      <a href="#" class="yt-nav-link">My Stories</a>
+    </li>
+    <li>
+      <a href="#" class="yt-nav-link">Drafts</a>
+    </li>
+    <li>
+      <a href="#" class="yt-nav-link">Saved Stories</a>
+    </li>
+    <li>
+      <a href="#" class="yt-nav-link">Liked Stories</a>
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
     </li>
   </ul>
 </nav>
@@ -127,6 +145,7 @@
     </div>
   </footer>
     </aside>
+<<<<<<< HEAD
 <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation">☰</button>
 
     <!-- คอลัมน์กลาง: main feed -->
@@ -366,12 +385,58 @@
 
   <script>
   document.addEventListener('DOMContentLoaded', () => {
+=======
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation">☰</button>
+    <!------------------------------- คอลัมน์กลาง: main feed ------------------->
+    <main class="stories-main">
+      <div class="stories-main-inner">
+        <!----------------------------- แถบเขียนโพสต์ด้านบน --><!-- คลิกแล้วไปหน้า story-new.html -->
+        <section class="composer-card">
+          <div class="composer-input" role="button">เริ่มเล่าเรื่องราวของคุณได้ที่นี่...!</div> 
+        </section>
+        <!----------------------------- เรื่องยอดนิยม -->
+        <h2 class="section-title">Popular</h2>
+        <section class="popular-stories">
+          <article class="story-card small">
+          </article>
+        </section>
+        <!----------------------------- Main Feed - All Stories -->
+        <h2 class="section-title">Feed</h2>
+        <section class="stories-feed" id="stories-feed-container"> 
+          <p id="loading-message">Loading stories...</p>
+        </section>
+      </div>
+      <button class="floating-add-btn">+</button>
+    </main>
+    <!------------------------------- คอลัมน์ขวา: แท็ก + นักเขียนแนะนำ -->
+    <aside class="stories-sidebar-right">
+      <!------------------------------- แท็กที่แนะนำ -->
+      <section class="tag-panel">
+        <h2 class="section-title">Popular tags</h2>
+        <div class="tag-list">
+        </div>
+      </section>
+      <!------------------------------- นักเขียนที่แนะนำ -->
+      <section class="creator-panel">
+        <h2 class="section-title">Authors</h2>
+        
+      </section>
+    </aside>
+  </div>
+
+  <script src="assets/js/header.js"></script>
+  <script src="assets/js/stories.js"></script>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
     const composer = document.querySelector('.composer-input');
     if (composer) {
       composer.addEventListener('click', () => {
         window.location.href = 'story-new.html';
       });
     }
+<<<<<<< HEAD
     const composerplus = document.querySelector('.floating-add-btn');
     if (composerplus) {
       composer.addEventListener('click', () => {
@@ -382,5 +447,27 @@
 </script>
 <script src="assets/js/header.js"></script>
 
+=======
+    const floating_add_btn = document.querySelector('.floating-add-btn');
+    if (floating_add_btn) {
+      floating_add_btn.addEventListener('click', () => {
+        window.location.href = 'story-new.html';
+      });
+    }
+    const navToggle = document.getElementById('navToggle');
+    const storiesLayout = document.querySelector('.stories-layout');
+    // ตรวจสอบว่ามี Element ทั้งสองอยู่จริงก่อนทำงาน
+    if (navToggle && storiesLayout) {
+        navToggle.addEventListener('click', function() {
+            // เมื่อคลิก ให้สลับ (toggle) Class 'sidebar-closed' บน div หลัก
+            storiesLayout.classList.toggle('sidebar-closed');
+
+            // เพิ่มการจัดการสำหรับปุ่ม nav-toggle ให้เปลี่ยนตำแหน่ง/หมุน ได้ ถ้าต้องการ
+            this.classList.toggle('is-open'); 
+        });
+    }
+  });
+</script>
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
 </body>
 </html>

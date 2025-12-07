@@ -1,5 +1,8 @@
 // assets/js/story-view.js
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
 document.addEventListener('DOMContentLoaded', () => {
   const card = document.querySelector('.story-card');
   if (!card) return;
@@ -10,6 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!storyId) {
     console.error('No story id in URL');
+<<<<<<< HEAD
+=======
+    alert('No story id in URL');
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
     return;
   }
 
@@ -21,6 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(data => {
       if (!data.success) {
         console.error(data.message || 'Error loading story');
+<<<<<<< HEAD
+=======
+        alert('Error loading story');
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
         return;
       }
 
@@ -79,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
+<<<<<<< HEAD
       // ---------- Like UI + event ----------
       const likeBtn = document.querySelector('.js-like-btn');
       if (likeBtn) {
@@ -176,12 +188,25 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // ---------- Share ----------
+=======
+      // *** Logic ส่วน Like/Save ถูกลบออกไป ***
+      // ถ้าต้องการแสดง Like Count อย่างเดียว สามารถกำหนดค่าให้ js-like-count ได้:
+      // const likeCountEl = document.querySelector('.js-like-count');
+      // if (likeCountEl) likeCountEl.textContent = s.like_count;
+
+      // ---------- Share (นำโค้ดส่วนนี้กลับมาใช้) ----------
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
       const shareBtn = document.querySelector('.js-share-btn');
       if (shareBtn) {
         shareBtn.addEventListener('click', async () => {
           const shareData = {
             title: s.title,
+<<<<<<< HEAD
             text: s.excerpt || '',
+=======
+            // s.excerpt มาจาก API เพื่อใช้ใน Web Share API (ถ้ามี)
+            text: s.excerpt || '', 
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
             url: window.location.href
           };
 
@@ -196,15 +221,55 @@ document.addEventListener('DOMContentLoaded', () => {
               await navigator.clipboard.writeText(shareData.url);
               alert('คัดลอกลิงก์แล้ว ✔');
             } catch (e) {
+<<<<<<< HEAD
               alert(shareData.url);
             }
           } else {
+=======
+              // กรณีคัดลอกไม่ได้ (เช่น ไม่ได้อยู่ใน secure context) ให้แสดง URL ให้ user คัดลอกเอง
+              alert(shareData.url); 
+            }
+          } else {
+            // กรณีไม่มี clipboard API ให้แสดง URL ให้ user คัดลอกเอง
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
             alert(shareData.url);
           }
         });
       }
+<<<<<<< HEAD
     })
     .catch(err => {
       console.error('Fetch error:', err);
     });
 });
+=======
+
+
+      // ---------- More stories (ยังคงไว้) ----------
+      const grid = document.getElementById('suggestions-grid');
+      if (grid && Array.isArray(data.suggestions)) {
+        grid.innerHTML = '';
+        data.suggestions.forEach(item => {
+          const link = document.createElement('a');
+          link.href = 'story-view.html?id=' + encodeURIComponent(item.story_id);
+          link.className = 'suggestion-card';
+
+          const coverImage = item.cover_image || ''; 
+
+          link.innerHTML = `
+            <figure class="suggestion-cover">
+              <img src="${coverImage}" alt="${item.story_title}">
+            </figure>
+            <h4 class="suggestion-title">${item.story_title}</h4>
+          `;
+
+          grid.appendChild(link);
+        });
+      }
+    })
+    .catch(err => {
+      console.error('Fetch error:', err);
+      // alert('An error occurred while fetching story data.');
+    });
+});
+>>>>>>> 8c5557ae353c861d4d768884031d3a26dac7eb28
