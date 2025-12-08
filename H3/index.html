@@ -240,36 +240,39 @@
 <script>
   // ฟังก์ชันสร้างการ์ด (ปรับให้รองรับชื่อตัวแปรจาก Database API)
   const createStaffPickCard = (s) => {
-    const card = document.createElement('a');
-    // เปลี่ยนจาก slug เป็น id ตามที่ API ส่งมา
-    card.href = `story-view.html?id=${s.id}`; 
-    card.className = 'staff-pick-card';
+  const card = document.createElement('a');
+  card.href = `story-view.html?id=${s.id}`;
+  card.className = 'staff-pick-card';
 
-    const bg = document.createElement('div');
-    bg.className = 'card-bg';
-    // API ส่งมาชื่อ 'cover_image' (ถ้าไม่มีให้ใช้ภาพ placeholder)
-    const imageUrl = s.cover_image || 'https://via.placeholder.com/360x220?text=No+Image';
-    bg.style.backgroundImage = `url("${imageUrl}")`; 
+  // ใช้ <img> แทน background-image
+  const img = document.createElement('img');
+  img.src = s.cover_image || 'https://via.placeholder.com/360x240?text=No+Image';
+  img.alt = s.title;
 
-    const overlay = document.createElement('div');
-    overlay.className = 'card-overlay';
+  const overlay = document.createElement('div');
+  overlay.className = 'card-overlay';
 
-    const title = document.createElement('h3');
-    title.className = 'card-title';
-    title.textContent = s.title; // API ส่งมาชื่อ 'title'
+  const title = document.createElement('div');
+  title.className = 'card-title';
+  title.textContent = s.title;
 
-    const author = document.createElement('p');
-    author.className = 'card-author';
-    author.textContent = `by ${s.author_name || 'Unknown'}`;
+  const author = document.createElement('div');
+  author.className = 'card-author';
+  author.textContent = `by ${s.author_name || 'Unknown'}`;
 
-    overlay.appendChild(title);
-    overlay.appendChild(author);
+  const badge = document.createElement('div');
+  badge.className = 'category-badge';
+  badge.innerHTML = `<i>📰</i> ${s.category || 'Story'}`;
 
-    bg.appendChild(overlay);
-    card.appendChild(bg);
+  overlay.appendChild(title);
+  overlay.appendChild(author);
+  overlay.appendChild(badge);
 
-    return card;
-  };
+  card.appendChild(img);
+  card.appendChild(overlay);
+
+  return card;
+};
 
   document.addEventListener('DOMContentLoaded', () => {
     const storiesContainer = document.getElementById('popular-stories-container');
