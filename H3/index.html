@@ -92,12 +92,22 @@
       </div>
     </section>
 
-    <section class="section">
-      <div class="container">
-        <h2>Popular Stories</h2>
-        <div id="popular-stories" class="grid cards"></div>
+        <section class="section popular-stories">
+  <div class="container">
+    <h2>Popular Stories</h2>
+    
+    <div class="staff-picks-container-wrapper"> 
+      <button class="scroll-btn left" id="popular-left" aria-label="Previous story">❮</button>
+      
+      <div id="popular-stories-container" class="staff-picks-container"> 
+         <p>กำลังโหลด...</p>
       </div>
-    </section>
+      
+      <button class="scroll-btn right" id="popular-right" aria-label="Next story">❯</button>
+    </div>
+    
+  </div>
+</section>
 
   </main>
 <!-- ========== POPUP MODAL (ปุ่ม View อยู่ใต้รูป) ========== -->
@@ -226,25 +236,93 @@
       }
     });
   </script>
-<!-- ========== POPULAR STORIES ดึงข้อมูลจาก data.js ชั่วคราว ========== -->
-<script> document.addEventListener('DOMContentLoaded', () => {
-            const storiesContainer = document.getElementById('popular-stories');
-            if (storiesContainer && POSTS) {
-                const stories = POSTS.slice(0, 3); // ✅ เอาแค่ 3 รายการแรก
-                storiesContainer.innerHTML = stories.map(post => `
-    <div class="card">
-      <a href="story-view.html?slug=${post.slug}" style="display: block; text-decoration: none; color: inherit;">
-        <img src="${post.image}" alt="${post.title}">
-        <div class="card-body">
-          <div class="product-title">${post.title}</div>
-          <div class="excerpt">${post.excerpt}</div>
-        </div>
-      </a>
-    </div>
-  `).join('');
+<!-- ========== POPULAR STORIES ========== -->
+<script>
+  // ฟังก์ชันสร้างการ์ด (ปรับให้รองรับชื่อตัวแปรจาก Database API)
+  const createStaffPickCard = (s) => {
+    const card = document.createElement('a');
+    // เปลี่ยนจาก slug เป็น id ตามที่ API ส่งมา
+    card.href = `story-view.html?id=${s.id}`; 
+    card.className = 'staff-pick-card';
+
+    const bg = document.createElement('div');
+    bg.className = 'card-bg';
+    // API ส่งมาชื่อ 'cover_image' (ถ้าไม่มีให้ใช้ภาพ placeholder)
+    const imageUrl = s.cover_image || 'https://via.placeholder.com/360x220?text=No+Image';
+    bg.style.backgroundImage = `url("${imageUrl}")`; 
+
+    const overlay = document.createElement('div');
+    overlay.className = 'card-overlay';
+
+    const title = document.createElement('h3');
+    title.className = 'card-title';
+    title.textContent = s.title; // API ส่งมาชื่อ 'title'
+
+    const author = document.createElement('p');
+    author.className = 'card-author';
+    author.textContent = `by ${s.author_name || 'Unknown'}`;
+
+    overlay.appendChild(title);
+    overlay.appendChild(author);
+
+    bg.appendChild(overlay);
+    card.appendChild(bg);
+
+    return card;
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const storiesContainer = document.getElementById('popular-stories-container');
+    const popularLeft = document.getElementById('popular-left');
+    const popularRight = document.getElementById('popular-right');
+
+    if (storiesContainer) {
+      // ✅ เรียก API แทนการใช้ POSTS
+      fetch('api/stories_api.php')
+        .then(response => response.json())
+        .then(data => {
+          storiesContainer.innerHTML = ''; // เคลียร์ Loading...
+
+          // ตรวจสอบว่ามีข้อมูล staff_picks ส่งมาหรือไม่
+          if (data.success && Array.isArray(data.staff_picks) && data.staff_picks.length > 0) {
+            
+            // ✅ ตัดเอาแค่ 3 เรื่องแรก
+            const stories = data.staff_picks.slice(0, 3);
+
+            stories.forEach(story => {
+              const card = createStaffPickCard(story);
+              storiesContainer.appendChild(card);
+            });
+
+            // ตั้งค่าปุ่มเลื่อน
+            if (popularLeft && popularRight) {
+              popularLeft.addEventListener('click', () => {
+                storiesContainer.scrollBy({ left: -300, behavior: 'smooth' });
+              });
+              popularRight.addEventListener('click', () => {
+                storiesContainer.scrollBy({ left: 300, behavior: 'smooth' });
+              });
+
+              // ซ่อนปุ่มถ้ามีไม่เกิน 3 เรื่อง (เพราะจะแสดงพอดีหน้าจอคอม)
+              if (stories.length <= 3) {
+                 popularLeft.style.display = 'none';
+                 popularRight.style.display = 'none';
+              }
             }
+
+          } else {
+            storiesContainer.innerHTML = '<p style="color:#888; padding:20px;">ยังไม่มีเรื่องราวแนะนำในขณะนี้</p>';
+            if(popularLeft) popularLeft.style.display = 'none';
+            if(popularRight) popularRight.style.display = 'none';
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching stories:', error);
+          storiesContainer.innerHTML = '<p style="color:red; padding:20px;">ไม่สามารถโหลดข้อมูลได้</p>';
+        });
+    }
   });
-  </script>
+</script>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {

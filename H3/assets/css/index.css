@@ -100,83 +100,173 @@
   line-height: 1.6;
 }
 
-/* ========== POPULAR PICKS ========== */
-#popular {
-  grid-template-columns: repeat(4, 1fr);
-}
-/* ========== POPULAR STORIES CARDS ========== */
-#popular-stories .grid.cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+/* ========== POPULAR STORIES (เหมือน Staff Picks) ========== */
+.popular-stories { /* 👈 ใช้ class ที่เพิ่มใน index.html */
+  position: relative;
+  padding-bottom: 30px;
 }
 
-/* จำกัดจำนวนแสดงผลเป็น 3 รายการ */
-#popular-stories .card:nth-child(n+4) {
+.staff-picks-container-wrapper { /* เพิ่ม wrapper เพื่อจัดตำแหน่งปุ่มเลื่อน */
+    position: relative;
+    padding: 0 40px; /* เว้นพื้นที่ด้านข้างสำหรับปุ่มเลื่อนบน Desktop */
+}
+
+.staff-picks-container { 
+  display: flex; /* 👈 บังคับใช้ Flexbox */
+  flex-direction: row;     
+  gap: 12px;               
+  overflow-x: auto;        /* ให้เลื่อนแนวนอนได้ */
+  padding: 8px 0 12px;
+  scroll-snap-type: x mandatory; /* ⚠️ สำคัญมาก: ถ้าคุณเห็นการ์ดเรียงแนวตั้ง แสดงว่าโค้ดด้านบนนี้ถูก CSS อื่น override */
+}
+
+/* 🟢 แก้ไข: ใช้ ID นำหน้าเพื่อความชัวร์ และบังคับ !important */
+#popular-stories-container.staff-picks-container {
+  display: flex !important;          /* บังคับ Flexbox */
+  flex-direction: row !important;    /* บังคับแนวนอน */
+  flex-wrap: nowrap !important;      /* ห้ามขึ้นบรรทัดใหม่เด็ดขาด */
+  gap: 12px;
+  overflow-x: auto;
+  padding: 8px 0 12px;
+  scroll-snap-type: x mandatory;
+  
+  /* ซ่อน Scrollbar */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+#popular-stories-container.staff-picks-container::-webkit-scrollbar {
   display: none;
 }
 
-#popular-stories .card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
-  position: relative; /* ✅ สำคัญมาก — ป้องกันการโผล่ผิดที่ */
+/* 🟢 แก้ไข: บังคับขนาดการ์ด และเอาเส้นใต้ Link ออก */
+#popular-stories-container .staff-pick-card {
+  display: block !important;
+  flex: 0 0 auto !important; /* ห้ามยืดหด กินพื้นที่เท่าที่กำหนด */
+  width: 360px;              /* กำหนดความกว้างชัดเจน */
+  text-decoration: none !important; /* เอาเส้นใต้ Link ออก */
+  color: #fff;
+  text-decoration: none;
+  scroll-snap-align: start;
+  
 }
 
-#popular-stories .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-}
-
-#popular-stories .card img {
-  width: 100%;
-  height: 240px;
-  object-fit: cover;
+/* 🟢 แก้ไข: ใส่ min-width ให้ card-bg */
+#popular-stories-container .card-bg {
   position: relative;
+  width: 100%;       /* เต็มความกว้างของ .staff-pick-card (360px) */
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #ddd; /* ใส่สีพื้นหลังเผื่อรูปไม่โหลด */
+}
+/* 🟢 ป้องกัน CSS เก่ารบกวน (Clear Fix) */
+#popular-stories,
+.grid.cards {
+  display: block !important;
+  grid-template-columns: none !important;
+  gap: 0 !important;
+}
+/* การ์ดแต่ละใบ */
+.staff-pick-card { 
+  display: block;
+  /* 👈 สำคัญ: ห้ามยืด/หด และห้ามขึ้นบรรทัดใหม่ (No wrap) */
+  flex: 0 0 auto;          
+  text-decoration: none;
+  color: #fff;
+  scroll-snap-align: start;
 }
 
-/* ========== ข้อความซ้อนทับบนรูป (เห็นได้ทันที) ========== */
-#popular-stories .card-body {
+/* กล่องพื้นหลัง */
+.card-bg { /* คัดลอกมาจาก stories.css */
+  position: relative;
+   width: 360px;
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 16px;
+  overflow: hidden;
+  scroll-snap-align: start;
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* เพิ่ม transition */
+}
+
+
+.staff-pick-card:hover .card-bg { /* คัดลอกมาจาก stories.css */
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+}
+
+/* ชั้นมืด ๆ ทับ เพื่อให้ตัวหนังสืออ่านง่าย */
+.card-overlay { /* คัดลอกมาจาก stories.css */
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 16px;
-  color: white;
-  text-shadow: 
-    0 1px 2px rgba(0, 0, 0, 0.7),
-    0 0 4px rgba(0, 0, 0, 0.5);
-  font-weight: 600;
-  font-size: 1rem;
-  line-height: 1.4;
+  inset: 0;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  justify-content: flex-end;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0.2)
+  );
 }
 
-#popular-stories .product-title {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.card-title { /* คัดลอกมาจาก stories.css */
+   font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 4px;
 }
 
-#popular-stories .excerpt {
+.card-author { /* คัดลอกมาจาก stories.css */
+  font-size: 13px;
   margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  opacity: 0.9;
+}
+
+/* ปุ่มเลื่อนซ้ายขวา */
+.scroll-btn { /* คัดลอกมาจาก stories.css */
+  position: absolute;
+  top: 50%;
+  transform: translateY(calc(-50% + 6px)); /* ปรับนิดหน่อยให้ตรงกลางมากขึ้น */
+  border: none;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.scroll-btn.left {
+  left: 0;
+}
+
+.scroll-btn.right {
+  right: 0;
+}
+
+/* ซ่อนการ์ด popular-stories เก่า */
+#popular-stories .grid.cards {
+    /* ถ้ามีการใช้ ID #popular-stories หรือ class .grid.cards ที่ไปมีผลต่อ container ใหม่ */
+    display: block !important; /* ปรับให้เป็น block ธรรมดา */
+    grid-template-columns: none !important; /* ยกเลิก Grid */
+    gap: 0 !important;
+}
+/* ถ้าคุณใช้โครงสร้าง HTML ใหม่แล้ว คุณอาจไม่ต้องการ CSS เก่าสำหรับ card ในส่วนนี้ */
+#popular-stories .card {
+    display: none; /* ซ่อนการ์ดเก่าถ้ามันยังแสดงอยู่ */
+}
+
+/* CSS เดิมใน #popular-stories.card จะถูกเพิกเฉยไป เพราะเราใช้ .staff-pick-card แทน */
+
+@media (max-width: 767px) {
+  .card-bg {
+    width: 280px; /* ปรับขนาดบนมือถือ */
+    height: 180px;
+  }
 }
 
 /* ========== MODAL (ปุ่ม View อยู่ใต้รูป) ========== */

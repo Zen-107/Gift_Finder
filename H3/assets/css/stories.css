@@ -6,6 +6,8 @@ html,body {
   background-color: var(--bg-light); /*bg-light*/
   overflow: hidden;       /* ไม่ให้เลื่อนทั้งหน้า */
 }
+
+/* แนะนำผู้เขียน */
 .author-list {
   display: flex;
   flex-direction: column;
@@ -37,7 +39,7 @@ html,body {
   opacity: 0.7;
 }
 
-
+/* feed stories */
 .story-card-horizontal {
   display: flex;
   gap: 16px;
@@ -101,11 +103,7 @@ html,body {
   text-decoration: none;
 }
 
-
-.popular-stories {
-  position: relative;
-}
-
+/* ========== ปุ่มเลื่อนซ้ายขวา ========== */
 .scroll-btn {
   position: absolute;
   top: 50%;
@@ -127,6 +125,10 @@ html,body {
   right: 0;
 }
 
+/* popular staff picks */
+.popular-stories {
+  position: relative;
+}
 
 .staff-picks-container {
   display: flex;
@@ -152,13 +154,11 @@ html,body {
   height: 220px;
   background-size: cover;
   background-position: center;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
   scroll-snap-align: start; /* ใช้กับ scroll-snap-type ด้านบน */
 }
-.card-bg {
-  border-radius: 16px;
-}
+
 
 .staff-pick-card:hover .card-bg {
   transform: translateY(-4px);
@@ -191,7 +191,7 @@ html,body {
 }
 
 .card-title {
-  font-size: 16px;
+   font-size: 18px;
   font-weight: 700;
   margin: 0 0 4px;
 }
