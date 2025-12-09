@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 09, 2025 at 01:30 AM
+-- Generation Time: Dec 09, 2025 at 05:53 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -107,7 +107,8 @@ INSERT INTO `bookmark_folders` (`id`, `user_id`, `name`, `created_at`) VALUES
 (15, 7, 'Favorite', '2025-12-06 07:31:18'),
 (16, 8, 'Favorite', '2025-12-08 08:44:50'),
 (17, 9, 'Favorite', '2025-12-08 08:50:44'),
-(18, 10, 'Favorite', '2025-12-08 18:12:46');
+(18, 10, 'Favorite', '2025-12-08 18:12:46'),
+(19, 12, 'Favorite', '2025-12-09 00:34:05');
 
 -- --------------------------------------------------------
 
@@ -208,8 +209,7 @@ CREATE TABLE `gift_recipients` (
 --
 
 INSERT INTO `gift_recipients` (`id`, `name`, `relationship_id`, `gender_id`, `age_range_id`, `budget_id`, `category`, `user_id`, `created_at`) VALUES
-(1, 'ไหหห', 3, 2, 4, 2, NULL, 1, '2025-12-07 12:12:17'),
-(2, 'ggg', 3, 2, 5, 4, NULL, 7, '2025-12-08 18:15:50');
+(1, 'ไหหห', 3, 2, 4, 2, NULL, 1, '2025-12-07 12:12:17');
 
 -- --------------------------------------------------------
 
@@ -1181,7 +1181,9 @@ CREATE TABLE `stories` (
 --
 
 INSERT INTO `stories` (`story_id`, `cover_image`, `story_title`, `story_excerpt`, `body_text`, `like_count`, `author_id`, `tags_text`, `created_at`, `updated_at`) VALUES
-(1, 'assets/img/story_6_6936426c5483d.jpg', 'มีของขวัญแต่ไม่มีผู้รับ', NULL, 'แค่อยากเทสระบบเฉยๆ อิอิ อันนี้เจ๋งยัง เจ๋งแล้วแหละ ยังไม่เจ๊งเนาะ', 0, 6, '#เพิ่งตื่น #ง่วงนอน #โต้รุ่ง #เกือบไม่ได้นอน #หมู #ตื่นสาย', '2025-12-08 10:13:48', '2025-12-08 10:13:48');
+(1, 'assets/img/story_6_6936426c5483d.jpg', 'มีของขวัญแต่ไม่มีผู้รับ', NULL, 'แค่อยากเทสระบบเฉยๆ อิอิ อันนี้เจ๋งยัง เจ๋งแล้วแหละ ยังไม่เจ๊งเนาะ', 0, 6, '#เพิ่งตื่น #ง่วงนอน #โต้รุ่ง #เกือบไม่ได้นอน #หมู #ตื่นสาย', '2025-12-08 10:13:48', '2025-12-08 10:13:48'),
+(2, 'assets/img/story_5_693797d2f3723.png', 'บุญเก่าที่เราทำมา จะออกดอกออกผลในชาตินี้', NULL, 'ทำดีชาตินี้ เกิดผลชาติถัดไป', 0, 5, '#ทำบุญ', '2025-12-09 10:30:26', '2025-12-09 10:30:26'),
+(3, 'assets/img/story_5_69379c2397ea1.png', 'วิธีการใช้งานเว็ป Gift Finder', NULL, '--ขั้นตอนการหาของขวัญ--\r\n1.เมื่อผู้ใช้อยู่หน้า HomePage กดปุ่ม\"Find Gifts\" เพื่อหาหน้า From\r\n2.เข้ามาเเล้วผู้ใช้กรอกข้อมูลของผู้รับไม่ว่าจะเป็น งบประมาณ,เพศ,สัมพันธ์,ความสนใจของผู้รับ\r\n3.เมื่อกรอกรายละเอียดเเล้วกดปุ่ม\"See recommendations\" จะโชว์หน้าสินค้าที่เหมาะกับผู้รับเเล้ว\r\n\r\n--ขั้นตอนการสร้าง Stories--\r\n1.เมื่อผู้ใช้อยู่หน้า HomePage กดปุ่ม\"Stories\" เพื่อหาหน้า Stories\r\n2.เมื่อเข้ามาให้ผู้ใช้กด \"เริ่มเล่าเรื่องราวของคุณได้ที่นี่...!\" เพื่อสร้างเรื่องราว\r\n3.ผู้ใช้สามารถใส่images,Title,StoryBody,Tags ได้ตามใจชอบ\r\n4.เพื่อสร้างเสร็จเเล้วกดปุ่ม\"บันทึกเรื่องราว\"เพื่อเผยเเพร์ให้ทุกคนได้เห็น', 0, 5, '#GiftFinder#HowToUse#ของขวัญเพื่อคนที่พิเศษ', '2025-12-09 10:48:51', '2025-12-09 10:48:51');
 
 -- --------------------------------------------------------
 
@@ -1238,7 +1240,8 @@ INSERT INTO `users` (`id`, `email`, `name`, `created_at`, `updated_at`, `passwor
 (8, 'manu.manomaneerat@gmail.com', 'Manu', '2025-12-08 08:44:26', '2025-12-08 08:44:26', '$2y$10$KdqIUhnOlYl0tGsnFuBWW.oGAeQp9lw8V0sDjL0AaD3TF6323imd.', NULL),
 (9, 'phisinee.manomaneerat@g.swu.ac.th', 'Phisinee Manomaneerat', '2025-12-08 08:50:44', '2025-12-08 08:50:44', '', '115611114282745600211'),
 (10, 'zengame107@gmail.com', 'Zen Game', '2025-12-08 18:12:46', '2025-12-08 18:12:46', '', '104970482387178784349'),
-(11, 'hahaha@gmail.com', '้hahaha', '2025-12-09 00:30:19', '2025-12-09 00:30:19', '$2y$10$cGuf7UuS8FpCPH5hz1ZbOuKy5yhcW4aietcR750bhKzWtZ5C8VU6S', NULL);
+(11, 'hahaha@gmail.com', '้hahaha', '2025-12-09 00:30:19', '2025-12-09 00:30:19', '$2y$10$cGuf7UuS8FpCPH5hz1ZbOuKy5yhcW4aietcR750bhKzWtZ5C8VU6S', NULL),
+(12, 'Ha@gmail.com', '55555', '2025-12-09 00:33:49', '2025-12-09 00:33:49', '$2y$10$wXvgEDzAKNQmAkvny0XcaezZK3WWOlIjVgOHffJgnGNmaRS85Qx/2', NULL);
 
 --
 -- Indexes for dumped tables
@@ -1413,7 +1416,7 @@ ALTER TABLE `bookmarks`
 -- AUTO_INCREMENT for table `bookmark_folders`
 --
 ALTER TABLE `bookmark_folders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `budget_options`
@@ -1485,13 +1488,13 @@ ALTER TABLE `search_logs`
 -- AUTO_INCREMENT for table `stories`
 --
 ALTER TABLE `stories`
-  MODIFY `story_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `story_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
