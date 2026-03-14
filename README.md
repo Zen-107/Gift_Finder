@@ -180,7 +180,7 @@
 หากคุณพบบั๊ก หรือมีข้อเสนอแนะในการปรับปรุง:
 
 - สร้าง Issue บน GitHub: [Create Issue](https://github.com/yourusername/gift-finder/issues)
-- หรือส่งอีเมลมาที่: your.email@example.com
+- หรือส่งอีเมลมาที่: phisinee107@gmail.com
 
 ---
 
