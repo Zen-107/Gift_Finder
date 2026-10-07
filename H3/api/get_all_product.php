@@ -6,7 +6,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 require_once "config.php";
-$mysqli = new mysqli($host, $username, $password, $dbname);
+$mysqli = new mysqli($host, $username, $password, $dbname, $port);
 $mysqli->set_charset("utf8mb4");
 
 if ($mysqli->connect_error) {

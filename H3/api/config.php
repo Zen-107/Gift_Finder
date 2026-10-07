@@ -8,9 +8,11 @@ if (session_status() === PHP_SESSION_NONE) {
 // เลือกค่าอัตโนมัติ: เปิดจาก localhost = DB ในเครื่อง (CAMPP/XAMPP), เปิดจากโดเมนจริง = DB บนโฮสต์
 $isLocal = in_array(explode(':', $_SERVER['HTTP_HOST'] ?? 'localhost')[0], ['localhost', '127.0.0.1']);
 
+$port = 3306;
+
 if ($isLocal) {
-    // CAMPP / XAMPP ในเครื่อง
-    $host = '127.0.0.1;port=3307';
+    // XAMPP ในเครื่อง (ค่าเริ่มต้น)
+    $host = 'localhost';
     $dbname = 'gift_finder';
     $username = 'root';
     $password = '';
@@ -22,8 +24,13 @@ if ($isLocal) {
     $password = 'XXXX';
 }
 
+// ค่าเฉพาะเครื่อง (เช่น CAMPP ใช้ port 3307 + รหัส root) ใส่ใน config.local.php ซึ่งไม่ขึ้น Git
+if (file_exists(__DIR__ . '/config.local.php')) {
+    require __DIR__ . '/config.local.php';
+}
+
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+    $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch (PDOException $e) {

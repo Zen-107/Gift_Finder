@@ -6,7 +6,7 @@ ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
 require_once "config.php";
-$mysqli = new mysqli($host, $username, $password, $dbname);
+$mysqli = new mysqli($host, $username, $password, $dbname, $port);
 
 // ตั้ง charset ให้ตรงกับฐานข้อมูล
 $mysqli->set_charset("utf8mb4");
