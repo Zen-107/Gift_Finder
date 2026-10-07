@@ -5,7 +5,8 @@ header("Content-Type: application/json; charset=utf-8");
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-$mysqli = new mysqli("localhost", "root", "", "gift_finder");
+require_once "config.php";
+$mysqli = new mysqli($host, $username, $password, $dbname);
 $mysqli->set_charset("utf8mb4");
 
 if ($mysqli->connect_error) {

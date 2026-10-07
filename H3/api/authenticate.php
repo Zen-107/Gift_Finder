@@ -1,4 +1,4 @@
-<<?php
+<?php
 // api/authenticate.php
 require_once "config.php";
 

@@ -4,11 +4,23 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Database Configuration (XAMPP)
-$host = 'localhost';
-$dbname = 'gift_finder';
-$username = 'root';
-$password = '';
+// Database Configuration
+// เลือกค่าอัตโนมัติ: เปิดจาก localhost = DB ในเครื่อง (CAMPP/XAMPP), เปิดจากโดเมนจริง = DB บนโฮสต์
+$isLocal = in_array(explode(':', $_SERVER['HTTP_HOST'] ?? 'localhost')[0], ['localhost', '127.0.0.1']);
+
+if ($isLocal) {
+    // CAMPP / XAMPP ในเครื่อง
+    $host = '127.0.0.1;port=3307';
+    $dbname = 'gift_finder';
+    $username = 'root';
+    $password = '';
+} else {
+    // InfinityFree: ใส่ค่าจาก Control Panel > MySQL Databases
+    $host = 'sqlXXX.infinityfree.com';
+    $dbname = 'if0_XXXX_gift_finder';
+    $username = 'if0_XXXX';
+    $password = 'XXXX';
+}
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);

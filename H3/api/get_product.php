@@ -5,7 +5,8 @@ header("Content-Type: application/json; charset=utf-8");
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
-$mysqli = new mysqli("localhost", "root", "", "gift_finder");
+require_once "config.php";
+$mysqli = new mysqli($host, $username, $password, $dbname);
 
 // ตั้ง charset ให้ตรงกับฐานข้อมูล
 $mysqli->set_charset("utf8mb4");
